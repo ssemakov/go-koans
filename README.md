@@ -1,6 +1,6 @@
 # Go Koans
 
-A Next.js web project for learning Go through short code questions. Includes a responsive homepage and a first slice exercise with a revealable explanation.
+A Next.js web project for learning Go through short code questions. Includes a responsive homepage and a first slice exercise with a revealable explanation. Uses TypeScript and Biome for development checks.
 
 ## Develop
 
