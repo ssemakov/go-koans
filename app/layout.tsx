@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Go Koans — Learn by questioning",
-  description: "Small Go exercises. A little curiosity. One insight at a time.",
+  title: "Go Koans",
+  description: "120 Go exercises in 30 topics. Edit the code and run the tests.",
 };
 
 export default function RootLayout({

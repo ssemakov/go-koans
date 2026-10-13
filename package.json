@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start --hostname 0.0.0.0",
     "lint": "biome lint .",
-    "typecheck": "next typegen && tsc --noEmit"
+    "typecheck": "next typegen && tsc --noEmit",
+    "test:curriculum": "node scripts/validate-curriculum.mjs",
+    "test": "node --test scripts/test-runner.mjs"
   },
   "engines": {
     "node": "24.x"

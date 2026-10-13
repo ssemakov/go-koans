@@ -1,0 +1,962 @@
+[
+  {
+    "id": "001-assert-truth",
+    "topic": "Assertions",
+    "title": "Assert truth",
+    "instruction": "Run the failing test. Change want to true, then run it again.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := false // TODO: replace this value.\n\tgot := true\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "002-assert-equality",
+    "topic": "Assertions",
+    "title": "Assert equality",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := 1 + 1\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "003-integer-zero-value",
+    "topic": "Variables and constants",
+    "title": "Integer zero value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar value int\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "004-string-zero-value",
+    "topic": "Variables and constants",
+    "title": "String zero value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar value string\n\twant := \"__\" // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "005-boolean-zero-value",
+    "topic": "Variables and constants",
+    "title": "Boolean zero value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar value bool\n\twant := true // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "006-short-variable-declaration",
+    "topic": "Variables and constants",
+    "title": "Short variable declaration",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 7\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "007-simultaneous-assignment",
+    "topic": "Variables and constants",
+    "title": "Simultaneous assignment",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ta, b := 2, 5\n\ta, b = b, a\n\twant := -999 // TODO: replace this value.\n\tgot := a*10 + b\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "008-constant-expressions",
+    "topic": "Variables and constants",
+    "title": "Constant expressions",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tconst value = 1 << 3\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "009-iota-enumeration",
+    "topic": "Variables and constants",
+    "title": "Iota enumeration",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/Iota",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tconst (\n\t\tfirst = iota\n\t\tsecond\n\t\tthird\n\t)\n\twant := -999 // TODO: replace this value.\n\tgot := third\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "010-integer-division",
+    "topic": "Numbers and booleans",
+    "title": "Integer division",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := 7 / 2\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "011-remainder",
+    "topic": "Numbers and booleans",
+    "title": "Remainder",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := 7 % 2\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "012-bitwise-xor",
+    "topic": "Numbers and booleans",
+    "title": "Bitwise XOR",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := 5 ^ 2\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "013-boolean-expressions",
+    "topic": "Numbers and booleans",
+    "title": "Boolean expressions",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := false // TODO: replace this value.\n\tgot := true && !false\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "014-numeric-conversion",
+    "topic": "Types and conversions",
+    "title": "Numeric conversion",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 3.75\n\twant := -999 // TODO: replace this value.\n\tgot := int(value)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "015-named-types",
+    "topic": "Types and conversions",
+    "title": "Named types",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttype Count int\n\tvalue := Count(4)\n\twant := -999 // TODO: replace this value.\n\tgot := int(value)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "016-type-aliases",
+    "topic": "Types and conversions",
+    "title": "Type aliases",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttype Number = int\n\tvar value Number = 9\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "017-concatenate-strings",
+    "topic": "Strings and runes",
+    "title": "Concatenate strings",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tleft := \"go\"\n\twant := \"__\" // TODO: replace this value.\n\tgot := left + \"pher\"\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "018-string-slicing",
+    "topic": "Strings and runes",
+    "title": "String slicing",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := \"gopher\"\n\twant := \"__\" // TODO: replace this value.\n\tgot := value[2:5]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "019-strings-contain-bytes",
+    "topic": "Strings and runes",
+    "title": "Strings contain bytes",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/blog/strings",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := \"\u00e9\"\n\twant := -999 // TODO: replace this value.\n\tgot := len(value)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "020-count-unicode-characters",
+    "topic": "Strings and runes",
+    "title": "Count Unicode characters",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n\t\"unicode/utf8\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := \"\u00e9\u4e16\"\n\twant := -999 // TODO: replace this value.\n\tgot := utf8.RuneCountInString(value)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "021-convert-bytes-to-a-string",
+    "topic": "Strings and runes",
+    "title": "Convert bytes to a string",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := []byte{71, 111}\n\twant := \"__\" // TODO: replace this value.\n\tgot := string(value)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "022-split-strings",
+    "topic": "Strings and runes",
+    "title": "Split strings",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tparts := strings.Split(\"a,b,c\", \",\")\n\twant := -999 // TODO: replace this value.\n\tgot := len(parts)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "023-format-values",
+    "topic": "Strings and runes",
+    "title": "Format values",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\n\twant := \"__\" // TODO: replace this value.\n\tgot := fmt.Sprintf(\"%s:%d\", \"go\", 7)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "024-range-over-unicode",
+    "topic": "Strings and runes",
+    "title": "Range over Unicode",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/Range",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tcount := 0\n\tfor range \"\u00e9\u4e16\" {\n\t\tcount++\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := count\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "025-array-length",
+    "topic": "Arrays",
+    "title": "Array length",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := [4]int{1, 2}\n\twant := -999 // TODO: replace this value.\n\tgot := len(values)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "026-unspecified-array-elements",
+    "topic": "Arrays",
+    "title": "Unspecified array elements",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := [3]int{8}\n\twant := -999 // TODO: replace this value.\n\tgot := values[2]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "027-array-assignment-copies-values",
+    "topic": "Arrays",
+    "title": "Array assignment copies values",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ta := [2]int{1, 2}\n\tb := a\n\tb[0] = 9\n\twant := -999 // TODO: replace this value.\n\tgot := a[0]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "028-inferred-array-length",
+    "topic": "Arrays",
+    "title": "Inferred array length",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := [...]int{2, 4, 6}\n\twant := -999 // TODO: replace this value.\n\tgot := len(values)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "029-slice-length",
+    "topic": "Slices",
+    "title": "Slice length",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{1, 2, 3}\n\twant := -999 // TODO: replace this value.\n\tgot := len(values)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "030-slice-an-array",
+    "topic": "Slices",
+    "title": "Slice an array",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := [5]int{1, 2, 3, 4, 5}\n\tpart := values[1:3]\n\twant := -999 // TODO: replace this value.\n\tgot := cap(part)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "031-slices-share-an-array",
+    "topic": "Slices",
+    "title": "Slices share an array",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{1, 2, 3}\n\talias := values\n\talias[0] = 9\n\twant := -999 // TODO: replace this value.\n\tgot := values[0]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "032-append-elements",
+    "topic": "Slices",
+    "title": "Append elements",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{1, 2}\n\tvalues = append(values, 3, 4)\n\twant := -999 // TODO: replace this value.\n\tgot := len(values)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "033-append-can-reuse-storage",
+    "topic": "Slices",
+    "title": "Append can reuse storage",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := make([]int, 1, 3)\n\talias := values[:3]\n\tvalues = append(values, 7)\n\twant := -999 // TODO: replace this value.\n\tgot := alias[1]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "034-copy-to-independent-storage",
+    "topic": "Slices",
+    "title": "Copy to independent storage",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ta := []int{1, 2}\n\tb := make([]int, len(a))\n\tcopy(b, a)\n\tb[0] = 9\n\twant := -999 // TODO: replace this value.\n\tgot := a[0]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "035-copy-returns-the-element-count",
+    "topic": "Slices",
+    "title": "Copy returns the element count",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tdst := make([]int, 2)\n\tsrc := []int{1, 2, 3}\n\twant := -999 // TODO: replace this value.\n\tgot := copy(dst, src)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "036-nil-and-empty-slices",
+    "topic": "Slices",
+    "title": "Nil and empty slices",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar a []int\n\tb := []int{}\n\twant := false // TODO: replace this value.\n\tgot := a == nil && b != nil\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "037-full-slice-expressions",
+    "topic": "Slices",
+    "title": "Full slice expressions",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{1, 2, 3, 4}\n\tpart := values[1:2:3]\n\twant := -999 // TODO: replace this value.\n\tgot := cap(part)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "038-delete-a-slice-element",
+    "topic": "Slices",
+    "title": "Delete a slice element",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/SliceTricks",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{1, 2, 3}\n\tvalues = append(values[:1], values[2:]...)\n\twant := -999 // TODO: replace this value.\n\tgot := values[1]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "039-create-a-map",
+    "topic": "Maps",
+    "title": "Create a map",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := map[string]int{\"a\": 2, \"b\": 3}\n\twant := -999 // TODO: replace this value.\n\tgot := len(values)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "040-missing-keys-return-zero",
+    "topic": "Maps",
+    "title": "Missing keys return zero",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := map[string]int{\"a\": 2}\n\twant := -999 // TODO: replace this value.\n\tgot := values[\"missing\"]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "041-check-whether-a-key-exists",
+    "topic": "Maps",
+    "title": "Check whether a key exists",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := map[string]int{\"a\": 0}\n\t_, exists := values[\"a\"]\n\twant := false // TODO: replace this value.\n\tgot := exists\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "042-delete-a-key",
+    "topic": "Maps",
+    "title": "Delete a key",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := map[string]int{\"a\": 2}\n\tdelete(values, \"a\")\n\twant := -999 // TODO: replace this value.\n\tgot := len(values)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "043-map-assignment-shares-data",
+    "topic": "Maps",
+    "title": "Map assignment shares data",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ta := map[string]int{\"x\": 1}\n\tb := a\n\tb[\"x\"] = 5\n\twant := -999 // TODO: replace this value.\n\tgot := a[\"x\"]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "044-read-from-a-nil-map",
+    "topic": "Maps",
+    "title": "Read from a nil map",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar values map[string]int\n\twant := -999 // TODO: replace this value.\n\tgot := values[\"x\"]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "045-if-and-else",
+    "topic": "Control flow",
+    "title": "If and else",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tresult := \"\"\n\tif 3 > 2 {\n\t\tresult = \"yes\"\n\t} else {\n\t\tresult = \"no\"\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := result\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "046-if-with-an-initializer",
+    "topic": "Control flow",
+    "title": "If with an initializer",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tresult := 0\n\tif n := len(\"Go\"); n > 0 {\n\t\tresult = n\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := result\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "047-switch-chooses-one-case",
+    "topic": "Control flow",
+    "title": "Switch chooses one case",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/Switch",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tresult := \"\"\n\tswitch 2 {\n\tcase 1:\n\t\tresult = \"one\"\n\tcase 2:\n\t\tresult = \"two\"\n\tdefault:\n\t\tresult = \"other\"\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := result\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "048-switch-without-an-expression",
+    "topic": "Control flow",
+    "title": "Switch without an expression",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tresult := 0\n\tswitch {\n\tcase false:\n\t\tresult = 1\n\tcase true:\n\t\tresult = 2\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := result\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "049-for-loop",
+    "topic": "Loops and range",
+    "title": "For loop",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttotal := 0\n\tfor i := 0; i < 5; i++ {\n\t\ttotal += i\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := total\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "050-break-a-loop",
+    "topic": "Loops and range",
+    "title": "Break a loop",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\tfor {\n\t\tvalue *= 2\n\t\tif value > 20 {\n\t\t\tbreak\n\t\t}\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "051-continue-a-loop",
+    "topic": "Loops and range",
+    "title": "Continue a loop",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttotal := 0\n\tfor i := 0; i < 5; i++ {\n\t\tif i%2 == 0 {\n\t\t\tcontinue\n\t\t}\n\t\ttotal += i\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := total\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "052-range-gives-index-and-value",
+    "topic": "Loops and range",
+    "title": "Range gives index and value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttotal := 0\n\tfor i, value := range []int{2, 4, 6} {\n\t\ttotal += i + value\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := total\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "053-range-over-an-integer",
+    "topic": "Loops and range",
+    "title": "Range over an integer",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttotal := 0\n\tfor i := range 4 {\n\t\ttotal += i\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := total\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "054-call-a-function",
+    "topic": "Functions",
+    "title": "Call a function",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc add(a, b int) int { return a + b }\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := add(3, 4)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "055-multiple-return-values",
+    "topic": "Functions",
+    "title": "Multiple return values",
+    "instruction": "Replace the TODO value. The blank identifier ignores the first return value.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc pair() (int, string) { return 3, \"go\" }\nfunc TestKoan(t *testing.T) {\n\t_, word := pair()\n\twant := \"__\" // TODO: replace this value.\n\tgot := word\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "056-named-return-values",
+    "topic": "Functions",
+    "title": "Named return values",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc double(n int) (result int) { result = n * 2; return }\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := double(4)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "057-variadic-arguments",
+    "topic": "Functions",
+    "title": "Variadic arguments",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc sum(values ...int) int {\n\ttotal := 0\n\tfor _, v := range values {\n\t\ttotal += v\n\t}\n\treturn total\n}\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := sum(1, 2, 3)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "058-expand-a-slice-argument",
+    "topic": "Functions",
+    "title": "Expand a slice argument",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc sum(values ...int) int {\n\ttotal := 0\n\tfor _, v := range values {\n\t\ttotal += v\n\t}\n\treturn total\n}\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{2, 3, 4}\n\twant := -999 // TODO: replace this value.\n\tgot := sum(values...)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "059-capture-a-variable",
+    "topic": "Closures",
+    "title": "Capture a variable",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\tincrement := func() { value++ }\n\tincrement()\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "060-closure-retains-state",
+    "topic": "Closures",
+    "title": "Closure retains state",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc counter() func() int { n := 0; return func() int { n++; return n } }\nfunc TestKoan(t *testing.T) {\n\tnext := counter()\n\tnext()\n\twant := -999 // TODO: replace this value.\n\tgot := next()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "061-a-function-is-a-value",
+    "topic": "Closures",
+    "title": "A function is a value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tdouble := func(n int) int { return n * 2 }\n\twant := -999 // TODO: replace this value.\n\tgot := double(5)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "062-dereference-a-pointer",
+    "topic": "Pointers and allocation",
+    "title": "Dereference a pointer",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 3\n\tp := &value\n\t*p = 5\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "063-pass-values-by-value",
+    "topic": "Pointers and allocation",
+    "title": "Pass values by value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc increment(n int) { n++ }\nfunc TestKoan(t *testing.T) {\n\tvalue := 3\n\tincrement(value)\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "064-pass-a-pointer",
+    "topic": "Pointers and allocation",
+    "title": "Pass a pointer",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc increment(n *int) { (*n)++ }\nfunc TestKoan(t *testing.T) {\n\tvalue := 3\n\tincrement(&value)\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "065-new-allocates-a-zero-value",
+    "topic": "Pointers and allocation",
+    "title": "New allocates a zero value",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := new(int)\n\twant := -999 // TODO: replace this value.\n\tgot := *value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "066-make-sets-length-and-capacity",
+    "topic": "Pointers and allocation",
+    "title": "Make sets length and capacity",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := make([]int, 3, 8)\n\twant := -999 // TODO: replace this value.\n\tgot := cap(value)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "067-struct-fields",
+    "topic": "Structs and methods",
+    "title": "Struct fields",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttype Person struct {\n\t\tName string\n\t\tAge  int\n\t}\n\tp := Person{Name: \"Ada\", Age: 30}\n\twant := -999 // TODO: replace this value.\n\tgot := p.Age\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "068-struct-assignment-copies-fields",
+    "topic": "Structs and methods",
+    "title": "Struct assignment copies fields",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttype Point struct{ X int }\n\ta := Point{X: 3}\n\tb := a\n\tb.X = 5\n\twant := -999 // TODO: replace this value.\n\tgot := a.X\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "069-methods-on-named-types",
+    "topic": "Structs and methods",
+    "title": "Methods on named types",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Count int\n\nfunc (c Count) Double() int { return int(c) * 2 }\nfunc TestKoan(t *testing.T) {\n\tvalue := Count(4)\n\twant := -999 // TODO: replace this value.\n\tgot := value.Double()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "070-pointer-receivers-modify-values",
+    "topic": "Structs and methods",
+    "title": "Pointer receivers modify values",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Counter struct{ N int }\n\nfunc (c *Counter) Increment() { c.N++ }\nfunc TestKoan(t *testing.T) {\n\tvalue := Counter{}\n\tvalue.Increment()\n\twant := -999 // TODO: replace this value.\n\tgot := value.N\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "071-value-receivers-use-a-copy",
+    "topic": "Structs and methods",
+    "title": "Value receivers use a copy",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Counter struct{ N int }\n\nfunc (c Counter) Increment() { c.N++ }\nfunc TestKoan(t *testing.T) {\n\tvalue := Counter{}\n\tvalue.Increment()\n\twant := -999 // TODO: replace this value.\n\tgot := value.N\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "072-promoted-fields",
+    "topic": "Embedding",
+    "title": "Promoted fields",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Person struct{ Name string }\ntype Employee struct {\n\tPerson\n\tID int\n}\n\nfunc TestKoan(t *testing.T) {\n\tvalue := Employee{Person: Person{Name: \"Ada\"}}\n\twant := \"__\" // TODO: replace this value.\n\tgot := value.Name\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "073-promoted-methods",
+    "topic": "Embedding",
+    "title": "Promoted methods",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Person struct{}\n\nfunc (Person) Name() string { return \"Ada\" }\n\ntype Employee struct{ Person }\n\nfunc TestKoan(t *testing.T) {\n\tvalue := Employee{}\n\twant := \"__\" // TODO: replace this value.\n\tgot := value.Name()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "074-implicit-interface-implementation",
+    "topic": "Interfaces",
+    "title": "Implicit interface implementation",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Speaker interface{ Speak() string }\ntype Greeting string\n\nfunc (g Greeting) Speak() string { return string(g) }\nfunc TestKoan(t *testing.T) {\n\tvar value Speaker = Greeting(\"hello\")\n\twant := \"__\" // TODO: replace this value.\n\tgot := value.Speak()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "075-type-assertions",
+    "topic": "Interfaces",
+    "title": "Type assertions",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar value any = \"Go\"\n\ttext, ok := value.(string)\n\twant := false // TODO: replace this value.\n\tgot := ok && text == \"Go\"\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "076-type-switches",
+    "topic": "Interfaces",
+    "title": "Type switches",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar value any = 7\n\tresult := \"\"\n\tswitch value.(type) {\n\tcase int:\n\t\tresult = \"int\"\n\tcase string:\n\t\tresult = \"string\"\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := result\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "077-typed-nil-in-an-interface",
+    "topic": "Interfaces",
+    "title": "Typed nil in an interface",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/doc/faq#nil_error",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar pointer *int\n\tvar value any = pointer\n\twant := true // TODO: replace this value.\n\tgot := value == nil\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "078-interface-method-sets",
+    "topic": "Interfaces",
+    "title": "Interface method sets",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/MethodSets",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype Incrementer interface{ Increment() }\ntype Counter struct{ N int }\n\nfunc (c *Counter) Increment() { c.N++ }\nfunc TestKoan(t *testing.T) {\n\tvar value Incrementer = &Counter{}\n\tvalue.Increment()\n\twant := -999 // TODO: replace this value.\n\tgot := value.(*Counter).N\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "079-create-an-error",
+    "topic": "Errors",
+    "title": "Create an error",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\terr := errors.New(\"missing\")\n\twant := \"__\" // TODO: replace this value.\n\tgot := err.Error()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "080-wrap-and-identify-an-error",
+    "topic": "Errors",
+    "title": "Wrap and identify an error",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tbase := errors.New(\"missing\")\n\terr := fmt.Errorf(\"read: %w\", base)\n\twant := false // TODO: replace this value.\n\tgot := errors.Is(err, base)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "081-inspect-a-typed-error",
+    "topic": "Errors",
+    "title": "Inspect a typed error",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\ntype PathError struct{ Path string }\n\nfunc (e *PathError) Error() string { return e.Path }\nfunc TestKoan(t *testing.T) {\n\terr := fmt.Errorf(\"read: %w\", &PathError{Path: \"x\"})\n\tvar target *PathError\n\twant := false // TODO: replace this value.\n\tgot := errors.As(err, &target)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "082-defer-runs-on-return",
+    "topic": "Defer and panic",
+    "title": "Defer runs on return",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 0\n\tfunc() { defer func() { value++ }() }()\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "083-deferred-calls-run-in-reverse-order",
+    "topic": "Defer and panic",
+    "title": "Deferred calls run in reverse order",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := \"\"\n\tfunc() { defer func() { value += \"a\" }(); defer func() { value += \"b\" }() }()\n\twant := \"__\" // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "084-deferred-arguments-are-evaluated-immediately",
+    "topic": "Defer and panic",
+    "title": "Deferred arguments are evaluated immediately",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\tgotValue := 0\n\tfunc() { defer func(n int) { gotValue = n }(value); value = 2 }()\n\twant := -999 // TODO: replace this value.\n\tgot := gotValue\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "085-recover-a-panic",
+    "topic": "Defer and panic",
+    "title": "Recover a panic",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/PanicAndRecover",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tmessage := \"\"\n\tfunc() {\n\t\tdefer func() {\n\t\t\tif r := recover(); r != nil {\n\t\t\t\tmessage = r.(string)\n\t\t\t}\n\t\t}()\n\t\tpanic(\"stop\")\n\t}()\n\twant := \"__\" // TODO: replace this value.\n\tgot := message\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "086-buffered-channel-length",
+    "topic": "Channels",
+    "title": "Buffered channel length",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tch <- 7\n\twant := -999 // TODO: replace this value.\n\tgot := len(ch)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "087-send-and-receive",
+    "topic": "Channels",
+    "title": "Send and receive",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan string, 1)\n\tch <- \"Go\"\n\twant := \"__\" // TODO: replace this value.\n\tgot := <-ch\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "088-receive-from-a-closed-channel",
+    "topic": "Channels",
+    "title": "Receive from a closed channel",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int)\n\tclose(ch)\n\tvalue, open := <-ch\n\twant := false // TODO: replace this value.\n\tgot := value == 0 && !open\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "089-range-over-a-channel",
+    "topic": "Channels",
+    "title": "Range over a channel",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tch <- 2\n\tch <- 3\n\tclose(ch)\n\ttotal := 0\n\tfor n := range ch {\n\t\ttotal += n\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := total\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "090-select-with-a-default",
+    "topic": "Channels",
+    "title": "Select with a default",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int)\n\tresult := \"\"\n\tselect {\n\tcase <-ch:\n\t\tresult = \"received\"\n\tdefault:\n\t\tresult = \"default\"\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := result\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "091-synchronize-a-goroutine",
+    "topic": "Concurrency",
+    "title": "Synchronize a goroutine",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int)\n\tgo func() { ch <- 7 }()\n\twant := -999 // TODO: replace this value.\n\tgot := <-ch\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "092-wait-for-goroutines",
+    "topic": "Concurrency",
+    "title": "Wait for goroutines",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"sync\"\n\t\"sync/atomic\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar wg sync.WaitGroup\n\tvar count atomic.Int64\n\tfor range 3 {\n\t\twg.Add(1)\n\t\tgo func() { defer wg.Done(); count.Add(1) }()\n\t}\n\twg.Wait()\n\twant := -999 // TODO: replace this value.\n\tgot := int(count.Load())\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "093-protect-shared-state-with-a-mutex",
+    "topic": "Concurrency",
+    "title": "Protect shared state with a mutex",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/MutexOrChannel",
+    "code": "package main\n\nimport (\n\t\"sync\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar mu sync.Mutex\n\tvar wg sync.WaitGroup\n\tcount := 0\n\tfor range 5 {\n\t\twg.Add(1)\n\t\tgo func() { defer wg.Done(); mu.Lock(); count++; mu.Unlock() }()\n\t}\n\twg.Wait()\n\twant := -999 // TODO: replace this value.\n\tgot := count\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "094-cancel-a-context",
+    "topic": "Context",
+    "title": "Cancel a context",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"context\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tctx, cancel := context.WithCancel(context.Background())\n\tcancel()\n\t<-ctx.Done()\n\twant := false // TODO: replace this value.\n\tgot := ctx.Err() == context.Canceled\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "095-context-deadlines",
+    "topic": "Context",
+    "title": "Context deadlines",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"context\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tctx, cancel := context.WithDeadline(context.Background(), time.Unix(0, 0))\n\tdefer cancel()\n\t<-ctx.Done()\n\twant := false // TODO: replace this value.\n\tgot := ctx.Err() == context.DeadlineExceeded\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "096-read-from-a-reader",
+    "topic": "IO and files",
+    "title": "Read from a reader",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\treader := strings.NewReader(\"Go\")\n\tdata, err := io.ReadAll(reader)\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := string(data)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "097-copy-reader-to-writer",
+    "topic": "IO and files",
+    "title": "Copy reader to writer",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"bytes\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar out bytes.Buffer\n\t_, err := io.Copy(&out, strings.NewReader(\"hello\"))\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := out.String()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "098-copy-a-limited-number-of-bytes",
+    "topic": "IO and files",
+    "title": "Copy a limited number of bytes",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"bytes\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar out bytes.Buffer\n\t_, err := io.CopyN(&out, strings.NewReader(\"hello world\"), 5)\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := out.String()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "099-write-and-read-a-file",
+    "topic": "IO and files",
+    "title": "Write and read a file",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"os\"\n\t\"path/filepath\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tname := filepath.Join(t.TempDir(), \"sample.txt\")\n\tif err := os.WriteFile(name, []byte(\"Go\"), 0600); err != nil {\n\t\tt.Fatal(err)\n\t}\n\tdata, err := os.ReadFile(name)\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := string(data)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "100-marshal-a-struct",
+    "topic": "JSON",
+    "title": "Marshal a struct",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := struct {\n\t\tName string `json:\"name\"`\n\t}{Name: \"Ada\"}\n\tdata, err := json.Marshal(value)\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := \"__\" // TODO: replace this value.\n\tgot := string(data)\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "101-unmarshal-json",
+    "topic": "JSON",
+    "title": "Unmarshal JSON",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"encoding/json\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar value struct {\n\t\tAge int `json:\"age\"`\n\t}\n\tif err := json.Unmarshal([]byte(`{\"age\":30}`), &value); err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := value.Age\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "102-match-a-pattern",
+    "topic": "Regular expressions",
+    "title": "Match a pattern",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"regexp\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tpattern := regexp.MustCompile(`^go[0-9]+$`)\n\twant := false // TODO: replace this value.\n\tgot := pattern.MatchString(\"go123\")\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "103-find-a-substring",
+    "topic": "Regular expressions",
+    "title": "Find a substring",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"regexp\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tpattern := regexp.MustCompile(`[0-9]+`)\n\twant := \"__\" // TODO: replace this value.\n\tgot := pattern.FindString(\"go123x\")\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "104-type-parameters",
+    "topic": "Generics",
+    "title": "Type parameters",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc first[T any](values []T) T { return values[0] }\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := first([]int{7, 8})\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "105-type-constraints",
+    "topic": "Generics",
+    "title": "Type constraints",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc sum[T ~int | ~float64](values []T) T {\n\tvar total T\n\tfor _, v := range values {\n\t\ttotal += v\n\t}\n\treturn total\n}\nfunc TestKoan(t *testing.T) {\n\n\twant := -999 // TODO: replace this value.\n\tgot := sum([]int{2, 3})\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "106-comparable-type-parameters",
+    "topic": "Generics",
+    "title": "Comparable type parameters",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc equal[T comparable](a, b T) bool { return a == b }\nfunc TestKoan(t *testing.T) {\n\n\twant := false // TODO: replace this value.\n\tgot := equal(\"Go\", \"Go\")\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "107-sort-a-slice",
+    "topic": "Standard library",
+    "title": "Sort a slice",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{3, 1, 2}\n\tslices.Sort(values)\n\twant := -999 // TODO: replace this value.\n\tgot := values[0]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "108-clone-a-map",
+    "topic": "Standard library",
+    "title": "Clone a map",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"maps\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\toriginal := map[string]int{\"a\": 1}\n\tclone := maps.Clone(original)\n\tclone[\"a\"] = 9\n\twant := -999 // TODO: replace this value.\n\tgot := original[\"a\"]\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "109-parse-an-integer",
+    "topic": "Standard library",
+    "title": "Parse an integer",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"strconv\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue, err := strconv.Atoi(\"42\")\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := value\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "110-inspect-a-value-with-reflection",
+    "topic": "Standard library",
+    "title": "Inspect a value with reflection",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := reflect.TypeOf(7)\n\twant := false // TODO: replace this value.\n\tgot := value.Kind() == reflect.Int\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "111-table-driven-tests",
+    "topic": "Testing",
+    "title": "Table driven tests",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/wiki/TableDrivenTests",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ a, b, sum int }{{1, 2, 3}, {2, 3, 5}}\n\ttotal := 0\n\tfor _, tc := range cases {\n\t\tif tc.a+tc.b == tc.sum {\n\t\t\ttotal++\n\t\t}\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := total\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "112-read-request-query-parameters",
+    "topic": "HTTP",
+    "title": "Read request query parameters",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"net/http/httptest\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\trequest := httptest.NewRequest(\"GET\", \"/?name=Ada\", nil)\n\twant := \"__\" // TODO: replace this value.\n\tgot := request.URL.Query().Get(\"name\")\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "113-write-an-http-response",
+    "topic": "HTTP",
+    "title": "Write an HTTP response",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tresponse := httptest.NewRecorder()\n\thandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {\n\t\tw.WriteHeader(http.StatusCreated)\n\t\t_, _ = w.Write([]byte(\"created\"))\n\t})\n\thandler.ServeHTTP(response, httptest.NewRequest(\"POST\", \"/\", nil))\n\twant := -999 // TODO: replace this value.\n\tgot := response.Code\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "114-set-response-headers",
+    "topic": "HTTP",
+    "title": "Set response headers",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"net/http/httptest\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tresponse := httptest.NewRecorder()\n\tresponse.Header().Set(\"Content-Type\", \"application/json\")\n\twant := \"__\" // TODO: replace this value.\n\tgot := response.Header().Get(\"Content-Type\")\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "115-parse-a-time",
+    "topic": "Time",
+    "title": "Parse a time",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue, err := time.Parse(\"2006-01-02\", \"2024-03-14\")\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\twant := -999 // TODO: replace this value.\n\tgot := value.Year()\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "116-calculate-a-duration",
+    "topic": "Time",
+    "title": "Calculate a duration",
+    "instruction": "Replace the TODO value so the test passes. Keep the assertion.",
+    "reference": "https://go.dev/ref/spec",
+    "code": "package main\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tstart := time.Date(2024, 1, 1, 0, 0, 0, 0, time.UTC)\n\tend := start.Add(90 * time.Minute)\n\twant := -999 // TODO: replace this value.\n\tgot := int(end.Sub(start).Minutes())\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n"
+  },
+  {
+    "id": "117-classify-triangles",
+    "topic": "Projects",
+    "title": "Classify triangles",
+    "instruction": "Implement triangle. Reject nonpositive sides and sides that cannot form a triangle. Return equilateral, isosceles, or scalene.",
+    "reference": "https://go.dev/doc/effective_go",
+    "code": "package main\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc triangle(a, b, c int) (string, error) {\n\t// TODO: implement.\n\treturn \"\", errors.New(\"not implemented\")\n}\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ta, b, c int\n\t\twant    string\n\t}{{2, 2, 2, \"equilateral\"}, {4, 4, 3, \"isosceles\"}, {3, 4, 5, \"scalene\"}, {4, 3, 4, \"isosceles\"}}\n\tfor _, tc := range cases {\n\t\tgot, err := triangle(tc.a, tc.b, tc.c)\n\t\tif err != nil || got != tc.want {\n\t\t\tt.Fatalf(\"triangle(%d,%d,%d) = %q, %v; want %q\", tc.a, tc.b, tc.c, got, err, tc.want)\n\t\t}\n\t}\n\tfor _, tc := range [][3]int{{0, 0, 0}, {-1, 2, 2}, {1, 1, 3}, {2, 4, 2}} {\n\t\tif _, err := triangle(tc[0], tc[1], tc[2]); err == nil {\n\t\t\tt.Fatalf(\"expected error for %v\", tc)\n\t\t}\n\t}\n}\n"
+  },
+  {
+    "id": "118-score-a-dice-roll",
+    "topic": "Projects",
+    "title": "Score a dice roll",
+    "instruction": "Implement score: three ones score 1000; other triples score 100 times the face value; remaining ones score 100 and fives score 50.",
+    "reference": "https://go.dev/doc/effective_go",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\nfunc score(dice []int) int {\n\t// TODO: implement.\n\treturn -1\n}\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tdice []int\n\t\twant int\n\t}{{nil, 0}, {[]int{5}, 50}, {[]int{1}, 100}, {[]int{1, 5, 5, 1}, 300}, {[]int{2, 3, 4, 6}, 0}, {[]int{1, 1, 1}, 1000}, {[]int{2, 2, 2}, 200}, {[]int{3, 3, 3}, 300}, {[]int{4, 4, 4}, 400}, {[]int{5, 5, 5, 5}, 550}, {[]int{6, 6, 6}, 600}, {[]int{1, 1, 1, 5, 1}, 1150}}\n\tfor _, tc := range cases {\n\t\tif got := score(tc.dice); got != tc.want {\n\t\t\tt.Fatalf(\"score(%v) = %d; want %d\", tc.dice, got, tc.want)\n\t\t}\n\t}\n}\n"
+  },
+  {
+    "id": "119-implement-a-dice-set",
+    "topic": "Projects",
+    "title": "Implement a dice set",
+    "instruction": "Implement Roll using the provided next function. Store exactly n values from 1 to 6, without modifying the previous roll. The supplied sequence makes tests repeatable.",
+    "reference": "https://go.dev/doc/effective_go",
+    "code": "package main\n\nimport (\n\t\"testing\"\n)\n\ntype DiceSet struct {\n\tValues []int\n\tNext   func() int\n}\n\nfunc (d *DiceSet) Roll(n int) { // TODO: implement.\n}\nfunc TestKoan(t *testing.T) {\n\tnext := 0\n\td := DiceSet{Next: func() int { next = next%6 + 1; return next }}\n\td.Roll(3)\n\tif len(d.Values) != 3 {\n\t\tt.Fatalf(\"got %d dice; want 3\", len(d.Values))\n\t}\n\tfirst := d.Values\n\tfor _, v := range first {\n\t\tif v < 1 || v > 6 {\n\t\t\tt.Fatalf(\"invalid face %d\", v)\n\t\t}\n\t}\n\td.Roll(2)\n\tif len(d.Values) != 2 || first[0] != 1 || d.Values[0] != 4 {\n\t\tt.Fatal(\"new roll must have new storage and new values\")\n\t}\n\td.Roll(0)\n\tif len(d.Values) != 0 {\n\t\tt.Fatal(\"zero dice requested\")\n\t}\n}\n"
+  },
+  {
+    "id": "120-implement-a-channel-pipeline",
+    "topic": "Projects",
+    "title": "Implement a channel pipeline",
+    "instruction": "Implement squares: launch a goroutine that squares each input, sends the results, and closes the returned channel.",
+    "reference": "https://go.dev/doc/effective_go",
+    "code": "package main\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc squares(input <-chan int) <-chan int {\n\toutput := make(chan int)\n\t// TODO: implement.\n\tclose(output)\n\treturn output\n}\nfunc TestKoan(t *testing.T) {\n\tinput := make(chan int, 3)\n\tinput <- 2\n\tinput <- 3\n\tinput <- 4\n\tclose(input)\n\toutput := squares(input)\n\tfor _, want := range []int{4, 9, 16} {\n\t\tselect {\n\t\tcase got, ok := <-output:\n\t\t\tif !ok || got != want {\n\t\t\t\tt.Fatalf(\"got %d, open=%v; want %d\", got, ok, want)\n\t\t\t}\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"pipeline did not produce a value\")\n\t\t}\n\t}\n\tselect {\n\tcase _, ok := <-output:\n\t\tif ok {\n\t\t\tt.Fatal(\"output must close\")\n\t\t}\n\tcase <-time.After(time.Second):\n\t\tt.Fatal(\"output did not close\")\n\t}\n}\n"
+  }
+]
