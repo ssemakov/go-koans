@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import curriculum from "@/lib/curriculum.json";
 import type { RunResult } from "@/lib/runner";
@@ -7,11 +8,14 @@ import type { RunResult } from "@/lib/runner";
 type Entry = { code: string; passed: boolean };
 const topics = [...new Set(curriculum.map((exercise) => exercise.topic))];
 const storageKey = "go-koans:exercises:v1";
+const vimStorageKey = "go-koans:vim:v1";
+const VimEditor = dynamic(() => import("./vim-editor"), { ssr: false, loading: () => <p role="status">Loading editor…</p> });
 
 export default function Koans() {
   const [selected, setSelected] = useState(curriculum[0].id);
   const [entries, setEntries] = useState<Record<string, Entry>>({});
   const [loaded, setLoaded] = useState(false);
+  const [vimEnabled, setVimEnabled] = useState(false);
   const [storageNotice, setStorageNotice] = useState("");
   const [result, setResult] = useState<RunResult | null>(null);
   const [running, setRunning] = useState(false);
@@ -32,6 +36,8 @@ export default function Koans() {
       }
       setEntries(valid);
     } catch { setStorageNotice("Saved edits could not be read. You can still edit and run tests."); }
+    try { setVimEnabled(localStorage.getItem(vimStorageKey) === "true"); }
+    catch { /* The ordinary editor remains available without browser storage. */ }
     try {
       const id = decodeURIComponent(location.hash.slice(1));
       if (curriculum.some((item) => item.id === id)) setSelected(id);
@@ -42,9 +48,12 @@ export default function Koans() {
 
   useEffect(() => {
     if (!loaded) return;
-    try { localStorage.setItem(storageKey, JSON.stringify(entries)); }
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(entries));
+      localStorage.setItem(vimStorageKey, String(vimEnabled));
+    }
     catch { setStorageNotice("Browser storage is unavailable. Download your edited test to keep a copy."); }
-  }, [entries, loaded]);
+  }, [entries, loaded, vimEnabled]);
 
   function stopRun() {
     controller.current?.abort(); sequence.current++; setRunning(false); setResult(null);
@@ -97,8 +106,11 @@ export default function Koans() {
         </nav>
         <main className="exercise" id="exercise">
           <p className="topic">{exercise.topic} · {index + 1} of {curriculum.length}</p><h2>{exercise.title}</h2><p>{exercise.instruction}</p>
-          <label htmlFor="code">Go test code</label>
-          <textarea id="code" aria-describedby="editor-help" spellCheck={false} autoCapitalize="off" autoCorrect="off" wrap="off" value={code} maxLength={40_000} onChange={(event) => edit(event.target.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); if (!running) void run(); } }} />
+          <div className="editor-heading">
+            <label htmlFor="code">Go test code</label>
+            <label className="vim-toggle"><input type="checkbox" checked={vimEnabled} onChange={(event) => setVimEnabled(event.target.checked)} /> Vim mode</label>
+          </div>
+          {vimEnabled ? <VimEditor key={exercise.id} value={code} onChange={edit} onRun={() => { if (!running) void run(); }} /> : <textarea id="code" aria-describedby="editor-help" spellCheck={false} autoCapitalize="off" autoCorrect="off" wrap="off" value={code} maxLength={40_000} onChange={(event) => edit(event.target.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); if (!running) void run(); } }} />}
           <div className="toolbar">
             <button className="run" type="button" onClick={() => void run()} disabled={running}>{running ? "Running…" : "Run tests"}</button>
             {running && <button type="button" onClick={stopRun}>Cancel</button>}
@@ -107,6 +119,7 @@ export default function Koans() {
             <a href={exercise.reference}>Go documentation</a>
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Edits and progress are saved in this browser.</p>
+          {vimEnabled && <p className="help">Vim: i enters insert mode; Esc returns to normal mode. Edits save automatically.</p>}
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
           <section className="output" aria-labelledby="output-title" aria-live="polite" aria-busy={running}>
             <h3 id="output-title">Test output{result && <span className={`result ${result.status}`}> — {result.status === "passed" ? "Passed" : result.status === "failed" ? "Failed" : "Runner error"}</span>}</h3>

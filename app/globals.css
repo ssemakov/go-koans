@@ -28,6 +28,10 @@ summary { cursor: pointer; }
 .exercise { padding: 20px 0 24px 28px; min-width: 0; }
 .topic { color: #5f6368; margin: 0; font-size: 12px; }
 label { display: block; font-weight: 600; margin: 20px 0 8px; }
+.editor-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 20px 0 8px; }
+.editor-heading label { margin: 0; }
+.editor-heading .vim-toggle { display: flex; align-items: center; gap: 6px; font-weight: 400; cursor: pointer; }
+.vim-editor { min-width: 0; }
 textarea { width: 100%; min-height: 380px; resize: vertical; background: #fafbfc; border: 1px solid #bfc4ca; border-radius: 3px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; line-height: 1.65; tab-size: 4; }
 .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
 .run { background: #174ea6; color: #fff; border-color: #174ea6; }

@@ -14,6 +14,8 @@ The structure follows [Ruby Koans](https://github.com/edgecase/ruby_koans): run 
 
 Use **Run tests** or Ctrl/Cmd + Enter. The Next.js route forwards code to the official Go Playground over HTTPS. It reports actual test failures and compiler errors. Skipped tests and runs with no completed tests do not mark an exercise passed. The runtime has the Go Playground's execution and network limits.
 
+Enable **Vim mode** above the editor for Vim keybindings. Use `i` to enter insert mode and `Esc` to return to normal mode. Normal-mode motions, visual selections, search, and undo are available. The setting is saved in this browser; toggling it preserves the code. Edits save automatically, and Ctrl/Cmd + Enter still runs tests.
+
 **Download test** saves your current edits. **Download all tests** creates a ZIP containing the full starter set and a Go module.
 
 ## Run locally
