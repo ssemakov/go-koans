@@ -95,14 +95,18 @@ export default function Koans() {
       <div className="workspace">
         <nav className="curriculum" aria-label="Exercises">
           <p className="progress" aria-live="polite">{completed} / {curriculum.length} passed</p>
-          {topics.map((topic) => (
+          {topics.map((topic) => {
+            const chapterExercises = curriculum.filter((item) => item.topic === topic);
+            const chapterPassed = chapterExercises.filter((item) => entries[item.id]?.passed).length;
+            return (
             <details key={topic} open={topic === exercise.topic}>
-              <summary>{topic} <span>{curriculum.filter((item) => item.topic === topic && entries[item.id]?.passed).length}/{curriculum.filter((item) => item.topic === topic).length}</span></summary>
-              <ol>{curriculum.filter((item) => item.topic === topic).map((item) => (
+              <summary>{topic} <span>{chapterPassed}/{chapterExercises.length}</span>{chapterPassed === chapterExercises.length && <span className="chapter-passed" role="img" aria-label="All tests passed" title="All tests passed">✓</span>}</summary>
+              <ol>{chapterExercises.map((item) => (
                 <li key={item.id}><button type="button" aria-current={item.id === exercise.id ? "step" : undefined} onClick={() => select(item.id)}><span className="exercise-number">{item.id.slice(0, 3)}</span> {item.title}{entries[item.id]?.passed && <span className="passed-label"> (passed)</span>}</button></li>
               ))}</ol>
             </details>
-          ))}
+            );
+          })}
         </nav>
         <main className="exercise" id="exercise">
           <p className="topic">{exercise.topic} · {index + 1} of {curriculum.length}</p><h2>{exercise.title}</h2><p>{exercise.instruction}</p>
@@ -119,7 +123,6 @@ export default function Koans() {
             <a href={exercise.reference}>Go documentation</a>
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Edits and progress are saved in this browser.</p>
-          {vimEnabled && <p className="help">Vim: i enters insert mode; Esc returns to normal mode. Edits save automatically.</p>}
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
           <section className="output" aria-labelledby="output-title" aria-live="polite" aria-busy={running}>
             <h3 id="output-title">Test output{result && <span className={`result ${result.status}`}> — {result.status === "passed" ? "Passed" : result.status === "failed" ? "Failed" : "Runner error"}</span>}</h3>
