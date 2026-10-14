@@ -7,7 +7,8 @@ import type { RunResult } from "@/lib/runner";
 
 type Entry = { code: string; passed: boolean };
 const topics = [...new Set(curriculum.map((exercise) => exercise.topic))];
-const storageKey = "go-koans:exercises:v1";
+const storageKey = "go-koans:exercises:v2";
+const previousStorageKey = "go-koans:exercises:v1";
 const vimStorageKey = "go-koans:vim:v1";
 const VimEditor = dynamic(() => import("./vim-editor"), { ssr: false, loading: () => <p role="status">Loading editor…</p> });
 
@@ -17,6 +18,7 @@ export default function Koans() {
   const [loaded, setLoaded] = useState(false);
   const [vimEnabled, setVimEnabled] = useState(false);
   const [storageNotice, setStorageNotice] = useState("");
+  const [previousEdits, setPreviousEdits] = useState("");
   const [result, setResult] = useState<RunResult | null>(null);
   const [running, setRunning] = useState(false);
   const sequence = useRef(0);
@@ -36,6 +38,10 @@ export default function Koans() {
       }
       setEntries(valid);
     } catch { setStorageNotice("Saved edits could not be read. You can still edit and run tests."); }
+    try {
+      const previous = localStorage.getItem(previousStorageKey);
+      if (previous && previous !== "{}") setPreviousEdits(previous);
+    } catch { /* Current exercises remain usable without reading earlier edits. */ }
     try { setVimEnabled(localStorage.getItem(vimStorageKey) === "true"); }
     catch { /* The ordinary editor remains available without browser storage. */ }
     try {
@@ -86,12 +92,17 @@ export default function Koans() {
     const anchor = document.createElement("a"); anchor.href = url; anchor.download = `${exercise.id}_test.go`; anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
+  function downloadPreviousEdits() {
+    const url = URL.createObjectURL(new Blob([previousEdits], { type: "application/json" }));
+    const anchor = document.createElement("a"); anchor.href = url; anchor.download = "go-koans-previous-edits.json"; anchor.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
 
   return (
     <>
       <a className="skip-link" href="#exercise">Skip to exercise</a>
       <header className="header"><h1>Go Koans</h1><div className="header-links"><a href="/api/download">Download all tests</a><a href="https://github.com/ssemakov/go-koans">Source</a></div></header>
-      <p className="instructions">Run the tests. Replace the TODO values or implement the missing code. Run again until the tests pass.</p>
+      <p className="instructions">Follow each exercise&apos;s instructions. Edit the marked Go code and run the tests.</p>
       <div className="workspace">
         <nav className="curriculum" aria-label="Exercises">
           <p className="progress" aria-live="polite">{completed} / {curriculum.length} passed</p>
@@ -124,6 +135,7 @@ export default function Koans() {
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Edits and progress are saved in this browser.</p>
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
+          {previousEdits && <div className="previous-edits"><p className="help">These exercises have been rewritten. Your previous edits are saved separately.</p><button type="button" onClick={downloadPreviousEdits}>Download previous edits</button></div>}
           <section className="output" aria-labelledby="output-title" aria-live="polite" aria-busy={running}>
             <h3 id="output-title">Test output{result && <span className={`result ${result.status}`}> — {result.status === "passed" ? "Passed" : result.status === "failed" ? "Failed" : "Runner error"}</span>}</h3>
             <pre>{running ? "Running tests…" : result?.output || "Run the tests to see the result."}</pre>

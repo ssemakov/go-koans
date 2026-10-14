@@ -7,6 +7,7 @@ from playwright.sync_api import sync_playwright, expect
 ROOT = Path(__file__).resolve().parent.parent
 BASE = os.environ.get("KOANS_BASE_URL", "http://127.0.0.1:3100")
 EXERCISES = json.loads((ROOT / "lib/curriculum.json").read_text())
+SOLUTIONS = json.loads((ROOT / "scripts/solutions.json").read_text())
 
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path="/usr/bin/chromium", headless=True, args=["--no-sandbox"])
@@ -59,6 +60,17 @@ with sync_playwright() as p:
     expect(editor).to_have_value(EXERCISES[1]["code"])
     page.reload()
     expect(page.get_by_role("heading", name="Assert equality", exact=True)).to_be_visible()
+    # A chapter completes only when every revised exercise has passed.
+    editor.fill(SOLUTIONS[EXERCISES[1]["id"]])
+    page.get_by_role("button", name="Run tests", exact=True).click()
+    expect(page.locator(".result.passed")).to_be_visible(timeout=30000)
+    page.get_by_role("button", name="Previous", exact=True).click()
+    editor.fill(SOLUTIONS[EXERCISES[0]["id"]])
+    page.get_by_role("button", name="Run tests", exact=True).click()
+    expect(page.locator(".result.passed")).to_be_visible(timeout=30000)
+    expect(page.locator(".curriculum details").first.get_by_label("All tests passed")).to_be_visible()
+    editor.fill(SOLUTIONS[EXERCISES[0]["id"]] + "\n")
+    expect(page.locator(".curriculum details").first.get_by_label("All tests passed")).to_have_count(0)
     assert page.evaluate("document.documentElement.scrollWidth <= window.innerWidth")
     page.screenshot(path="/tmp/go-koans-desktop.png", full_page=True)
     page.set_viewport_size({"width":375,"height":812})
@@ -68,9 +80,26 @@ with sync_playwright() as p:
     context.close()
     # Corrupt storage must not make the editor unusable.
     context = browser.new_context()
-    context.add_init_script("localStorage.setItem('go-koans:exercises:v1', '{invalid')")
+    context.add_init_script("localStorage.setItem('go-koans:exercises:v2', '{invalid')")
     page = context.new_page(); page.goto(BASE)
     expect(page.get_by_role("button", name="Run tests", exact=True)).to_be_enabled()
     expect(page.locator(".notice")).to_contain_text("Saved edits could not be read")
+    context.close()
+    # The rewritten curriculum must not load or mark old exercises completed.
+    legacy = {EXERCISES[0]["id"]: {"code": "// previous edited code", "passed": True}}
+    legacy_raw = json.dumps(legacy)
+    context = browser.new_context(accept_downloads=True)
+    context.add_init_script(f"localStorage.setItem('go-koans:exercises:v1', {json.dumps(legacy_raw)})")
+    page = context.new_page(); page.goto(BASE)
+    expect(page.get_by_label("Go test code")).to_have_value(EXERCISES[0]["code"])
+    expect(page.locator(".progress")).to_have_text("0 / 120 passed")
+    with page.expect_download() as download:
+        page.get_by_role("button", name="Download previous edits", exact=True).click()
+    assert Path(download.value.path()).read_text() == legacy_raw
+    assert page.evaluate("localStorage.getItem('go-koans:exercises:v1')") == legacy_raw
+    page.get_by_label("Go test code").fill("// new edited code")
+    page.reload()
+    expect(page.get_by_label("Go test code")).to_have_value("// new edited code")
+    assert page.evaluate("localStorage.getItem('go-koans:exercises:v1')") == legacy_raw
     browser.close()
-print("Browser checks passed: failing/passing tests, editing, persistence, reset, download, compiler errors, skipped/zero-test rejection, outage handling, navigation, mobile layout, and corrupt storage.")
+print("Browser checks passed: failing/passing tests, chapter markers, editing, persistence, reset, download, compiler errors, skipped/zero-test rejection, outage handling, navigation, mobile layout, corrupt storage, and preserved previous edits.")

@@ -1,20 +1,32 @@
 package main
 
+// Switch without an expression
+// Repair the expressionless switch. Test invalid values first, then high scores. Return
+// invalid outside 0..100, pass for 60..100, and fail otherwise.
+
 import (
 	"testing"
 )
 
-func TestKoan(t *testing.T) {
-	result := 0
+func grade(score int) string {
 	switch {
-	case false:
-		result = 1
-	case true:
-		result = 2
+	case score >= 60:
+		return "pass" // TODO: put invalid inputs first.
+	case score < 0 || score > 100:
+		return "invalid"
+	default:
+		return "fail"
 	}
-	want := -999 // TODO: replace this value.
-	got := result
-	if got != want {
-		t.Fatalf("got %v; want %v", got, want)
+}
+
+func TestKoan(t *testing.T) {
+	cases := []struct {
+		score int
+		want  string
+	}{{-1, "invalid"}, {0, "fail"}, {59, "fail"}, {60, "pass"}, {100, "pass"}, {101, "invalid"}}
+	for _, tc := range cases {
+		if got := grade(tc.score); got != tc.want {
+			t.Errorf("grade(%d)=%q; want %q", tc.score, got, tc.want)
+		}
 	}
 }
