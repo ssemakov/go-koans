@@ -30,7 +30,7 @@ def add(number, instruction, body, edits, *, imports=(), declarations="",
     for old, new in edits:
         assert solution.count(old) == 1, (number, old, solution.count(old))
         solution = solution.replace(old, new)
-    assert source != solution and "TODO" in source
+    assert source != solution
     item.update(instruction=instruction, code=source, kind=kind,
                 revisits=[METADATA[n - 1]["id"] for n in revisits])
     LESSONS[number] = (item, solution)
@@ -80,16 +80,14 @@ initialized := struct{ Name string }{Name: "Ada"}
 """, [("Variable", "name", '"TODO"', '""'), ("OmittedField", "record.Name", '"TODO"', '""'),
       ("InitializedField", "initialized.Name", '"TODO"', '"Ada"')], revisits=(3,))
 
-add(5, "Complete the Enabled initialization. Leave the omitted flags at their zero values; set Enabled from the input rather than a constant.", """
-for _, requested := range []bool{false, true} {
-    config := struct{ Enabled, Verbose bool }{
-        Enabled: false, // TODO: use the requested setting.
-    }
-    if config.Enabled != requested { t.Errorf("requested=%v: Enabled=%v", requested, config.Enabled) }
-    if config.Verbose { t.Error("an omitted boolean field should be false") }
+add(5, "Remove the explicit initializer so enabled receives Go's default boolean value. Do not replace true with false. Keep the assertion.", """
+var enabled bool = true
+
+if enabled {
+    t.Error("an uninitialized boolean should be false")
 }
-""", [("Enabled: false, // TODO: use the requested setting.", "Enabled: requested,")],
-    kind="complete", revisits=(3, 4))
+""", [("var enabled bool = true", "var enabled bool")],
+    kind="repair", revisits=(3, 4))
 
 add(6, "Repair the assignment inside the block. Update the existing total instead of declaring a shadowing variable. Keep the checks.", """
 for _, delta := range []int{1, 4, -2} {

@@ -45,10 +45,10 @@
     "id": "005-boolean-zero-value",
     "topic": "Variables and constants",
     "title": "Boolean zero value",
-    "instruction": "Complete the Enabled initialization. Leave the omitted flags at their zero values; set Enabled from the input rather than a constant.",
+    "instruction": "Remove the explicit initializer so enabled receives Go's default boolean value. Do not replace true with false. Keep the assertion.",
     "reference": "https://go.dev/ref/spec",
-    "code": "package main\n\n// Boolean zero value\n// Complete the Enabled initialization. Leave the omitted flags at their zero values; set\n// Enabled from the input rather than a constant.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tfor _, requested := range []bool{false, true} {\n\t\tconfig := struct{ Enabled, Verbose bool }{\n\t\t\tEnabled: false, // TODO: use the requested setting.\n\t\t}\n\t\tif config.Enabled != requested {\n\t\t\tt.Errorf(\"requested=%v: Enabled=%v\", requested, config.Enabled)\n\t\t}\n\t\tif config.Verbose {\n\t\t\tt.Error(\"an omitted boolean field should be false\")\n\t\t}\n\t}\n}\n",
-    "kind": "complete",
+    "code": "package main\n\n// Boolean zero value\n// Remove the explicit initializer so enabled receives Go's default boolean value. Do not\n// replace true with false. Keep the assertion.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar enabled bool = true\n\n\tif enabled {\n\t\tt.Error(\"an uninitialized boolean should be false\")\n\t}\n}\n",
+    "kind": "repair",
     "revisits": [
       "003-integer-zero-value",
       "004-string-zero-value"

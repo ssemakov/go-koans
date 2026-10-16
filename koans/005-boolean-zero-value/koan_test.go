@@ -1,23 +1,17 @@
 package main
 
 // Boolean zero value
-// Complete the Enabled initialization. Leave the omitted flags at their zero values; set
-// Enabled from the input rather than a constant.
+// Remove the explicit initializer so enabled receives Go's default boolean value. Do not
+// replace true with false. Keep the assertion.
 
 import (
 	"testing"
 )
 
 func TestKoan(t *testing.T) {
-	for _, requested := range []bool{false, true} {
-		config := struct{ Enabled, Verbose bool }{
-			Enabled: false, // TODO: use the requested setting.
-		}
-		if config.Enabled != requested {
-			t.Errorf("requested=%v: Enabled=%v", requested, config.Enabled)
-		}
-		if config.Verbose {
-			t.Error("an omitted boolean field should be false")
-		}
+	var enabled bool = true
+
+	if enabled {
+		t.Error("an uninitialized boolean should be false")
 	}
 }
