@@ -1,6 +1,7 @@
 [
   {
     "id": "001-assert-truth",
+    "version": 1,
     "topic": "Assertions",
     "title": "Assert truth",
     "instruction": "Replace the TODO value with true. Run the test to see how a failed check is reported.",
@@ -11,6 +12,7 @@
   },
   {
     "id": "002-assert-equality",
+    "version": 1,
     "topic": "Assertions",
     "title": "Assert equality",
     "instruction": "Fill both expected values. t.Errorf reports a failed check and continues, so one run can report both failures.",
@@ -21,6 +23,7 @@
   },
   {
     "id": "003-integer-zero-value",
+    "version": 1,
     "topic": "Variables and constants",
     "title": "Integer zero value",
     "instruction": "Fill the expected values. Compare an omitted integer field with one initialized explicitly.",
@@ -31,6 +34,7 @@
   },
   {
     "id": "004-string-zero-value",
+    "version": 1,
     "topic": "Variables and constants",
     "title": "String zero value",
     "instruction": "Fill the expected strings. An empty input and an omitted field do not supply a default name automatically.",
@@ -43,6 +47,7 @@
   },
   {
     "id": "005-boolean-zero-value",
+    "version": 2,
     "topic": "Variables and constants",
     "title": "Boolean zero value",
     "instruction": "Remove the explicit initializer so enabled receives Go's default boolean value. Do not replace true with false. Keep the assertion.",
@@ -56,6 +61,7 @@
   },
   {
     "id": "006-short-variable-declaration",
+    "version": 1,
     "topic": "Variables and constants",
     "title": "Short variable declaration",
     "instruction": "Repair the assignment inside the block. Update the existing total instead of declaring a shadowing variable. Keep the checks.",
@@ -66,6 +72,7 @@
   },
   {
     "id": "007-simultaneous-assignment",
+    "version": 1,
     "topic": "Variables and constants",
     "title": "Simultaneous assignment",
     "instruction": "Repair the swap using one simultaneous assignment. Both right-hand values must come from the original pair.",
@@ -78,6 +85,7 @@
   },
   {
     "id": "008-constant-expressions",
+    "version": 1,
     "topic": "Variables and constants",
     "title": "Constant expressions",
     "instruction": "Fill the conversion and declaration. An untyped constant can initialize several compatible types; a typed variable needs an explicit conversion.",
@@ -88,6 +96,7 @@
   },
   {
     "id": "009-iota-enumeration",
+    "version": 1,
     "topic": "Variables and constants",
     "title": "Iota enumeration",
     "instruction": "Fill the values for each constant block. Check a skipped entry, a reset, and bit flags generated with shifts.",
@@ -100,6 +109,7 @@
   },
   {
     "id": "010-integer-division",
+    "version": 1,
     "topic": "Numbers and booleans",
     "title": "Integer division",
     "instruction": "Fill the quotient and remainder values for both signs, then compare floating-point division.",
@@ -110,6 +120,7 @@
   },
   {
     "id": "011-remainder",
+    "version": 1,
     "topic": "Numbers and booleans",
     "title": "Remainder",
     "instruction": "Implement wrapIndex for a positive size. Return an index from 0 through size-1, including for negative positions.",
@@ -122,6 +133,7 @@
   },
   {
     "id": "012-bitwise-xor",
+    "version": 1,
     "topic": "Numbers and booleans",
     "title": "Bitwise XOR",
     "instruction": "Implement toggle using XOR. Change only the bits selected by mask; applying the same mask twice must restore the value.",
@@ -134,6 +146,7 @@
   },
   {
     "id": "013-boolean-expressions",
+    "version": 1,
     "topic": "Numbers and booleans",
     "title": "Boolean expressions",
     "instruction": "Complete the guarded expression. Return true only when the slice has a first element and that element is positive. Empty input must not panic.",
@@ -146,6 +159,7 @@
   },
   {
     "id": "014-numeric-conversion",
+    "version": 1,
     "topic": "Types and conversions",
     "title": "Numeric conversion",
     "instruction": "Fill the results for both signs. Compare conversion to int with math.Floor; they differ for negative fractions.",
@@ -158,6 +172,7 @@
   },
   {
     "id": "015-named-types",
+    "version": 1,
     "topic": "Types and conversions",
     "title": "Named types",
     "instruction": "Implement addBonus. Score is a defined type, so convert between Score and int explicitly when combining them.",
@@ -170,6 +185,7 @@
   },
   {
     "id": "016-type-aliases",
+    "version": 1,
     "topic": "Types and conversions",
     "title": "Type aliases",
     "instruction": "Complete the aliases. Count should be the same type as int, not a distinct defined type. Bytes should be the same type as []byte.",
@@ -182,6 +198,7 @@
   },
   {
     "id": "017-concatenate-strings",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Concatenate strings",
     "instruction": "Implement joinName using concatenation. Add one space between nonempty parts; an empty part must not add a leading or trailing space.",
@@ -192,6 +209,7 @@
   },
   {
     "id": "018-string-slicing",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "String slicing",
     "instruction": "Fill each substring. The upper bound is exclusive; omitted bounds and equal bounds produce different results.",
@@ -202,6 +220,7 @@
   },
   {
     "id": "019-strings-contain-bytes",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Strings contain bytes",
     "instruction": "Fill the byte lengths and indexed byte value. Go string indexing reads a byte, even for UTF-8 text.",
@@ -214,6 +233,7 @@
   },
   {
     "id": "020-count-unicode-characters",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Count Unicode code points",
     "instruction": "Fill the rune counts. A rune is a Unicode code point; a base letter plus a combining mark can display as one character but contain two runes.",
@@ -226,6 +246,7 @@
   },
   {
     "id": "021-convert-bytes-to-a-string",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Convert bytes to a string",
     "instruction": "Complete the two conversions. Keep the original string independent of later byte edits, and make an editable byte copy of it.",
@@ -238,6 +259,7 @@
   },
   {
     "id": "022-split-strings",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Split strings",
     "instruction": "Implement splitFields with strings.Split. The separator is an exact string, not a set of delimiter characters. Preserve empty fields.",
@@ -248,6 +270,7 @@
   },
   {
     "id": "023-format-values",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Format values",
     "instruction": "Implement formatEntry with fmt.Sprintf. Quote the name with %q and print the count as a decimal integer.",
@@ -260,6 +283,7 @@
   },
   {
     "id": "024-range-over-unicode",
+    "version": 1,
     "topic": "Strings and runes",
     "title": "Range over Unicode",
     "instruction": "Fill the expected indices and runes for each string. range yields byte offsets and decoded runes, not one index per byte.",
@@ -273,6 +297,7 @@
   },
   {
     "id": "025-array-length",
+    "version": 1,
     "topic": "Arrays",
     "title": "Array length",
     "instruction": "Complete the array declaration. It must hold exactly three readings, including an omitted zero-valued reading, and match the function's [3]int parameter.",
@@ -285,6 +310,7 @@
   },
   {
     "id": "026-unspecified-array-elements",
+    "version": 1,
     "topic": "Arrays",
     "title": "Unspecified array elements",
     "instruction": "Fill the complete expected arrays. Omitted and explicitly indexed elements leave other positions at their zero values.",
@@ -298,6 +324,7 @@
   },
   {
     "id": "027-array-assignment-copies-values",
+    "version": 1,
     "topic": "Arrays",
     "title": "Array assignment copies values",
     "instruction": "Fill both expected arrays after the copy is modified. Check the whole values, not just one element.",
@@ -308,6 +335,7 @@
   },
   {
     "id": "028-inferred-array-length",
+    "version": 1,
     "topic": "Arrays",
     "title": "Inferred array length",
     "instruction": "Complete the array literal using [...] so its length is inferred. Check that its type is [3]string and that it contains all three names.",
@@ -322,6 +350,7 @@
   },
   {
     "id": "029-slice-length",
+    "version": 1,
     "topic": "Slices",
     "title": "Slice length",
     "instruction": "Track the two slice headers. Appending within capacity changes the returned slice's length, not the old header's length.",
@@ -332,6 +361,7 @@
   },
   {
     "id": "030-slice-an-array",
+    "version": 1,
     "topic": "Slices",
     "title": "Slice an array",
     "instruction": "Fill the length, capacity, and original array after a slice is modified. Capacity starts at the slice's first element and extends to the end of the array.",
@@ -344,6 +374,7 @@
   },
   {
     "id": "031-slices-share-an-array",
+    "version": 1,
     "topic": "Slices",
     "title": "Slices share an array",
     "instruction": "Fill the complete expected contents after modifying the slice view. Compare this with array assignment in exercise 027.",
@@ -357,6 +388,7 @@
   },
   {
     "id": "032-append-elements",
+    "version": 1,
     "topic": "Slices",
     "title": "Append elements",
     "instruction": "Repair addValue. Return the slice from append so the caller receives its updated length, including when append allocates new storage.",
@@ -369,6 +401,7 @@
   },
   {
     "id": "033-append-can-reuse-storage",
+    "version": 1,
     "topic": "Slices",
     "title": "Append can reuse storage",
     "instruction": "Compare append with spare capacity and append beyond capacity. Fill the values observed through each alias. Do not assume an exact growth factor.",
@@ -382,6 +415,7 @@
   },
   {
     "id": "034-copy-to-independent-storage",
+    "version": 1,
     "topic": "Slices",
     "title": "Copy to independent storage",
     "instruction": "Implement cloneInts. Preserve every element and give the result independent storage. Mutating either slice must leave the other unchanged; nil or empty input may return nil.",
@@ -395,6 +429,7 @@
   },
   {
     "id": "035-copy-returns-the-element-count",
+    "version": 1,
     "topic": "Slices",
     "title": "Copy returns the element count",
     "instruction": "Fill both the copied counts and complete destinations. copy is limited by the shorter length, and it supports overlapping slices.",
@@ -407,6 +442,7 @@
   },
   {
     "id": "036-nil-and-empty-slices",
+    "version": 1,
     "topic": "Slices",
     "title": "Nil and empty slices",
     "instruction": "Fill the lengths and nil checks before and after append. Nil and non-nil empty slices can both be appended to.",
@@ -420,6 +456,7 @@
   },
   {
     "id": "037-full-slice-expressions",
+    "version": 1,
     "topic": "Slices",
     "title": "Full slice expressions",
     "instruction": "Compare an unrestricted view with a full slice expression that caps capacity. Fill the capacity and original values after append.",
@@ -433,6 +470,7 @@
   },
   {
     "id": "038-delete-a-slice-element",
+    "version": 1,
     "topic": "Slices",
     "title": "Delete a slice element",
     "instruction": "Implement deleteAt for a valid index. Keep the remaining elements in order and leave the input unchanged. A result with zero elements may be nil.",
@@ -447,6 +485,7 @@
   },
   {
     "id": "039-create-a-map",
+    "version": 1,
     "topic": "Maps",
     "title": "Create a map",
     "instruction": "Implement frequencies. Count every word, including an empty string, and return an initialized map for empty input.",
@@ -457,6 +496,7 @@
   },
   {
     "id": "040-missing-keys-return-zero",
+    "version": 1,
     "topic": "Maps",
     "title": "Missing keys return zero",
     "instruction": "Fill both values and presence flags. A missing key and a present key storing zero have the same value but different presence.",
@@ -470,6 +510,7 @@
   },
   {
     "id": "041-check-whether-a-key-exists",
+    "version": 1,
     "topic": "Maps",
     "title": "Check whether a key exists",
     "instruction": "Implement lookupOr. Return the stored value when the key exists, including zero; use fallback only for an absent key. Nil maps are allowed.",
@@ -482,6 +523,7 @@
   },
   {
     "id": "042-delete-a-key",
+    "version": 1,
     "topic": "Maps",
     "title": "Delete a key",
     "instruction": "Implement removeKeys. Delete the requested keys in place, preserve other entries, and accept absent keys or a nil map.",
@@ -495,6 +537,7 @@
   },
   {
     "id": "043-map-assignment-shares-data",
+    "version": 1,
     "topic": "Maps",
     "title": "Map assignment shares data",
     "instruction": "Fill the map contents and lengths after modifying an assigned map. Assignment shares the entries; it does not clone the map.",
@@ -509,6 +552,7 @@
   },
   {
     "id": "044-read-from-a-nil-map",
+    "version": 1,
     "topic": "Maps",
     "title": "Read from a nil map",
     "instruction": "Repair putCount so a nil map can receive its first entry. Return the resulting map and preserve existing entries when it is already initialized.",
@@ -522,6 +566,7 @@
   },
   {
     "id": "045-if-and-else",
+    "version": 1,
     "topic": "Control flow",
     "title": "If and else",
     "instruction": "Implement sign with if/else. Return negative, zero, or positive according to the input.",
@@ -532,6 +577,7 @@
   },
   {
     "id": "046-if-with-an-initializer",
+    "version": 1,
     "topic": "Control flow",
     "title": "If with an initializer",
     "instruction": "Complete the if initializer and condition. Use comma-ok so a stored zero succeeds, and keep the lookup variable scoped to the if.",
@@ -545,6 +591,7 @@
   },
   {
     "id": "047-switch-chooses-one-case",
+    "version": 1,
     "topic": "Control flow",
     "title": "Switch chooses one case",
     "instruction": "Implement commandName with switch. Start and run share a case; stop has another; any other input returns unknown. Go cases do not fall through automatically.",
@@ -555,6 +602,7 @@
   },
   {
     "id": "048-switch-without-an-expression",
+    "version": 1,
     "topic": "Control flow",
     "title": "Switch without an expression",
     "instruction": "Repair the expressionless switch. Test invalid values first, then high scores. Return invalid outside 0..100, pass for 60..100, and fail otherwise.",
@@ -568,6 +616,7 @@
   },
   {
     "id": "049-for-loop",
+    "version": 1,
     "topic": "Loops and range",
     "title": "For loop",
     "instruction": "Implement sum using a for loop. Handle empty input, a single value, and negative numbers without changing the input.",
@@ -580,6 +629,7 @@
   },
   {
     "id": "050-break-a-loop",
+    "version": 1,
     "topic": "Loops and range",
     "title": "Break a loop",
     "instruction": "Implement takeUntilZero. Use break to stop before the first zero; ignore values after it. Return an independent result.",
@@ -593,6 +643,7 @@
   },
   {
     "id": "051-continue-a-loop",
+    "version": 1,
     "topic": "Loops and range",
     "title": "Continue a loop",
     "instruction": "Implement positiveValues with continue. Skip nonpositive elements, keep all later positive values in order, and leave the input unchanged.",
@@ -605,6 +656,7 @@
   },
   {
     "id": "052-range-gives-index-and-value",
+    "version": 1,
     "topic": "Loops and range",
     "title": "Range gives index and value",
     "instruction": "Implement positions with range. Return the indices where the target occurs, not the matching values. An absent target returns no indices.",
@@ -618,6 +670,7 @@
   },
   {
     "id": "053-range-over-an-integer",
+    "version": 1,
     "topic": "Loops and range",
     "title": "Range over an integer",
     "instruction": "Implement indices using range over an integer. Return 0 through n-1; zero or negative n should produce no values.",
@@ -630,6 +683,7 @@
   },
   {
     "id": "054-call-a-function",
+    "version": 1,
     "topic": "Functions",
     "title": "Call a function",
     "instruction": "Implement clamp. Return the nearest bound when value is outside lower..upper, and the value itself otherwise. lower is never greater than upper.",
@@ -643,6 +697,7 @@
   },
   {
     "id": "055-multiple-return-values",
+    "version": 1,
     "topic": "Functions",
     "title": "Multiple return values",
     "instruction": "Implement first. Return the first element and true for a nonempty slice. Return zero and false for empty input; a stored zero is still present.",
@@ -656,6 +711,7 @@
   },
   {
     "id": "056-named-return-values",
+    "version": 1,
     "topic": "Functions",
     "title": "Named return values",
     "instruction": "Complete the named result assignments. Return a quotient and remainder with a bare return; divisor is nonzero.",
@@ -669,6 +725,7 @@
   },
   {
     "id": "057-variadic-arguments",
+    "version": 1,
     "topic": "Functions",
     "title": "Variadic arguments",
     "instruction": "Implement total as a variadic function. Zero arguments return zero; positive and negative values are included.",
@@ -681,6 +738,7 @@
   },
   {
     "id": "058-expand-a-slice-argument",
+    "version": 1,
     "topic": "Functions",
     "title": "Expand a slice argument",
     "instruction": "Complete addAll by expanding the slice into total's variadic arguments. Preserve the input and include base even for an empty slice.",
@@ -693,6 +751,7 @@
   },
   {
     "id": "059-capture-a-variable",
+    "version": 1,
     "topic": "Closures",
     "title": "Capture a variable",
     "instruction": "Compare a closure reading an outer variable with a function using a copied argument. Fill the state after the outer variable changes.",
@@ -706,6 +765,7 @@
   },
   {
     "id": "060-closure-retains-state",
+    "version": 1,
     "topic": "Closures",
     "title": "Closure retains state",
     "instruction": "Implement counter. Each factory call returns a closure with its own state; each call adds step and returns the updated value.",
@@ -718,6 +778,7 @@
   },
   {
     "id": "061-a-function-is-a-value",
+    "version": 1,
     "topic": "Closures",
     "title": "A function is a value",
     "instruction": "Implement transform. Apply the supplied function once to each value, in order, and return independent storage. The function is non-nil; empty input produces no calls.",
@@ -732,6 +793,7 @@
   },
   {
     "id": "062-dereference-a-pointer",
+    "version": 1,
     "topic": "Pointers and allocation",
     "title": "Dereference a pointer",
     "instruction": "Implement swap through the two non-nil pointers. It must also work when both pointers refer to the same variable.",
@@ -744,6 +806,7 @@
   },
   {
     "id": "063-pass-values-by-value",
+    "version": 1,
     "topic": "Pointers and allocation",
     "title": "Pass values by value",
     "instruction": "Fill the caller's values and the returned value. Changing a copied integer or array parameter does not update its caller.",
@@ -757,6 +820,7 @@
   },
   {
     "id": "064-pass-a-pointer",
+    "version": 1,
     "topic": "Pointers and allocation",
     "title": "Pass a pointer",
     "instruction": "Repair reset. Changing a local pointer variable does not update the object it originally pointed to; write through the pointer instead. Inputs are non-nil.",
@@ -770,6 +834,7 @@
   },
   {
     "id": "065-new-allocates-a-zero-value",
+    "version": 1,
     "topic": "Pointers and allocation",
     "title": "New allocates a zero value",
     "instruction": "Compare a nil pointer, new(int), and an initialized address. Fill both nil checks and values; new returns allocated zero-initialized storage.",
@@ -783,6 +848,7 @@
   },
   {
     "id": "066-make-sets-length-and-capacity",
+    "version": 1,
     "topic": "Pointers and allocation",
     "title": "Make sets length and capacity",
     "instruction": "Complete the allocation: two zero-valued elements, with capacity for five. Append three values and check that an existing view observes them without changing its own length.",
@@ -797,6 +863,7 @@
   },
   {
     "id": "067-struct-fields",
+    "version": 1,
     "topic": "Structs and methods",
     "title": "Struct fields",
     "instruction": "Implement newPerson with a struct literal. Store the supplied name and age; leave Active at its zero value.",
@@ -811,6 +878,7 @@
   },
   {
     "id": "068-struct-assignment-copies-fields",
+    "version": 1,
     "topic": "Structs and methods",
     "title": "Struct assignment copies fields",
     "instruction": "Fill the expected fields after struct assignment. Scalar fields are copied, while copied slices and pointers still refer to shared storage.",
@@ -826,6 +894,7 @@
   },
   {
     "id": "069-methods-on-named-types",
+    "version": 1,
     "topic": "Structs and methods",
     "title": "Methods on named types",
     "instruction": "Implement the Kilometers method on Meters. Use the receiver value and a floating-point conversion; do not lose the fractional kilometer.",
@@ -840,6 +909,7 @@
   },
   {
     "id": "070-pointer-receivers-modify-values",
+    "version": 1,
     "topic": "Structs and methods",
     "title": "Pointer receivers modify values",
     "instruction": "Repair the method receiver so Add updates the caller's Counter. Repeated positive and negative additions must accumulate.",
@@ -853,6 +923,7 @@
   },
   {
     "id": "071-value-receivers-use-a-copy",
+    "version": 1,
     "topic": "Structs and methods",
     "title": "Value receivers use a copy",
     "instruction": "Fill the caller state and method result. A value receiver copies the struct, but its slice field still shares an array.",
@@ -867,6 +938,7 @@
   },
   {
     "id": "072-promoted-fields",
+    "version": 1,
     "topic": "Embedding",
     "title": "Promoted fields",
     "instruction": "Complete newEmployee. Initialize the embedded Person through its field name, then read Name through both promoted and explicit selectors.",
@@ -879,6 +951,7 @@
   },
   {
     "id": "073-promoted-methods",
+    "version": 1,
     "topic": "Embedding",
     "title": "Promoted methods",
     "instruction": "Implement Tagged.Label to override the promoted method. Append a nonempty tag in brackets; keep Base.Label available without the tag.",
@@ -893,6 +966,7 @@
   },
   {
     "id": "074-implicit-interface-implementation",
+    "version": 1,
     "topic": "Interfaces",
     "title": "Implicit interface implementation",
     "instruction": "Complete Robot.Name so Robot satisfies Named's behavior. The same consumer must accept people and robots; robot names are robot: followed by the ID.",
@@ -906,6 +980,7 @@
   },
   {
     "id": "075-type-assertions",
+    "version": 1,
     "topic": "Interfaces",
     "title": "Type assertions",
     "instruction": "Implement stringValue with a comma-ok type assertion. Return the string and true only for dynamic type string, including an empty string. Other types must return empty and false without panicking.",
@@ -920,6 +995,7 @@
   },
   {
     "id": "076-type-switches",
+    "version": 1,
     "topic": "Interfaces",
     "title": "Type switches",
     "instruction": "Implement describeType using a type switch. Recognize nil, int, string, and []int; other dynamic types, including Label, return other.",
@@ -933,6 +1009,7 @@
   },
   {
     "id": "077-typed-nil-in-an-interface",
+    "version": 1,
     "topic": "Interfaces",
     "title": "Typed nil in an interface",
     "instruction": "Fill the nil and equality checks. An interface containing a nil *Failure still has a dynamic type; an unassigned error interface does not.",
@@ -947,6 +1024,7 @@
   },
   {
     "id": "078-interface-method-sets",
+    "version": 1,
     "topic": "Interfaces",
     "title": "Interface method sets",
     "instruction": "Repair the receiver so only *Counter implements Incrementer. The pointer must mutate its counter; a Counter value must fail the runtime interface assertion.",
@@ -962,6 +1040,7 @@
   },
   {
     "id": "079-create-an-error",
+    "version": 1,
     "topic": "Errors",
     "title": "Create an error",
     "instruction": "Implement requirePositive. Return the provided ErrNonpositive for zero or negative input, and an actual nil error for positive input.",
@@ -975,6 +1054,7 @@
   },
   {
     "id": "080-wrap-and-identify-an-error",
+    "version": 1,
     "topic": "Errors",
     "title": "Wrap and identify an error",
     "instruction": "Repair readNumber's error wrapping. Add parse context while preserving strconv's underlying error so callers can recognize syntax and range errors with errors.Is.",
@@ -988,6 +1068,7 @@
   },
   {
     "id": "081-inspect-a-typed-error",
+    "version": 1,
     "topic": "Errors",
     "title": "Inspect a typed error",
     "instruction": "Implement errorPath with errors.As. Find a *PathError through wrapping and return its Path; unrelated errors, nil errors, or a typed nil *PathError return empty and false.",
@@ -1002,6 +1083,7 @@
   },
   {
     "id": "082-defer-runs-on-return",
+    "version": 1,
     "topic": "Defer and panic",
     "title": "Defer runs on return",
     "instruction": "Repair runWithCleanup. Register cleanup with defer so it runs once after the work, on both success and early return.",
@@ -1015,6 +1097,7 @@
   },
   {
     "id": "083-deferred-calls-run-in-reverse-order",
+    "version": 1,
     "topic": "Defer and panic",
     "title": "Deferred calls run in reverse order",
     "instruction": "Fill the complete execution trace. Include ordinary statements and all deferred calls in the order they actually run.",
@@ -1027,6 +1110,7 @@
   },
   {
     "id": "084-deferred-arguments-are-evaluated-immediately",
+    "version": 1,
     "topic": "Defer and panic",
     "title": "Deferred arguments are evaluated immediately",
     "instruction": "Compare a deferred argument with a deferred closure reading the variable later. Then check how defer changes a named result before it reaches the caller.",
@@ -1042,6 +1126,7 @@
   },
   {
     "id": "085-recover-a-panic",
+    "version": 1,
     "topic": "Defer and panic",
     "title": "Recover a panic",
     "instruction": "Implement catchPanic. Run work once; a panic becomes an error containing its value, while normal completion returns a real nil error. Use a deferred recovery in the same goroutine.",
@@ -1057,6 +1142,7 @@
   },
   {
     "id": "086-buffered-channel-length",
+    "version": 1,
     "topic": "Channels",
     "title": "Buffered channel length",
     "instruction": "Track queue length separately from capacity as values are sent and received. Fill the first received value and each queue length.",
@@ -1070,6 +1156,7 @@
   },
   {
     "id": "087-send-and-receive",
+    "version": 1,
     "topic": "Channels",
     "title": "Send and receive",
     "instruction": "Complete the send and receive loops. Use the supplied buffered channel to round-trip every string in order; return the values and the number still queued.",
@@ -1084,6 +1171,7 @@
   },
   {
     "id": "088-receive-from-a-closed-channel",
+    "version": 1,
     "topic": "Channels",
     "title": "Receive from a closed channel",
     "instruction": "Fill the value and ok result for each receive. Closing a buffered channel does not discard queued values; only a closed and drained channel returns zero and false.",
@@ -1098,6 +1186,7 @@
   },
   {
     "id": "089-range-over-a-channel",
+    "version": 1,
     "topic": "Channels",
     "title": "Range over a channel",
     "instruction": "Implement drain with range over the channel. Return all queued values, including zero, and finish when the sender closes the channel.",
@@ -1111,6 +1200,7 @@
   },
   {
     "id": "090-select-with-a-default",
+    "version": 1,
     "topic": "Channels",
     "title": "Select with a default",
     "instruction": "Implement tryReceive with select and default. Return value, ready, and open: a closed channel is ready but not open; an unready or nil channel returns zero, false, false.",
@@ -1123,6 +1213,7 @@
   },
   {
     "id": "091-synchronize-a-goroutine",
+    "version": 1,
     "topic": "Concurrency",
     "title": "Synchronize a goroutine",
     "instruction": "Implement squareAsync. Launch a goroutine that sends the square on the supplied unbuffered output, then closes it. Return the channel before the receiver starts.",
@@ -1137,6 +1228,7 @@
   },
   {
     "id": "092-wait-for-goroutines",
+    "version": 1,
     "topic": "Concurrency",
     "title": "Wait for goroutines",
     "instruction": "Complete parallelMap using one goroutine per value and a WaitGroup. Keep results in input order and wait for every worker before returning. The barrier test requires the workers to run concurrently.",
@@ -1151,6 +1243,7 @@
   },
   {
     "id": "093-protect-shared-state-with-a-mutex",
+    "version": 1,
     "topic": "Concurrency",
     "title": "Protect shared state with a mutex",
     "instruction": "Implement Add and Value using the counter's mutex to protect all accesses. Multiple goroutines update and read the same counter. The downloaded test can also be checked with go test -race.",
@@ -1165,6 +1258,7 @@
   },
   {
     "id": "094-cancel-a-context",
+    "version": 1,
     "topic": "Context",
     "title": "Cancel a context",
     "instruction": "Implement waitForValue with select. Return a received value, or return ctx.Err when cancellation ends the wait. A nil input disables the receive branch.",
@@ -1180,6 +1274,7 @@
   },
   {
     "id": "095-context-deadlines",
+    "version": 1,
     "topic": "Context",
     "title": "Context deadlines",
     "instruction": "Repair cancellable so its child retains the parent's deadline and cancellation. An expired deadline must remain DeadlineExceeded rather than being replaced with Canceled.",
@@ -1193,6 +1288,7 @@
   },
   {
     "id": "096-read-from-a-reader",
+    "version": 1,
     "topic": "IO and files",
     "title": "Read from a reader",
     "instruction": "Implement readText with io.ReadAll. Return the text and read error, including any partial data received together with an error.",
@@ -1209,6 +1305,7 @@
   },
   {
     "id": "097-copy-reader-to-writer",
+    "version": 1,
     "topic": "IO and files",
     "title": "Copy reader to writer",
     "instruction": "Implement copyAll with io.Copy. Return the actual byte count and preserve reader or writer errors instead of treating partial copying as success.",
@@ -1224,6 +1321,7 @@
   },
   {
     "id": "098-copy-a-limited-number-of-bytes",
+    "version": 1,
     "topic": "IO and files",
     "title": "Copy a limited number of bytes",
     "instruction": "Repair copyPrefix with io.CopyN. Copy at most n bytes; if the reader ends early, return the bytes copied and io.EOF. n is nonnegative.",
@@ -1238,6 +1336,7 @@
   },
   {
     "id": "099-write-and-read-a-file",
+    "version": 1,
     "topic": "IO and files",
     "title": "Write and read a file",
     "instruction": "Implement storeText and loadText with os.WriteFile and os.ReadFile. Overwrite existing contents, use mode 0600 when creating a file, and return filesystem errors.",
@@ -1253,6 +1352,7 @@
   },
   {
     "id": "100-marshal-a-struct",
+    "version": 1,
     "topic": "JSON",
     "title": "Marshal a struct",
     "instruction": "Complete the JSON tags and encodeRecord. Use lowercase name and tags keys; omit an empty nickname. Nil tags encode as null, empty non-nil tags as []. Unexported fields are excluded.",
@@ -1267,6 +1367,7 @@
   },
   {
     "id": "101-unmarshal-json",
+    "version": 1,
     "topic": "JSON",
     "title": "Unmarshal JSON",
     "instruction": "Implement decodePerson with json.Unmarshal into a pointer. Return decoding errors for malformed JSON or a nonnumeric age; omitted fields keep zero values.",
@@ -1283,6 +1384,7 @@
   },
   {
     "id": "102-match-a-pattern",
+    "version": 1,
     "topic": "Regular expressions",
     "title": "Match a pattern",
     "instruction": "Write the regexp for a complete ID: lowercase go followed by one or more ASCII digits. Reject prefixes, suffixes, spaces, and non-ASCII digits.",
@@ -1296,6 +1398,7 @@
   },
   {
     "id": "103-find-a-substring",
+    "version": 1,
     "topic": "Regular expressions",
     "title": "Find a substring",
     "instruction": "Complete firstNumber using the input text. Find the first run of ASCII digits, parse it, and return false when no number is present. Numbers in these inputs fit in int.",
@@ -1310,6 +1413,7 @@
   },
   {
     "id": "104-type-parameters",
+    "version": 1,
     "topic": "Generics",
     "title": "Type parameters",
     "instruction": "Implement generic first. Return the first value and true, or the type's zero value and false for empty input. The same function must handle numbers, strings, and slices.",
@@ -1325,6 +1429,7 @@
   },
   {
     "id": "105-type-constraints",
+    "version": 1,
     "topic": "Generics",
     "title": "Type constraints",
     "instruction": "Implement generic sum. The constraint permits addition for int and float64, and ~ includes defined types with those underlying types.",
@@ -1340,6 +1445,7 @@
   },
   {
     "id": "106-comparable-type-parameters",
+    "version": 1,
     "topic": "Generics",
     "title": "Comparable type parameters",
     "instruction": "Implement generic indexOf using ==. Return the first matching index and true; return -1 and false if absent. comparable supports strings, numbers, and comparable structs, but not slices.",
@@ -1356,6 +1462,7 @@
   },
   {
     "id": "107-sort-a-slice",
+    "version": 1,
     "topic": "Standard library",
     "title": "Sort a slice",
     "instruction": "Implement sortedCopy with slices.Sort. Return a sorted independent copy; preserve the input and its storage. Empty input may produce nil.",
@@ -1369,6 +1476,7 @@
   },
   {
     "id": "108-clone-a-map",
+    "version": 1,
     "topic": "Standard library",
     "title": "Clone a map",
     "instruction": "Repair cloneGroups. maps.Clone copies entries shallowly; clone each slice too. Preserve nil maps and nil slice values, and make edits independent in both directions.",
@@ -1384,6 +1492,7 @@
   },
   {
     "id": "109-parse-an-integer",
+    "version": 1,
     "topic": "Standard library",
     "title": "Parse an integer",
     "instruction": "Implement parseNumbers. Parse every string with strconv.Atoi. If any conversion fails, return no values and wrap the error with item N: using the zero-based index.",
@@ -1399,6 +1508,7 @@
   },
   {
     "id": "110-inspect-a-value-with-reflection",
+    "version": 1,
     "topic": "Standard library",
     "title": "Inspect a value with reflection",
     "instruction": "Repair inspect. Return the type's Name and its Kind string, not its full type string. A nil interface has no type; a typed nil pointer still does.",
@@ -1414,6 +1524,7 @@
   },
   {
     "id": "111-table-driven-tests",
+    "version": 1,
     "topic": "Testing",
     "title": "Table driven tests",
     "instruction": "Write the per-case comparison inside t.Run. The table supplies cases below, inside, and above the range, including both bounds. Keep clamp and the expected results; make failures name the input and expected result.",
@@ -1428,6 +1539,7 @@
   },
   {
     "id": "112-read-request-query-parameters",
+    "version": 1,
     "topic": "HTTP",
     "title": "Read request query parameters",
     "instruction": "Implement queryName. Read the first name query value, URL-decoded. Return false for a missing or empty name; repeated names use the first value.",
@@ -1442,6 +1554,7 @@
   },
   {
     "id": "113-write-an-http-response",
+    "version": 1,
     "topic": "HTTP",
     "title": "Write an HTTP response",
     "instruction": "Implement createItem. POST returns status 201 and created followed by a newline. Other methods return 405, Allow: POST, and method not allowed followed by a newline. Set status before writing the body.",
@@ -1457,6 +1570,7 @@
   },
   {
     "id": "114-set-response-headers",
+    "version": 1,
     "topic": "HTTP",
     "title": "Set response headers",
     "instruction": "Repair jsonHandler by setting both headers before the body commits the response. Inspect the actual response snapshot, not just the recorder's mutable header map.",
@@ -1470,6 +1584,7 @@
   },
   {
     "id": "115-parse-a-time",
+    "version": 1,
     "topic": "Time",
     "title": "Parse a time",
     "instruction": "Repair parseDate's layout using Go's reference date. Parse YYYY-MM-DD in UTC, and preserve errors for invalid dates or a different input format.",
@@ -1484,6 +1599,7 @@
   },
   {
     "id": "116-calculate-a-duration",
+    "version": 1,
     "topic": "Time",
     "title": "Calculate a duration",
     "instruction": "Implement billableMinutes for intervals up to 24 hours. Round each positive partial minute up, keep zero at zero, and return ErrOrder when end is before start. Compare instants even if their timezones differ.",
@@ -1500,6 +1616,7 @@
   },
   {
     "id": "117-classify-triangles",
+    "version": 1,
     "topic": "Projects",
     "title": "Classify triangles",
     "instruction": "Implement triangle. Reject nonpositive sides and degenerate or impossible triangles; return equilateral, isosceles, or scalene. Side order must not matter. Positive sides can be near the largest int, so avoid overflowing their sum.",
@@ -1515,6 +1632,7 @@
   },
   {
     "id": "118-score-a-dice-roll",
+    "version": 1,
     "topic": "Projects",
     "title": "Score a dice roll",
     "instruction": "Implement score for zero to five dice, each from 1 through 6. Three ones score 1000; other triples score 100 times the face. Remaining ones score 100, fives score 50, and other faces score zero. Order must not matter; preserve the input.",
@@ -1531,6 +1649,7 @@
   },
   {
     "id": "119-implement-a-dice-set",
+    "version": 1,
     "topic": "Projects",
     "title": "Implement a dice set",
     "instruction": "Implement Roll using Next exactly once per die. n is nonnegative and Next returns 1..6. Store n values in fresh storage, preserve every previous roll, and make no generator calls for zero dice.",
@@ -1549,6 +1668,7 @@
   },
   {
     "id": "120-implement-a-channel-pipeline",
+    "version": 1,
     "topic": "Projects",
     "title": "Implement a channel pipeline",
     "instruction": "Implement squares as a streaming pipeline. Return an output channel immediately; a goroutine squares and sends each input in order, then closes output when input closes. Consumers drain output, and input values fit safely when squared.",

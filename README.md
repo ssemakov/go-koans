@@ -22,6 +22,8 @@ Use Ctrl/Cmd + Shift + Enter to open the next exercise in either editor mode. Th
 
 The rewritten curriculum uses separate browser progress storage. Earlier saved edits are preserved and can be exported with **Download previous edits**. Old completion markers do not carry over to the new exercises.
 
+Each exercise displays its version. When its starter code or instructions change, the app loads the updated starter and clears saved edits and completion for that exercise. Edits and progress for unchanged exercises are preserved.
+
 Enable **Vim mode** above the editor for Vim keybindings. Use `i` to enter insert mode and `Esc` to return to normal mode. Normal-mode motions, visual selections, search, and undo are available. The setting is saved in this browser; toggling it preserves the code. Edits save automatically, and Ctrl/Cmd + Enter still runs tests.
 
 **Download test** saves your current edits. **Download all tests** creates a ZIP containing the full starter set and a Go module.
@@ -62,6 +64,8 @@ With Go 1.23+ and a C compiler on PATH, run `npm run test:curriculum`. This chec
 The reference solutions in `scripts/solutions.json` are validation fixtures and are not imported into the website or download archive. A passing check establishes the tested behavior; it does not measure a learner's retention.
 
 For maintainers, `scripts/author-curriculum.py` defines the exercises and reference edits. After editing it, run `python scripts/author-curriculum.py` with `gofmt` on PATH, then validate. This overwrites the generated starter files in `koans/`. Exercise IDs stay stable, and the `revisits` metadata records earlier exercises used again later.
+
+The authoring script automatically increments an exercise's `version` when its formatted starter code or instructions change. Regenerating unchanged exercises keeps their versions stable. Unversioned browser saves migrate as version 1; the updated Boolean zero value exercise starts at version 2. Versioned saves use separate storage so tabs using the previous storage format cannot overwrite them.
 
 Canonical web exercises are in `lib/curriculum.json`; matching local exercises are in `koans/`. UI code is in `app/koans.tsx`, and runner/download routes are in `app/api/`.
 

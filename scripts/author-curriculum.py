@@ -1778,6 +1778,9 @@ def write_curriculum():
     for number, (item, solution) in sorted(LESSONS.items()):
         item["code"] = subprocess.run([formatter], input=item["code"],
                                      text=True, capture_output=True, check=True).stdout
+        previous = METADATA[number - 1]
+        changed = any(item[field] != previous[field] for field in ("code", "instruction"))
+        item["version"] = previous.get("version", 1) + int(changed)
         solution = subprocess.run([formatter], input=solution,
                                   text=True, capture_output=True, check=True).stdout
         assert all(int(id[:3]) < number for id in item["revisits"])

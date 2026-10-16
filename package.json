@@ -9,7 +9,7 @@
     "lint": "biome lint .",
     "typecheck": "next typegen && tsc --noEmit",
     "test:curriculum": "node scripts/validate-curriculum.mjs",
-    "test": "node --test scripts/test-runner.mjs"
+    "test": "node --test scripts/test-*.mjs"
   },
   "engines": {
     "node": "24.x"

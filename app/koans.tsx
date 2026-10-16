@@ -3,11 +3,12 @@
 import dynamic from "next/dynamic";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import curriculum from "@/lib/curriculum.json";
+import { type Entry, restoreEntries } from "@/lib/progress";
 import type { RunResult } from "@/lib/runner";
 
-type Entry = { code: string; passed: boolean };
 const topics = [...new Set(curriculum.map((exercise) => exercise.topic))];
-const storageKey = "go-koans:exercises:v2";
+const storageKey = "go-koans:exercises:v3";
+const unversionedStorageKey = "go-koans:exercises:v2";
 const previousStorageKey = "go-koans:exercises:v1";
 const vimStorageKey = "go-koans:vim:v1";
 const VimEditor = dynamic(() => import("./vim-editor"), { ssr: false, loading: () => <p role="status">Loading editor…</p> });
@@ -18,6 +19,7 @@ export default function Koans() {
   const [loaded, setLoaded] = useState(false);
   const [vimEnabled, setVimEnabled] = useState(false);
   const [storageNotice, setStorageNotice] = useState("");
+  const [updatedExercises, setUpdatedExercises] = useState(0);
   const [previousEdits, setPreviousEdits] = useState("");
   const [result, setResult] = useState<RunResult | null>(null);
   const [running, setRunning] = useState(false);
@@ -31,13 +33,11 @@ export default function Koans() {
 
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
-      const valid: Record<string, Entry> = {};
-      for (const item of curriculum) {
-        const entry = saved?.[item.id];
-        if (entry && typeof entry.code === "string" && entry.code.length <= 40_000) valid[item.id] = { code: entry.code, passed: entry.passed === true };
-      }
-      setEntries(valid);
+      const current = localStorage.getItem(storageKey);
+      const saved = JSON.parse(current ?? localStorage.getItem(unversionedStorageKey) ?? "{}");
+      const restored = restoreEntries(saved, curriculum, current === null);
+      setEntries(restored.entries);
+      setUpdatedExercises(restored.updated);
     } catch { setStorageNotice("Saved edits could not be read. You can still edit and run tests."); }
     try {
       const previous = localStorage.getItem(previousStorageKey);
@@ -91,7 +91,7 @@ export default function Koans() {
     stopRun(); setSelected(id); history.replaceState(null, "", `#${id}`);
   }
   function edit(value: string) {
-    stopRun(); setEntries((previous) => ({ ...previous, [exercise.id]: { code: value, passed: false } }));
+    stopRun(); setEntries((previous) => ({ ...previous, [exercise.id]: { code: value, passed: false, version: exercise.version } }));
   }
   async function run() {
     controller.current?.abort();
@@ -105,7 +105,7 @@ export default function Koans() {
       if (current !== sequence.current) return;
       if (!["passed", "failed", "error"].includes(output.status) || typeof output.output !== "string") throw new Error("Invalid runner response");
       setResult(output);
-      setEntries((previous) => ({ ...previous, [exercise.id]: { code, passed: output.status === "passed" } }));
+      setEntries((previous) => ({ ...previous, [exercise.id]: { code, passed: output.status === "passed", version: exercise.version } }));
     } catch {
       if (current === sequence.current) setResult({ status: "error", output: "The test runner did not respond. Try again, or download the test and run it locally.", passed: 0, failed: 0, skipped: 0 });
     } finally { clearTimeout(timeout); if (current === sequence.current) setRunning(false); }
@@ -143,7 +143,7 @@ export default function Koans() {
           })}
         </nav>
         <main className="exercise" id="exercise">
-          <p className="topic">{exercise.topic} · {index + 1} of {curriculum.length}</p><h2>{exercise.title}</h2><p>{exercise.instruction}</p>
+          <p className="topic">{exercise.topic} · {index + 1} of {curriculum.length} · Version {exercise.version}</p><h2>{exercise.title}</h2><p>{exercise.instruction}</p>
           <div className="editor-heading">
             <label htmlFor="code">Go test code</label>
             <label className="vim-toggle"><input type="checkbox" checked={vimEnabled} onChange={(event) => setVimEnabled(event.target.checked)} /> Vim mode</label>
@@ -157,6 +157,7 @@ export default function Koans() {
             <a href={exercise.reference}>Go documentation</a>
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Ctrl/Cmd + Shift + Enter opens the next exercise. Edits and progress are saved in this browser.</p>
+          {updatedExercises > 0 && <p className="notice" role="status">{updatedExercises === 1 ? "An exercise was updated. Its saved edits and completion were reset." : `${updatedExercises} exercises were updated. Their saved edits and completion were reset.`}</p>}
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
           {previousEdits && <div className="previous-edits"><p className="help">These exercises have been rewritten. Your previous edits are saved separately.</p><button type="button" onClick={downloadPreviousEdits}>Download previous edits</button></div>}
           <section className="output" aria-labelledby="output-title" aria-live="polite" aria-busy={running}>

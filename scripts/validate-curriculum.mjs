@@ -11,6 +11,7 @@ const solutions = JSON.parse(await readFile(path.join(root, "scripts/solutions.j
 assert.equal(new Set(curriculum.map((e) => e.id)).size, curriculum.length);
 assert.equal(Object.keys(solutions).length, curriculum.length);
 for (const exercise of curriculum) {
+  assert.ok(Number.isSafeInteger(exercise.version) && exercise.version > 0, `${exercise.id}: missing exercise version`);
   assert.ok(["observe", "complete", "implement", "repair"].includes(exercise.kind), `${exercise.id}: missing exercise kind`);
   for (const earlier of exercise.revisits) {
     assert.ok(curriculum.some((e) => e.id === earlier) && earlier < exercise.id, `${exercise.id}: invalid earlier exercise`);
