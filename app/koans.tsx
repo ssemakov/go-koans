@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import curriculum from "@/lib/curriculum.json";
 import type { RunResult } from "@/lib/runner";
 
@@ -23,6 +23,7 @@ export default function Koans() {
   const [running, setRunning] = useState(false);
   const sequence = useRef(0);
   const controller = useRef<AbortController | null>(null);
+  const focusEditorAfterNavigation = useRef<string | null>(null);
   const exercise = curriculum.find((item) => item.id === selected) || curriculum[0];
   const code = entries[exercise.id]?.code ?? exercise.code;
   const index = curriculum.indexOf(exercise);
@@ -60,6 +61,28 @@ export default function Koans() {
     }
     catch { setStorageNotice("Browser storage is unavailable. Download your edited test to keep a copy."); }
   }, [entries, loaded, vimEnabled]);
+
+  const onNextShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (!(event.ctrlKey || event.metaKey) || !event.shiftKey || event.altKey || event.key !== "Enter" || event.isComposing) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const next = curriculum[index + 1];
+    if (event.repeat || !next) return;
+    focusEditorAfterNavigation.current = next.id;
+    select(next.id);
+  });
+
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) { onNextShortcut(event); }
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => window.removeEventListener("keydown", onKeyDown, true);
+  }, []);
+
+  useEffect(() => {
+    if (focusEditorAfterNavigation.current !== selected) return;
+    focusEditorAfterNavigation.current = null;
+    document.getElementById("code")?.focus();
+  }, [selected]);
 
   function stopRun() {
     controller.current?.abort(); sequence.current++; setRunning(false); setResult(null);
@@ -125,7 +148,7 @@ export default function Koans() {
             <label htmlFor="code">Go test code</label>
             <label className="vim-toggle"><input type="checkbox" checked={vimEnabled} onChange={(event) => setVimEnabled(event.target.checked)} /> Vim mode</label>
           </div>
-          {vimEnabled ? <VimEditor key={exercise.id} value={code} onChange={edit} onRun={() => { if (!running) void run(); }} /> : <textarea id="code" aria-describedby="editor-help" spellCheck={false} autoCapitalize="off" autoCorrect="off" wrap="off" value={code} maxLength={40_000} onChange={(event) => edit(event.target.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); if (!running) void run(); } }} />}
+          {vimEnabled ? <VimEditor key={exercise.id} value={code} onChange={edit} onRun={() => { if (!running) void run(); }} /> : <textarea id="code" aria-describedby="editor-help" spellCheck={false} autoCapitalize="off" autoCorrect="off" wrap="off" value={code} maxLength={40_000} onChange={(event) => edit(event.target.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey && event.key === "Enter" && !event.nativeEvent.isComposing) { event.preventDefault(); if (!running) void run(); } }} />}
           <div className="toolbar">
             <button className="run" type="button" onClick={() => void run()} disabled={running}>{running ? "Running…" : "Run tests"}</button>
             {running && <button type="button" onClick={stopRun}>Cancel</button>}
@@ -133,14 +156,14 @@ export default function Koans() {
             <button type="button" onClick={() => { if (window.confirm("Reset this exercise? Your edits and passed status will be removed.")) edit(exercise.code); }}>Reset</button>
             <a href={exercise.reference}>Go documentation</a>
           </div>
-          <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Edits and progress are saved in this browser.</p>
+          <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Ctrl/Cmd + Shift + Enter opens the next exercise. Edits and progress are saved in this browser.</p>
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
           {previousEdits && <div className="previous-edits"><p className="help">These exercises have been rewritten. Your previous edits are saved separately.</p><button type="button" onClick={downloadPreviousEdits}>Download previous edits</button></div>}
           <section className="output" aria-labelledby="output-title" aria-live="polite" aria-busy={running}>
             <h3 id="output-title">Test output{result && <span className={`result ${result.status}`}> — {result.status === "passed" ? "Passed" : result.status === "failed" ? "Failed" : "Runner error"}</span>}</h3>
             <pre>{running ? "Running tests…" : result?.output || "Run the tests to see the result."}</pre>
           </section>
-          <div className="exercise-navigation"><button type="button" disabled={index === 0} onClick={() => select(curriculum[index - 1].id)}>Previous</button><button type="button" disabled={index === curriculum.length - 1} onClick={() => select(curriculum[index + 1].id)}>Next exercise</button></div>
+          <div className="exercise-navigation"><button type="button" disabled={index === 0} onClick={() => select(curriculum[index - 1].id)}>Previous</button><button type="button" disabled={index === curriculum.length - 1} aria-keyshortcuts="Control+Shift+Enter Meta+Shift+Enter" title="Next exercise (Ctrl/Cmd + Shift + Enter)" onClick={() => select(curriculum[index + 1].id)}>Next exercise</button></div>
           <details className="local-instructions"><summary>Run on your computer</summary><p>Install Go 1.23 or later. Download this test and run:</p><pre>go test -v {exercise.id}_test.go</pre><p>Or download all tests, extract the archive, and run the first exercise:</p><pre>cd go-koans{`\n`}go test -v ./{curriculum[0].id}</pre><p>Tests run on the Go Playground when you use the Run tests button.</p></details>
         </main>
       </div>
