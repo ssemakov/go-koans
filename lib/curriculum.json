@@ -89,10 +89,20 @@
     "topic": "Variables and constants",
     "title": "Constant expressions",
     "instruction": "Fill the conversion and declaration. An untyped constant can initialize several compatible types; a typed variable needs an explicit conversion.",
-    "reference": "https://go.dev/ref/spec#Constants",
+    "reference": "https://go.dev/ref/spec#Constant_expressions",
     "code": "package main\n\n// Constant expressions\n// Fill the conversion and declaration. An untyped constant can initialize several\n// compatible types; a typed variable needs an explicit conversion.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tconst unit = 3\n\tvar small int8 = unit\n\tvar wide int64 = unit\n\ttyped := int8(7)\n\tconverted := int64(0) // TODO: convert typed to int64.\n\t_ = typed\n\tif small != 3 || wide != 3 {\n\t\tt.Error(\"constant initialization changed the value\")\n\t}\n\tif converted != 7 {\n\t\tt.Errorf(\"converted=%d; want 7\", converted)\n\t}\n\tconst third = 0 // TODO: use an exact constant expression: 1.0 / 3.\n\tconst restored = third * 3\n\tif restored != 1 {\n\t\tt.Errorf(\"restored=%v; want 1\", restored)\n\t}\n}\n",
     "kind": "complete",
-    "revisits": []
+    "revisits": [],
+    "references": [
+      {
+        "title": "Constant expressions and exact arithmetic",
+        "url": "https://go.dev/ref/spec#Constant_expressions"
+      },
+      {
+        "title": "Explicit type conversions",
+        "url": "https://go.dev/ref/spec#Conversions"
+      }
+    ]
   },
   {
     "id": "009-iota-enumeration",

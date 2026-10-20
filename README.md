@@ -18,7 +18,7 @@ The structure follows [Ruby Koans](https://github.com/edgecase/ruby_koans): run 
 
 Use **Run tests** or Ctrl/Cmd + Enter. The Next.js route forwards code to the official Go Playground over HTTPS. It reports actual test failures and compiler errors. Skipped tests and runs with no completed tests do not mark an exercise passed. The runtime has the Go Playground's execution and network limits.
 
-Each exercise's **Go documentation** link opens the exact specification section, API reference, or tutorial for its topic in a new tab. For example, exercise 008 links to [Constants](https://go.dev/ref/spec#Constants).
+Each exercise's documentation links open the exact specification sections, API references, or tutorials for its topic in new tabs. Exercise 008 has separate links for [constant expressions and exact arithmetic](https://go.dev/ref/spec#Constant_expressions) and [explicit type conversions](https://go.dev/ref/spec#Conversions).
 
 Use Ctrl/Cmd + Shift + Enter to open the next exercise in either editor mode. The shortcut preserves your edits and keeps focus in the editor. It stops at the last exercise.
 
