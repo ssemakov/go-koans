@@ -43,7 +43,7 @@ Vim mode uses relative line numbers, with the current line's absolute number hig
 | `d c y`, `p P`, `ciw`, `ci"` | Delete, change, copy, paste, or edit inside a word or quotes. |
 | `> <`, `=` | Shift indentation or reindent a selection/motion; `gg=G` reindents the document with tabs. |
 | `/`, `?`, `n N`, `:%s/old/new/g` | Search forward/backward, repeat a search, or replace text. |
-| `u`, Ctrl-R, `.` | Undo, redo, or repeat the last edit. |
+| `u`, Ctrl-R, Ctrl/Cmd-Z, Ctrl/Cmd-Shift-Z, `.` | Undo, redo, or repeat the last edit. Desktop undo/redo shortcuts keep a normal caret in Normal mode and preserve Insert mode while typing. |
 | `"ayy`, `"ap`, `qa…q`, `@a`, `ma`, `'a` | Use named registers, record/replay macros, or set/jump to marks. |
 | Ctrl-A / Ctrl-X | Increment or decrement a number. |
 

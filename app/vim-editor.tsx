@@ -49,6 +49,16 @@ const vimLineNumbers = gutter({
   updateSpacer: (_spacer, update) => new LineNumber(String(update.state.doc.lines)),
 });
 
+function vimHistory(view: EditorView, redo: boolean) {
+  const cm = getCM(view);
+  if (!cm?.state.vim || cm.state.vim.insertMode) return false;
+  Vim.handleKey(cm, "<Esc>", "user");
+  // Native undo restores Vim operators' temporary selections as Visual mode.
+  // Vim's history commands collapse those selections and restore a normal caret.
+  Vim.handleKey(cm, redo ? "<C-r>" : "u", "user");
+  return true;
+}
+
 export default function VimEditor({ value, onChange, onRun }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const view = useRef<EditorView | null>(null);
@@ -73,11 +83,15 @@ export default function VimEditor({ value, onChange, onRun }: Props) {
           } })),
           vim({ status: true }),
           history(), drawSelection(), relativeNumbers, vimLineNumbers, highlightActiveLineGutter(), highlightSpecialChars(),
-          keymap.of([{
-            key: "Tab",
-            run: (view) => { if (getCM(view)?.state.vim?.insertMode) insertTab(view); return true; },
-            shift: (view) => { if (getCM(view)?.state.vim?.insertMode) indentLess(view); return true; },
-          }, ...defaultKeymap, ...historyKeymap]),
+          keymap.of([
+            { key: "Mod-z", run: (view) => vimHistory(view, false) },
+            { key: "Mod-Shift-z", run: (view) => vimHistory(view, true) },
+            { key: "Mod-y", run: (view) => vimHistory(view, true) },
+            {
+              key: "Tab",
+              run: (view) => { if (getCM(view)?.state.vim?.insertMode) insertTab(view); return true; },
+              shift: (view) => { if (getCM(view)?.state.vim?.insertMode) indentLess(view); return true; },
+            }, ...defaultKeymap, ...historyKeymap]),
           go(), indentOnInput(), bracketMatching(), syntaxHighlighting(defaultHighlightStyle),
           EditorState.tabSize.of(4), indentUnit.of("\t"), EditorState.allowMultipleSelections.of(true),
           EditorView.contentAttributes.of({ id: "code", "aria-label": "Go test code", "aria-describedby": "editor-help", spellcheck: "false", autocapitalize: "off", autocorrect: "off" }),

@@ -1,11 +1,13 @@
 """Audit Vim behavior against a production build, with Linux and Mac keymaps."""
 import json
 import os
+from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
 
 BASE = os.environ.get("KOANS_BASE_URL", "http://127.0.0.1:3100")
 GO = "package main\n\nfunc demo() {\n\tif true {\n\t}\n}\n"
 LONG = "package main\n\n" + "".join(f"// line {number:03d}\n" for number in range(1, 201))
+SHORT_VARIABLE = (Path(__file__).resolve().parent.parent / "koans/006-short-variable-declaration/koan_test.go").read_text()
 
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path="/usr/bin/chromium", headless=True, args=["--no-sandbox"])
@@ -33,7 +35,9 @@ with sync_playwright() as p:
                 const view = document.querySelector('.cm-content').cmTile.root.view;
                 const cursor = view.cm.getCursor();
                 return {doc: view.state.doc.toString(), line: cursor.line + 1, ch: cursor.ch,
-                        top: view.scrollDOM.scrollTop, insert: view.cm.state.vim.insertMode};
+                        top: view.scrollDOM.scrollTop, insert: view.cm.state.vim.insertMode,
+                        visual: view.cm.state.vim.visualMode,
+                        collapsed: view.state.selection.ranges.every(range => range.empty)};
             }""")
 
         def text_is(expected):
@@ -44,6 +48,85 @@ with sync_playwright() as p:
             page.keyboard.press("Escape")
             page.keyboard.type(":" + command)
             page.keyboard.press("Enter")
+
+        def normal_caret(line):
+            current = state()
+            assert current["line"] == line, (platform, current, line)
+            assert not current["insert"] and not current["visual"] and current["collapsed"], (platform, current)
+            expect(page.locator(".cm-vim-panel")).to_have_text("--NORMAL--")
+            text = current["doc"].split("\n")[line - 1]
+            assert 0 <= current["ch"] <= max(0, len(text) - 1)
+            # Check the painted caret too: a correct model position alone would
+            # miss a cursor drawn on the wrong line after a blank/tab-only line.
+            page.wait_for_function("""() => {
+                const view = document.querySelector('.cm-content').cmTile.root.view;
+                const position = view.coordsAtPos(view.state.selection.main.head);
+                const caret = document.querySelector('.cm-fat-cursor')?.getBoundingClientRect();
+                return position && caret && Math.abs(position.top - caret.top) < 1;
+            }""")
+
+        # Exercise 006: o below t.Errorf, Esc, kk back to if, then cross the
+        # inserted blank line and closing braces from several starting columns.
+        for start in ["0", "^", "012l", "$"]:
+            load(SHORT_VARIABLE)
+            page.keyboard.type("19Go"); page.keyboard.press("Escape")
+            opened = state()["doc"]
+            assert opened.split("\n")[19] == "\t\t\t"
+            page.keyboard.type("kk" + start)
+            column = state()["ch"]
+            for line in [19, 20, 21, 22, 23]:
+                page.keyboard.press("j")
+                normal_caret(line)
+            for line in [22, 21, 20, 19, 18]:
+                page.keyboard.press("k")
+                normal_caret(line)
+            assert state()["ch"] == column
+            page.keyboard.type("3j")
+            normal_caret(21)
+            page.keyboard.type("3k")
+            normal_caret(18)
+            page.keyboard.press("ArrowDown")
+            normal_caret(19)
+            page.keyboard.press("ArrowUp")
+            normal_caret(18)
+            text_is(opened)
+
+        undo_key = "Meta+z" if platform == "MacIntel" else "Control+z"
+        redo_keys = ["Meta+Shift+Z", "Meta+y"] if platform == "MacIntel" else ["Control+Shift+Z"]
+        for edit, reverted in [
+            ("~", "alpha beta\ngamma delta\nomega"),
+            ("dd", "alpha beta\ngamma delta\nomega"),
+            (">>", "alpha beta\ngamma delta\nomega"),
+            ("ciwEDIT", " beta\ngamma delta\nomega"),
+        ]:
+            for redo_key in redo_keys:
+                load("alpha beta\ngamma delta\nomega")
+                page.keyboard.type(edit); page.keyboard.press("Escape")
+                changed = state()["doc"]
+                assert changed != "alpha beta\ngamma delta\nomega"
+                page.keyboard.press(undo_key)
+                text_is(reverted)
+                normal_caret(1)
+                page.keyboard.press("j")
+                normal_caret(2)
+                page.keyboard.press(redo_key)
+                text_is(changed)
+                normal_caret(state()["line"])
+
+        load("alpha\nbeta")
+        page.keyboard.type("vj")
+        assert state()["visual"]
+        page.keyboard.press(undo_key)
+        text_is("alpha\nbeta")
+        normal_caret(state()["line"])
+        load("alpha\nbeta")
+        page.keyboard.type("iEDIT")
+        page.keyboard.press(undo_key)
+        text_is("alpha\nbeta")
+        assert state()["insert"]
+        page.keyboard.press(redo_keys[0])
+        text_is("EDITalpha\nbeta")
+        assert state()["insert"]
 
         load(LONG)
         page.keyboard.type("50G")
@@ -184,5 +267,5 @@ with sync_playwright() as p:
         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth")
         assert not errors, (platform, errors)
         page.close()
-        print(f"{platform}: scrolling, counts, relative numbers, Go indentation, text objects, visual blocks, registers, macros, marks, replacement, and shortcuts passed.", flush=True)
+        print(f"{platform}: blank-line navigation/caret, native undo/redo, scrolling, counts, relative numbers, Go indentation, text objects, visual blocks, registers, macros, marks, replacement, and shortcuts passed.", flush=True)
     browser.close()
