@@ -154,7 +154,7 @@ export default function Koans() {
             {running && <button type="button" onClick={stopRun}>Cancel</button>}
             <button type="button" onClick={download}>Download test</button>
             <button type="button" onClick={() => { if (window.confirm("Reset this exercise? Your edits and passed status will be removed.")) edit(exercise.code); }}>Reset</button>
-            <a href={exercise.reference}>Go documentation</a>
+            <a href={exercise.reference} target="_blank" rel="noopener noreferrer">Go documentation</a>
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Ctrl/Cmd + Shift + Enter opens the next exercise. Edits and progress are saved in this browser.</p>
           {updatedExercises > 0 && <p className="notice" role="status">{updatedExercises === 1 ? "An exercise was updated. Its saved edits and completion were reset." : `${updatedExercises} exercises were updated. Their saved edits and completion were reset.`}</p>}
@@ -168,7 +168,7 @@ export default function Koans() {
           <details className="local-instructions"><summary>Run on your computer</summary><p>Install Go 1.23 or later. Download this test and run:</p><pre>go test -v {exercise.id}_test.go</pre><p>Or download all tests, extract the archive, and run the first exercise:</p><pre>cd go-koans{`\n`}go test -v ./{curriculum[0].id}</pre><p>Tests run on the Go Playground when you use the Run tests button.</p></details>
         </main>
       </div>
-      <footer>References: <a href="https://github.com/edgecase/ruby_koans">Ruby Koans</a>, <a href="https://github.com/cdarwin/go-koans">cdarwin/go-koans</a>, <a href="https://github.com/VictorDenisov/go_koans">VictorDenisov/go_koans</a>, <a href="https://go.dev/wiki/">Go wiki</a>.</footer>
+      <footer>References: <a href="https://github.com/edgecase/ruby_koans" target="_blank" rel="noopener noreferrer">Ruby Koans</a>, <a href="https://github.com/cdarwin/go-koans" target="_blank" rel="noopener noreferrer">cdarwin/go-koans</a>, <a href="https://github.com/VictorDenisov/go_koans" target="_blank" rel="noopener noreferrer">VictorDenisov/go_koans</a>, <a href="https://go.dev/wiki/" target="_blank" rel="noopener noreferrer">Go wiki</a>.</footer>
     </>
   );
 }

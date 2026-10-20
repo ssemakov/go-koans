@@ -5,7 +5,7 @@
     "topic": "Assertions",
     "title": "Assert truth",
     "instruction": "Replace the TODO value with true. Run the test to see how a failed check is reported.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Boolean_types",
     "code": "package main\n\n// Assert truth\n// Replace the TODO value with true. Run the test to see how a failed check is reported.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\twant := false // TODO: replace this value.\n\tgot := true\n\tif got != want {\n\t\tt.Fatalf(\"got %v; want %v\", got, want)\n\t}\n}\n",
     "kind": "complete",
     "revisits": []
@@ -16,7 +16,7 @@
     "topic": "Assertions",
     "title": "Assert equality",
     "instruction": "Fill both expected values. t.Errorf reports a failed check and continues, so one run can report both failures.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Comparison_operators",
     "code": "package main\n\n// Assert equality\n// Fill both expected values. t.Errorf reports a failed check and continues, so one run can\n// report both failures.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\twantSum := -999 // TODO: replace this value.\n\tif got := 1 + 1; got != wantSum {\n\t\tt.Errorf(\"Sum: got %#v; want %#v\", got, wantSum)\n\t}\n\n\twantDifferent := true // TODO: replace this value.\n\tif got := 2 == 3; got != wantDifferent {\n\t\tt.Errorf(\"Different: got %#v; want %#v\", got, wantDifferent)\n\t}\n}\n",
     "kind": "observe",
     "revisits": []
@@ -27,7 +27,7 @@
     "topic": "Variables and constants",
     "title": "Integer zero value",
     "instruction": "Fill the expected values. Compare an omitted integer field with one initialized explicitly.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#The_zero_value",
     "code": "package main\n\n// Integer zero value\n// Fill the expected values. Compare an omitted integer field with one initialized\n// explicitly.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar count int\n\trecord := struct{ Count int }{}\n\tinitialized := struct{ Count int }{Count: 7}\n\n\twantVariable := -999 // TODO: replace this value.\n\tif got := count; got != wantVariable {\n\t\tt.Errorf(\"Variable: got %#v; want %#v\", got, wantVariable)\n\t}\n\n\twantOmittedField := -999 // TODO: replace this value.\n\tif got := record.Count; got != wantOmittedField {\n\t\tt.Errorf(\"OmittedField: got %#v; want %#v\", got, wantOmittedField)\n\t}\n\n\twantInitializedField := -999 // TODO: replace this value.\n\tif got := initialized.Count; got != wantInitializedField {\n\t\tt.Errorf(\"InitializedField: got %#v; want %#v\", got, wantInitializedField)\n\t}\n}\n",
     "kind": "observe",
     "revisits": []
@@ -38,7 +38,7 @@
     "topic": "Variables and constants",
     "title": "String zero value",
     "instruction": "Fill the expected strings. An empty input and an omitted field do not supply a default name automatically.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#The_zero_value",
     "code": "package main\n\n// String zero value\n// Fill the expected strings. An empty input and an omitted field do not supply a default\n// name automatically.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar name string\n\trecord := struct{ Name string }{}\n\tinitialized := struct{ Name string }{Name: \"Ada\"}\n\n\twantVariable := \"TODO\" // TODO: replace this value.\n\tif got := name; got != wantVariable {\n\t\tt.Errorf(\"Variable: got %#v; want %#v\", got, wantVariable)\n\t}\n\n\twantOmittedField := \"TODO\" // TODO: replace this value.\n\tif got := record.Name; got != wantOmittedField {\n\t\tt.Errorf(\"OmittedField: got %#v; want %#v\", got, wantOmittedField)\n\t}\n\n\twantInitializedField := \"TODO\" // TODO: replace this value.\n\tif got := initialized.Name; got != wantInitializedField {\n\t\tt.Errorf(\"InitializedField: got %#v; want %#v\", got, wantInitializedField)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -51,7 +51,7 @@
     "topic": "Variables and constants",
     "title": "Boolean zero value",
     "instruction": "Remove the explicit initializer so enabled receives Go's default boolean value. Do not replace true with false. Keep the assertion.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#The_zero_value",
     "code": "package main\n\n// Boolean zero value\n// Remove the explicit initializer so enabled receives Go's default boolean value. Do not\n// replace true with false. Keep the assertion.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar enabled bool = true\n\n\tif enabled {\n\t\tt.Error(\"an uninitialized boolean should be false\")\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -65,7 +65,7 @@
     "topic": "Variables and constants",
     "title": "Short variable declaration",
     "instruction": "Repair the assignment inside the block. Update the existing total instead of declaring a shadowing variable. Keep the checks.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Short_variable_declarations",
     "code": "package main\n\n// Short variable declaration\n// Repair the assignment inside the block. Update the existing total instead of declaring a\n// shadowing variable. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tfor _, delta := range []int{1, 4, -2} {\n\t\ttotal := 10\n\t\t{\n\t\t\ttotal := total + delta // TODO: update the outer variable.\n\t\t\t_ = total\n\t\t}\n\t\tif total != 10+delta {\n\t\t\tt.Errorf(\"delta=%d: total=%d; want %d\", delta, total, 10+delta)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": []
@@ -76,7 +76,7 @@
     "topic": "Variables and constants",
     "title": "Simultaneous assignment",
     "instruction": "Repair the swap using one simultaneous assignment. Both right-hand values must come from the original pair.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Assignment_statements",
     "code": "package main\n\n// Simultaneous assignment\n// Repair the swap using one simultaneous assignment. Both right-hand values must come from\n// the original pair.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tfor _, pair := range [][2]int{{2, 5}, {0, 7}, {-3, 4}, {8, 8}} {\n\t\ta, b := pair[0], pair[1]\n\t\t// TODO: replace the two assignments with a simultaneous swap.\n\t\ta = b\n\t\tb = a\n\t\tif a != pair[1] || b != pair[0] {\n\t\t\tt.Errorf(\"swap(%v) = [%d %d]; want [%d %d]\", pair, a, b, pair[1], pair[0])\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -89,7 +89,7 @@
     "topic": "Variables and constants",
     "title": "Constant expressions",
     "instruction": "Fill the conversion and declaration. An untyped constant can initialize several compatible types; a typed variable needs an explicit conversion.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Constants",
     "code": "package main\n\n// Constant expressions\n// Fill the conversion and declaration. An untyped constant can initialize several\n// compatible types; a typed variable needs an explicit conversion.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tconst unit = 3\n\tvar small int8 = unit\n\tvar wide int64 = unit\n\ttyped := int8(7)\n\tconverted := int64(0) // TODO: convert typed to int64.\n\t_ = typed\n\tif small != 3 || wide != 3 {\n\t\tt.Error(\"constant initialization changed the value\")\n\t}\n\tif converted != 7 {\n\t\tt.Errorf(\"converted=%d; want 7\", converted)\n\t}\n\tconst third = 0 // TODO: use an exact constant expression: 1.0 / 3.\n\tconst restored = third * 3\n\tif restored != 1 {\n\t\tt.Errorf(\"restored=%v; want 1\", restored)\n\t}\n}\n",
     "kind": "complete",
     "revisits": []
@@ -100,7 +100,7 @@
     "topic": "Variables and constants",
     "title": "Iota enumeration",
     "instruction": "Fill the values for each constant block. Check a skipped entry, a reset, and bit flags generated with shifts.",
-    "reference": "https://go.dev/wiki/Iota",
+    "reference": "https://go.dev/ref/spec#Iota",
     "code": "package main\n\n// Iota enumeration\n// Fill the values for each constant block. Check a skipped entry, a reset, and bit flags\n// generated with shifts.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tconst (\n\t\tfirst = iota\n\t\t_\n\t\tthird\n\t)\n\tconst (\n\t\treset = iota\n\t\tnext\n\t)\n\tconst (\n\t\tread = 1 << iota\n\t\twrite\n\t\texecute\n\t)\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := first; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantThird := -999 // TODO: replace this value.\n\tif got := third; got != wantThird {\n\t\tt.Errorf(\"Third: got %#v; want %#v\", got, wantThird)\n\t}\n\n\twantReset := -999 // TODO: replace this value.\n\tif got := reset; got != wantReset {\n\t\tt.Errorf(\"Reset: got %#v; want %#v\", got, wantReset)\n\t}\n\n\twantNext := -999 // TODO: replace this value.\n\tif got := next; got != wantNext {\n\t\tt.Errorf(\"Next: got %#v; want %#v\", got, wantNext)\n\t}\n\n\twantCombinedFlags := -999 // TODO: replace this value.\n\tif got := read | execute; got != wantCombinedFlags {\n\t\tt.Errorf(\"CombinedFlags: got %#v; want %#v\", got, wantCombinedFlags)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -113,7 +113,7 @@
     "topic": "Numbers and booleans",
     "title": "Integer division",
     "instruction": "Fill the quotient and remainder values for both signs, then compare floating-point division.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
     "code": "package main\n\n// Integer division\n// Fill the quotient and remainder values for both signs, then compare floating-point\n// division.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tpositive, negative, divisor := 7, -7, 2\n\tfloating := float64(positive) / float64(divisor)\n\n\twantPositive := -999 // TODO: replace this value.\n\tif got := positive / divisor; got != wantPositive {\n\t\tt.Errorf(\"Positive: got %#v; want %#v\", got, wantPositive)\n\t}\n\n\twantNegative := -999 // TODO: replace this value.\n\tif got := negative / divisor; got != wantNegative {\n\t\tt.Errorf(\"Negative: got %#v; want %#v\", got, wantNegative)\n\t}\n\n\twantNegativeRemainder := -999 // TODO: replace this value.\n\tif got := negative % divisor; got != wantNegativeRemainder {\n\t\tt.Errorf(\"NegativeRemainder: got %#v; want %#v\", got, wantNegativeRemainder)\n\t}\n\n\twantFloating := -999.0 // TODO: replace this value.\n\tif got := floating; got != wantFloating {\n\t\tt.Errorf(\"Floating: got %#v; want %#v\", got, wantFloating)\n\t}\n}\n",
     "kind": "observe",
     "revisits": []
@@ -124,7 +124,7 @@
     "topic": "Numbers and booleans",
     "title": "Remainder",
     "instruction": "Implement wrapIndex for a positive size. Return an index from 0 through size-1, including for negative positions.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
     "code": "package main\n\n// Remainder\n// Implement wrapIndex for a positive size. Return an index from 0 through size-1,\n// including for negative positions.\n\nimport (\n\t\"testing\"\n)\n\nfunc wrapIndex(position, size int) int {\n\treturn 0 // TODO: implement.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ position, size, want int }{\n\t\t{0, 5, 0}, {7, 5, 2}, {5, 5, 0}, {-1, 5, 4}, {-6, 5, 4}, {12, 1, 0},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := wrapIndex(tc.position, tc.size); got != tc.want {\n\t\t\tt.Errorf(\"wrapIndex(%d,%d)=%d; want %d\", tc.position, tc.size, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -137,7 +137,7 @@
     "topic": "Numbers and booleans",
     "title": "Bitwise XOR",
     "instruction": "Implement toggle using XOR. Change only the bits selected by mask; applying the same mask twice must restore the value.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
     "code": "package main\n\n// Bitwise XOR\n// Implement toggle using XOR. Change only the bits selected by mask; applying the same\n// mask twice must restore the value.\n\nimport (\n\t\"testing\"\n)\n\nfunc toggle(value, mask uint8) uint8 {\n\treturn value // TODO: implement.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ value, mask, want uint8 }{\n\t\t{5, 2, 7}, {7, 2, 5}, {5, 1, 4}, {0, 8, 8}, {255, 0, 255},\n\t}\n\tfor _, tc := range cases {\n\t\tgot := toggle(tc.value, tc.mask)\n\t\tif got != tc.want {\n\t\t\tt.Errorf(\"toggle(%08b,%08b)=%08b; want %08b\", tc.value, tc.mask, got, tc.want)\n\t\t}\n\t\tif restored := toggle(got, tc.mask); restored != tc.value {\n\t\t\tt.Errorf(\"toggling twice gave %d; want %d\", restored, tc.value)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -150,7 +150,7 @@
     "topic": "Numbers and booleans",
     "title": "Boolean expressions",
     "instruction": "Complete the guarded expression. Return true only when the slice has a first element and that element is positive. Empty input must not panic.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Logical_operators",
     "code": "package main\n\n// Boolean expressions\n// Complete the guarded expression. Return true only when the slice has a first element and\n// that element is positive. Empty input must not panic.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\twant   bool\n\t}{\n\t\t{nil, false}, {[]int{}, false}, {[]int{0}, false}, {[]int{-1, 2}, false}, {[]int{3}, true},\n\t}\n\tfor _, tc := range cases {\n\t\tgot := false // TODO: use a short-circuit expression.\n\t\tif got != tc.want {\n\t\t\tt.Errorf(\"values=%v: got %v; want %v\", tc.values, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -163,7 +163,7 @@
     "topic": "Types and conversions",
     "title": "Numeric conversion",
     "instruction": "Fill the results for both signs. Compare conversion to int with math.Floor; they differ for negative fractions.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Conversions",
     "code": "package main\n\n// Numeric conversion\n// Fill the results for both signs. Compare conversion to int with math.Floor; they differ\n// for negative fractions.\n\nimport (\n\t\"math\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tpositive, negative := 3.75, -3.75\n\n\twantPositiveInt := -999 // TODO: replace this value.\n\tif got := int(positive); got != wantPositiveInt {\n\t\tt.Errorf(\"PositiveInt: got %#v; want %#v\", got, wantPositiveInt)\n\t}\n\n\twantNegativeInt := -999 // TODO: replace this value.\n\tif got := int(negative); got != wantNegativeInt {\n\t\tt.Errorf(\"NegativeInt: got %#v; want %#v\", got, wantNegativeInt)\n\t}\n\n\twantPositiveFloor := -999 // TODO: replace this value.\n\tif got := int(math.Floor(positive)); got != wantPositiveFloor {\n\t\tt.Errorf(\"PositiveFloor: got %#v; want %#v\", got, wantPositiveFloor)\n\t}\n\n\twantNegativeFloor := -999 // TODO: replace this value.\n\tif got := int(math.Floor(negative)); got != wantNegativeFloor {\n\t\tt.Errorf(\"NegativeFloor: got %#v; want %#v\", got, wantNegativeFloor)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -176,7 +176,7 @@
     "topic": "Types and conversions",
     "title": "Named types",
     "instruction": "Implement addBonus. Score is a defined type, so convert between Score and int explicitly when combining them.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Type_definitions",
     "code": "package main\n\n// Named types\n// Implement addBonus. Score is a defined type, so convert between Score and int explicitly\n// when combining them.\n\nimport (\n\t\"testing\"\n)\n\ntype Score int\n\nfunc addBonus(score Score, bonus int) Score {\n\treturn score // TODO: combine the values with an explicit conversion.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tscore Score\n\t\tbonus int\n\t\twant  Score\n\t}{{4, 3, 7}, {0, 5, 5}, {10, -2, 8}}\n\tfor _, tc := range cases {\n\t\tif got := addBonus(tc.score, tc.bonus); got != tc.want {\n\t\t\tt.Errorf(\"addBonus(%d,%d)=%d; want %d\", tc.score, tc.bonus, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -189,7 +189,7 @@
     "topic": "Types and conversions",
     "title": "Type aliases",
     "instruction": "Complete the aliases. Count should be the same type as int, not a distinct defined type. Bytes should be the same type as []byte.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Alias_declarations",
     "code": "package main\n\n// Type aliases\n// Complete the aliases. Count should be the same type as int, not a distinct defined type.\n// Bytes should be the same type as []byte.\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\ntype Count int    // TODO: make Count an alias of int.\ntype Bytes []byte // TODO: make Bytes an alias of []byte.\n\nfunc TestKoan(t *testing.T) {\n\tvar plain int = 4\n\tvar count Count = Count(plain)\n\tcount += 3\n\tplain = int(count)\n\tif got := reflect.TypeOf(count).Name(); got != \"int\" {\n\t\tt.Errorf(\"Count type name=%q; want int\", got)\n\t}\n\tif plain != 7 {\n\t\tt.Errorf(\"plain=%d; want 7\", plain)\n\t}\n\tvar bytes Bytes = []byte(\"Go\")\n\tvar ordinary []byte = bytes\n\tordinary[0] = 'g'\n\tif reflect.TypeOf(bytes) != reflect.TypeOf(ordinary) {\n\t\tt.Error(\"Bytes must be the same type as []byte\")\n\t}\n\tif string(bytes) != \"go\" {\n\t\tt.Errorf(\"bytes=%q; want go\", bytes)\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -202,7 +202,7 @@
     "topic": "Strings and runes",
     "title": "Concatenate strings",
     "instruction": "Implement joinName using concatenation. Add one space between nonempty parts; an empty part must not add a leading or trailing space.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#String_concatenation",
     "code": "package main\n\n// Concatenate strings\n// Implement joinName using concatenation. Add one space between nonempty parts; an empty\n// part must not add a leading or trailing space.\n\nimport (\n\t\"testing\"\n)\n\nfunc joinName(first, last string) string {\n\treturn first // TODO: implement.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ first, last, want string }{\n\t\t{\"Ada\", \"Lovelace\", \"Ada Lovelace\"}, {\"Go\", \"\", \"Go\"}, {\"\", \"Gopher\", \"Gopher\"}, {\"\", \"\", \"\"},\n\t}\n\tfor _, tc := range cases {\n\t\tfirst, last := tc.first, tc.last\n\t\tif got := joinName(first, last); got != tc.want {\n\t\t\tt.Errorf(\"joinName(%q,%q)=%q; want %q\", first, last, got, tc.want)\n\t\t}\n\t\tif first != tc.first || last != tc.last {\n\t\t\tt.Error(\"the inputs changed\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": []
@@ -213,7 +213,7 @@
     "topic": "Strings and runes",
     "title": "String slicing",
     "instruction": "Fill each substring. The upper bound is exclusive; omitted bounds and equal bounds produce different results.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Slice_expressions",
     "code": "package main\n\n// String slicing\n// Fill each substring. The upper bound is exclusive; omitted bounds and equal bounds\n// produce different results.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttext := \"gopher\"\n\n\twantMiddle := \"TODO\" // TODO: replace this value.\n\tif got := text[2:5]; got != wantMiddle {\n\t\tt.Errorf(\"Middle: got %#v; want %#v\", got, wantMiddle)\n\t}\n\n\twantPrefix := \"TODO\" // TODO: replace this value.\n\tif got := text[:2]; got != wantPrefix {\n\t\tt.Errorf(\"Prefix: got %#v; want %#v\", got, wantPrefix)\n\t}\n\n\twantSuffix := \"TODO\" // TODO: replace this value.\n\tif got := text[2:]; got != wantSuffix {\n\t\tt.Errorf(\"Suffix: got %#v; want %#v\", got, wantSuffix)\n\t}\n\n\twantEmpty := \"TODO\" // TODO: replace this value.\n\tif got := text[2:2]; got != wantEmpty {\n\t\tt.Errorf(\"Empty: got %#v; want %#v\", got, wantEmpty)\n\t}\n\n\twantWhole := \"TODO\" // TODO: replace this value.\n\tif got := text[:]; got != wantWhole {\n\t\tt.Errorf(\"Whole: got %#v; want %#v\", got, wantWhole)\n\t}\n}\n",
     "kind": "observe",
     "revisits": []
@@ -224,7 +224,7 @@
     "topic": "Strings and runes",
     "title": "Strings contain bytes",
     "instruction": "Fill the byte lengths and indexed byte value. Go string indexing reads a byte, even for UTF-8 text.",
-    "reference": "https://go.dev/blog/strings",
+    "reference": "https://go.dev/ref/spec#String_types",
     "code": "package main\n\n// Strings contain bytes\n// Fill the byte lengths and indexed byte value. Go string indexing reads a byte, even for\n// UTF-8 text.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tascii := \"Go\"\n\taccent := \"é\"\n\tmixed := \"é世\"\n\n\twantASCIIBytes := -999 // TODO: replace this value.\n\tif got := len(ascii); got != wantASCIIBytes {\n\t\tt.Errorf(\"ASCIIBytes: got %#v; want %#v\", got, wantASCIIBytes)\n\t}\n\n\twantAccentBytes := -999 // TODO: replace this value.\n\tif got := len(accent); got != wantAccentBytes {\n\t\tt.Errorf(\"AccentBytes: got %#v; want %#v\", got, wantAccentBytes)\n\t}\n\n\twantMixedBytes := -999 // TODO: replace this value.\n\tif got := len(mixed); got != wantMixedBytes {\n\t\tt.Errorf(\"MixedBytes: got %#v; want %#v\", got, wantMixedBytes)\n\t}\n\n\twantFirstByte := -999 // TODO: replace this value.\n\tif got := int(accent[0]); got != wantFirstByte {\n\t\tt.Errorf(\"FirstByte: got %#v; want %#v\", got, wantFirstByte)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -237,7 +237,7 @@
     "topic": "Strings and runes",
     "title": "Count Unicode code points",
     "instruction": "Fill the rune counts. A rune is a Unicode code point; a base letter plus a combining mark can display as one character but contain two runes.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/unicode/utf8#RuneCountInString",
     "code": "package main\n\n// Count Unicode code points\n// Fill the rune counts. A rune is a Unicode code point; a base letter plus a combining\n// mark can display as one character but contain two runes.\n\nimport (\n\t\"testing\"\n\t\"unicode/utf8\"\n)\n\nfunc TestKoan(t *testing.T) {\n\taccent := \"é\"\n\tdecomposed := \"e\\u0301\"\n\tmixed := \"é世\"\n\n\twantAccentRunes := -999 // TODO: replace this value.\n\tif got := utf8.RuneCountInString(accent); got != wantAccentRunes {\n\t\tt.Errorf(\"AccentRunes: got %#v; want %#v\", got, wantAccentRunes)\n\t}\n\n\twantDecomposedRunes := -999 // TODO: replace this value.\n\tif got := utf8.RuneCountInString(decomposed); got != wantDecomposedRunes {\n\t\tt.Errorf(\"DecomposedRunes: got %#v; want %#v\", got, wantDecomposedRunes)\n\t}\n\n\twantDecomposedBytes := -999 // TODO: replace this value.\n\tif got := len(decomposed); got != wantDecomposedBytes {\n\t\tt.Errorf(\"DecomposedBytes: got %#v; want %#v\", got, wantDecomposedBytes)\n\t}\n\n\twantMixedRunes := -999 // TODO: replace this value.\n\tif got := utf8.RuneCountInString(mixed); got != wantMixedRunes {\n\t\tt.Errorf(\"MixedRunes: got %#v; want %#v\", got, wantMixedRunes)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -250,7 +250,7 @@
     "topic": "Strings and runes",
     "title": "Convert bytes to a string",
     "instruction": "Complete the two conversions. Keep the original string independent of later byte edits, and make an editable byte copy of it.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Conversions_to_and_from_a_string_type",
     "code": "package main\n\n// Convert bytes to a string\n// Complete the two conversions. Keep the original string independent of later byte edits,\n// and make an editable byte copy of it.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tdata := []byte(\"Go\")\n\toriginal := \"\" // TODO: convert data to a string.\n\tdata[0] = 'N'\n\teditable := []byte{} // TODO: convert original to bytes.\n\tif original != \"Go\" {\n\t\tt.Fatalf(\"original=%q; want Go after mutating data\", original)\n\t}\n\tif len(editable) != 2 {\n\t\tt.Fatalf(\"editable=%v; want two bytes\", editable)\n\t}\n\teditable[1] = '!'\n\tif string(data) != \"No\" {\n\t\tt.Errorf(\"data=%q; want No\", data)\n\t}\n\tif string(editable) != \"G!\" {\n\t\tt.Errorf(\"editable=%q; want G!\", editable)\n\t}\n\tif original != \"Go\" {\n\t\tt.Errorf(\"editing a byte copy changed original=%q\", original)\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -263,7 +263,7 @@
     "topic": "Strings and runes",
     "title": "Split strings",
     "instruction": "Implement splitFields with strings.Split. The separator is an exact string, not a set of delimiter characters. Preserve empty fields.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/strings#Split",
     "code": "package main\n\n// Split strings\n// Implement splitFields with strings.Split. The separator is an exact string, not a set of\n// delimiter characters. Preserve empty fields.\n\nimport (\n\t\"slices\"\n\t\"strings\"\n\t\"testing\"\n)\n\nvar _ = strings.Split\n\nfunc splitFields(text, sep string) []string {\n\treturn nil // TODO: use strings.Split.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext, sep string\n\t\twant      []string\n\t}{\n\t\t{\"a,b,c\", \",\", []string{\"a\", \"b\", \"c\"}},\n\t\t{\"a,,b,\", \",\", []string{\"a\", \"\", \"b\", \"\"}},\n\t\t{\"a,|;b;c\", \",|;\", []string{\"a\", \"b;c\"}},\n\t\t{\"\", \",\", []string{\"\"}},\n\t\t{\"abc\", \",\", []string{\"abc\"}},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := splitFields(tc.text, tc.sep); !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"splitFields(%q,%q)=%q; want %q\", tc.text, tc.sep, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": []
@@ -274,7 +274,7 @@
     "topic": "Strings and runes",
     "title": "Format values",
     "instruction": "Implement formatEntry with fmt.Sprintf. Quote the name with %q and print the count as a decimal integer.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/fmt#Sprintf",
     "code": "package main\n\n// Format values\n// Implement formatEntry with fmt.Sprintf. Quote the name with %q and print the count as a\n// decimal integer.\n\nimport (\n\t\"fmt\"\n\t\"testing\"\n)\n\nvar _ = fmt.Sprintf\n\nfunc formatEntry(name string, count int) string {\n\treturn \"\" // TODO: format the name and count.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tname  string\n\t\tcount int\n\t\twant  string\n\t}{\n\t\t{\"Go\", 7, \"\\\"Go\\\":7\"}, {\"two words\", 0, \"\\\"two words\\\":0\"}, {\"a\\\"b\", -2, \"\\\"a\\\\\\\"b\\\":-2\"},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := formatEntry(tc.name, tc.count); got != tc.want {\n\t\t\tt.Errorf(\"formatEntry(%q,%d)=%q; want %q\", tc.name, tc.count, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -287,7 +287,7 @@
     "topic": "Strings and runes",
     "title": "Range over Unicode",
     "instruction": "Fill the expected indices and runes for each string. range yields byte offsets and decoded runes, not one index per byte.",
-    "reference": "https://go.dev/wiki/Range",
+    "reference": "https://go.dev/ref/spec#For_range",
     "code": "package main\n\n// Range over Unicode\n// Fill the expected indices and runes for each string. range yields byte offsets and\n// decoded runes, not one index per byte.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext    string\n\t\tindices []int\n\t\trunes   []rune\n\t}{\n\t\t{\"Go\", []int{-999}, []rune{'?'}},      // TODO: indices and runes.\n\t\t{\"é世\", []int{-999}, []rune{'?'}},      // TODO: indices and runes.\n\t\t{\"e\\u0301\", []int{-999}, []rune{'?'}}, // TODO: indices and runes.\n\t}\n\tfor _, tc := range cases {\n\t\tvar indices []int\n\t\tvar runes []rune\n\t\tfor index, value := range tc.text {\n\t\t\tindices = append(indices, index)\n\t\t\trunes = append(runes, value)\n\t\t}\n\t\tif !slices.Equal(indices, tc.indices) {\n\t\t\tt.Errorf(\"%q: indices=%v; want %v\", tc.text, indices, tc.indices)\n\t\t}\n\t\tif !slices.Equal(runes, tc.runes) {\n\t\t\tt.Errorf(\"%q: runes=%U; want %U\", tc.text, runes, tc.runes)\n\t\t}\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -301,7 +301,7 @@
     "topic": "Arrays",
     "title": "Array length",
     "instruction": "Complete the array declaration. It must hold exactly three readings, including an omitted zero-valued reading, and match the function's [3]int parameter.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Array_types",
     "code": "package main\n\n// Array length\n// Complete the array declaration. It must hold exactly three readings, including an\n// omitted zero-valued reading, and match the function's [3]int parameter.\n\nimport (\n\t\"testing\"\n)\n\nfunc totalReadings(values [3]int) int { return values[0] + values[1] + values[2] }\n\nfunc TestKoan(t *testing.T) {\n\treadings := [3]int{} // TODO: initialize the first two readings to 4 and 7.\n\tif got := totalReadings(readings); got != 11 {\n\t\tt.Errorf(\"total=%d; want 11\", got)\n\t}\n\tif readings != [3]int{4, 7, 0} {\n\t\tt.Errorf(\"readings=%v; want [4 7 0]\", readings)\n\t}\n\tif len(readings) != 3 || cap(readings) != 3 {\n\t\tt.Error(\"an array has a fixed length and capacity\")\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -314,7 +314,7 @@
     "topic": "Arrays",
     "title": "Unspecified array elements",
     "instruction": "Fill the complete expected arrays. Omitted and explicitly indexed elements leave other positions at their zero values.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Composite_literals",
     "code": "package main\n\n// Unspecified array elements\n// Fill the complete expected arrays. Omitted and explicitly indexed elements leave other\n// positions at their zero values.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tpartial := [4]int{8, 3}\n\tindexed := [4]int{2: 9}\n\n\twantPartial := [4]int{-1, -1, -1, -1} // TODO: replace this value.\n\tif got := partial; got != wantPartial {\n\t\tt.Errorf(\"Partial: got %#v; want %#v\", got, wantPartial)\n\t}\n\n\twantIndexed := [4]int{-1, -1, -1, -1} // TODO: replace this value.\n\tif got := indexed; got != wantIndexed {\n\t\tt.Errorf(\"Indexed: got %#v; want %#v\", got, wantIndexed)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -328,7 +328,7 @@
     "topic": "Arrays",
     "title": "Array assignment copies values",
     "instruction": "Fill both expected arrays after the copy is modified. Check the whole values, not just one element.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Array_types",
     "code": "package main\n\n// Array assignment copies values\n// Fill both expected arrays after the copy is modified. Check the whole values, not just\n// one element.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\toriginal := [3]int{1, 2, 3}\n\tcopy := original\n\tcopy[0] = 9\n\n\twantOriginal := [3]int{-1, -1, -1} // TODO: replace this value.\n\tif got := original; got != wantOriginal {\n\t\tt.Errorf(\"Original: got %#v; want %#v\", got, wantOriginal)\n\t}\n\n\twantCopy := [3]int{-1, -1, -1} // TODO: replace this value.\n\tif got := copy; got != wantCopy {\n\t\tt.Errorf(\"Copy: got %#v; want %#v\", got, wantCopy)\n\t}\n}\n",
     "kind": "observe",
     "revisits": []
@@ -339,7 +339,7 @@
     "topic": "Arrays",
     "title": "Inferred array length",
     "instruction": "Complete the array literal using [...] so its length is inferred. Check that its type is [3]string and that it contains all three names.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Composite_literals",
     "code": "package main\n\n// Inferred array length\n// Complete the array literal using [...] so its length is inferred. Check that its type is\n// [3]string and that it contains all three names.\n\nimport (\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tnames := [...]string{\"?\"} // TODO: include Ada, Grace, and Edsger.\n\tif got := fmt.Sprintf(\"%T\", names); got != \"[3]string\" {\n\t\tt.Errorf(\"type=%s; want [3]string\", got)\n\t}\n\tif got := fmt.Sprint(names); got != \"[Ada Grace Edsger]\" {\n\t\tt.Errorf(\"names=%s; want [Ada Grace Edsger]\", got)\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -354,7 +354,7 @@
     "topic": "Slices",
     "title": "Slice length",
     "instruction": "Track the two slice headers. Appending within capacity changes the returned slice's length, not the old header's length.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Slice_types",
     "code": "package main\n\n// Slice length\n// Track the two slice headers. Appending within capacity changes the returned slice's\n// length, not the old header's length.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := make([]int, 2, 4)\n\told := values\n\tvalues = append(values, 7)\n\n\twantOldLength := -999 // TODO: replace this value.\n\tif got := len(old); got != wantOldLength {\n\t\tt.Errorf(\"OldLength: got %#v; want %#v\", got, wantOldLength)\n\t}\n\n\twantNewLength := -999 // TODO: replace this value.\n\tif got := len(values); got != wantNewLength {\n\t\tt.Errorf(\"NewLength: got %#v; want %#v\", got, wantNewLength)\n\t}\n\n\twantOldCapacity := -999 // TODO: replace this value.\n\tif got := cap(old); got != wantOldCapacity {\n\t\tt.Errorf(\"OldCapacity: got %#v; want %#v\", got, wantOldCapacity)\n\t}\n\n\twantNewCapacity := -999 // TODO: replace this value.\n\tif got := cap(values); got != wantNewCapacity {\n\t\tt.Errorf(\"NewCapacity: got %#v; want %#v\", got, wantNewCapacity)\n\t}\n\n\twantAppendedValue := -999 // TODO: replace this value.\n\tif got := old[:3][2]; got != wantAppendedValue {\n\t\tt.Errorf(\"AppendedValue: got %#v; want %#v\", got, wantAppendedValue)\n\t}\n}\n",
     "kind": "observe",
     "revisits": []
@@ -365,7 +365,7 @@
     "topic": "Slices",
     "title": "Slice an array",
     "instruction": "Fill the length, capacity, and original array after a slice is modified. Capacity starts at the slice's first element and extends to the end of the array.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Slice_expressions",
     "code": "package main\n\n// Slice an array\n// Fill the length, capacity, and original array after a slice is modified. Capacity starts\n// at the slice's first element and extends to the end of the array.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tarray := [5]int{1, 2, 3, 4, 5}\n\tpart := array[1:3]\n\tpart[0] = 9\n\n\twantLength := -999 // TODO: replace this value.\n\tif got := len(part); got != wantLength {\n\t\tt.Errorf(\"Length: got %#v; want %#v\", got, wantLength)\n\t}\n\n\twantCapacity := -999 // TODO: replace this value.\n\tif got := cap(part); got != wantCapacity {\n\t\tt.Errorf(\"Capacity: got %#v; want %#v\", got, wantCapacity)\n\t}\n\n\twantArray := [5]int{-1, -1, -1, -1, -1} // TODO: replace this value.\n\tif got := array; got != wantArray {\n\t\tt.Errorf(\"Array: got %#v; want %#v\", got, wantArray)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -378,7 +378,7 @@
     "topic": "Slices",
     "title": "Slices share an array",
     "instruction": "Fill the complete expected contents after modifying the slice view. Compare this with array assignment in exercise 027.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Slice_types",
     "code": "package main\n\n// Slices share an array\n// Fill the complete expected contents after modifying the slice view. Compare this with\n// array assignment in exercise 027.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []int{1, 2, 3, 4}\n\tview := values[1:3]\n\tview[0] = 9\n\twantValues := []int{-999} // TODO: all values.\n\twantView := []int{-999}   // TODO: all values in the view.\n\tif !slices.Equal(values, wantValues) {\n\t\tt.Errorf(\"values=%v; want %v\", values, wantValues)\n\t}\n\tif !slices.Equal(view, wantView) {\n\t\tt.Errorf(\"view=%v; want %v\", view, wantView)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -392,7 +392,7 @@
     "topic": "Slices",
     "title": "Append elements",
     "instruction": "Repair addValue. Return the slice from append so the caller receives its updated length, including when append allocates new storage.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Appending_and_copying_slices",
     "code": "package main\n\n// Append elements\n// Repair addValue. Return the slice from append so the caller receives its updated length,\n// including when append allocates new storage.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc addValue(values []int, value int) []int {\n\tvalues = append(values, value)\n\treturn values[:len(values)-1] // TODO: return the updated slice.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, initial := range [][]int{nil, {2, 3}, make([]int, 0, 4)} {\n\t\tbefore := slices.Clone(initial)\n\t\tgot := addValue(initial, 7)\n\t\twant := append(slices.Clone(before), 7)\n\t\tif !slices.Equal(got, want) {\n\t\t\tt.Errorf(\"addValue(%v,7)=%v; want %v\", before, got, want)\n\t\t}\n\t\tif len(initial) != len(before) {\n\t\t\tt.Error(\"the caller's old slice header changed\")\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -405,7 +405,7 @@
     "topic": "Slices",
     "title": "Append can reuse storage",
     "instruction": "Compare append with spare capacity and append beyond capacity. Fill the values observed through each alias. Do not assume an exact growth factor.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Appending_and_copying_slices",
     "code": "package main\n\n// Append can reuse storage\n// Compare append with spare capacity and append beyond capacity. Fill the values observed\n// through each alias. Do not assume an exact growth factor.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tspare := make([]int, 1, 3)\n\tspare[0] = 1\n\tspareAlias := spare[:3]\n\tspare = append(spare, 7)\n\tspare[0] = 9\n\tfull := []int{1}\n\tfullAlias := full\n\tgrown := append(full, 7)\n\tgrown[0] = 9\n\n\twantReusedAppended := -999 // TODO: replace this value.\n\tif got := spareAlias[1]; got != wantReusedAppended {\n\t\tt.Errorf(\"ReusedAppended: got %#v; want %#v\", got, wantReusedAppended)\n\t}\n\n\twantReusedFirst := -999 // TODO: replace this value.\n\tif got := spareAlias[0]; got != wantReusedFirst {\n\t\tt.Errorf(\"ReusedFirst: got %#v; want %#v\", got, wantReusedFirst)\n\t}\n\n\twantAllocatedOld := -999 // TODO: replace this value.\n\tif got := fullAlias[0]; got != wantAllocatedOld {\n\t\tt.Errorf(\"AllocatedOld: got %#v; want %#v\", got, wantAllocatedOld)\n\t}\n\n\twantAllocatedNew := -999 // TODO: replace this value.\n\tif got := grown[0]; got != wantAllocatedNew {\n\t\tt.Errorf(\"AllocatedNew: got %#v; want %#v\", got, wantAllocatedNew)\n\t}\n\n\twantAllocatedLength := -999 // TODO: replace this value.\n\tif got := len(grown); got != wantAllocatedLength {\n\t\tt.Errorf(\"AllocatedLength: got %#v; want %#v\", got, wantAllocatedLength)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -419,7 +419,7 @@
     "topic": "Slices",
     "title": "Copy to independent storage",
     "instruction": "Implement cloneInts. Preserve every element and give the result independent storage. Mutating either slice must leave the other unchanged; nil or empty input may return nil.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Appending_and_copying_slices",
     "code": "package main\n\n// Copy to independent storage\n// Implement cloneInts. Preserve every element and give the result independent storage.\n// Mutating either slice must leave the other unchanged; nil or empty input may return nil.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc cloneInts(values []int) []int {\n\treturn values // TODO: allocate and copy.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, input := range [][]int{nil, {}, {7}, {1, 2, 3}} {\n\t\toriginal := slices.Clone(input)\n\t\tcloned := cloneInts(input)\n\t\tif !slices.Equal(cloned, original) {\n\t\t\tt.Errorf(\"cloneInts(%v)=%v\", original, cloned)\n\t\t\tcontinue\n\t\t}\n\t\tif len(input) > 0 {\n\t\t\tcloned[0] = 99\n\t\t\tif !slices.Equal(input, original) {\n\t\t\t\tt.Error(\"editing clone changed input\")\n\t\t\t}\n\t\t\tinput[len(input)-1] = -7\n\t\t\tif cloned[len(cloned)-1] == -7 {\n\t\t\t\tt.Error(\"editing input changed clone\")\n\t\t\t}\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -433,7 +433,7 @@
     "topic": "Slices",
     "title": "Copy returns the element count",
     "instruction": "Fill both the copied counts and complete destinations. copy is limited by the shorter length, and it supports overlapping slices.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Appending_and_copying_slices",
     "code": "package main\n\n// Copy returns the element count\n// Fill both the copied counts and complete destinations. copy is limited by the shorter\n// length, and it supports overlapping slices.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tsource := []int{1, 2, 3}\n\tshort := []int{9, 9}\n\tshortCount := copy(short, source)\n\tlong := []int{9, 9, 9, 9}\n\tlongCount := copy(long, source)\n\toverlap := []int{1, 2, 3, 4}\n\toverlapCount := copy(overlap[1:], overlap)\n\twantCounts := [3]int{-999, -999, -999} // TODO: copied counts.\n\twantShort := []int{-999}               // TODO: complete destination.\n\twantLong := []int{-999}                // TODO: complete destination.\n\twantOverlap := []int{-999}             // TODO: complete destination.\n\tif got := [3]int{shortCount, longCount, overlapCount}; got != wantCounts {\n\t\tt.Errorf(\"counts=%v; want %v\", got, wantCounts)\n\t}\n\tif !slices.Equal(short, wantShort) {\n\t\tt.Errorf(\"short=%v; want %v\", short, wantShort)\n\t}\n\tif !slices.Equal(long, wantLong) {\n\t\tt.Errorf(\"long=%v; want %v\", long, wantLong)\n\t}\n\tif !slices.Equal(overlap, wantOverlap) {\n\t\tt.Errorf(\"overlap=%v; want %v\", overlap, wantOverlap)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -446,7 +446,7 @@
     "topic": "Slices",
     "title": "Nil and empty slices",
     "instruction": "Fill the lengths and nil checks before and after append. Nil and non-nil empty slices can both be appended to.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Slice_types",
     "code": "package main\n\n// Nil and empty slices\n// Fill the lengths and nil checks before and after append. Nil and non-nil empty slices\n// can both be appended to.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar absent []int\n\tempty := []int{}\n\tappendedAbsent := append(absent, 7)\n\tappendedEmpty := append(empty, 7)\n\n\twantAbsentLength := -999 // TODO: replace this value.\n\tif got := len(absent); got != wantAbsentLength {\n\t\tt.Errorf(\"AbsentLength: got %#v; want %#v\", got, wantAbsentLength)\n\t}\n\n\twantEmptyLength := -999 // TODO: replace this value.\n\tif got := len(empty); got != wantEmptyLength {\n\t\tt.Errorf(\"EmptyLength: got %#v; want %#v\", got, wantEmptyLength)\n\t}\n\n\twantAbsentNil := false // TODO: replace this value.\n\tif got := absent == nil; got != wantAbsentNil {\n\t\tt.Errorf(\"AbsentNil: got %#v; want %#v\", got, wantAbsentNil)\n\t}\n\n\twantEmptyNil := true // TODO: replace this value.\n\tif got := empty == nil; got != wantEmptyNil {\n\t\tt.Errorf(\"EmptyNil: got %#v; want %#v\", got, wantEmptyNil)\n\t}\n\n\twantAppendedAbsentNil := true // TODO: replace this value.\n\tif got := appendedAbsent == nil; got != wantAppendedAbsentNil {\n\t\tt.Errorf(\"AppendedAbsentNil: got %#v; want %#v\", got, wantAppendedAbsentNil)\n\t}\n\n\twantAppendedEmptyLength := -999 // TODO: replace this value.\n\tif got := len(appendedEmpty); got != wantAppendedEmptyLength {\n\t\tt.Errorf(\"AppendedEmptyLength: got %#v; want %#v\", got, wantAppendedEmptyLength)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -460,7 +460,7 @@
     "topic": "Slices",
     "title": "Full slice expressions",
     "instruction": "Compare an unrestricted view with a full slice expression that caps capacity. Fill the capacity and original values after append.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Slice_expressions",
     "code": "package main\n\n// Full slice expressions\n// Compare an unrestricted view with a full slice expression that caps capacity. Fill the\n// capacity and original values after append.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tarray := [4]int{1, 2, 3, 4}\n\tunrestricted := array[1:2]\n\tlimited := array[1:2:2]\n\tlimitedCapacity := cap(limited)\n\tunrestricted = append(unrestricted, 8)\n\tlimited = append(limited, 9)\n\tlimited[0] = 7\n\n\twantUnrestrictedCapacity := -999 // TODO: replace this value.\n\tif got := cap(unrestricted); got != wantUnrestrictedCapacity {\n\t\tt.Errorf(\"UnrestrictedCapacity: got %#v; want %#v\", got, wantUnrestrictedCapacity)\n\t}\n\n\twantLimitedCapacity := -999 // TODO: replace this value.\n\tif got := limitedCapacity; got != wantLimitedCapacity {\n\t\tt.Errorf(\"LimitedCapacity: got %#v; want %#v\", got, wantLimitedCapacity)\n\t}\n\n\twantLimitedLength := -999 // TODO: replace this value.\n\tif got := len(limited); got != wantLimitedLength {\n\t\tt.Errorf(\"LimitedLength: got %#v; want %#v\", got, wantLimitedLength)\n\t}\n\n\twantOriginalArray := [4]int{-1, -1, -1, -1} // TODO: replace this value.\n\tif got := array; got != wantOriginalArray {\n\t\tt.Errorf(\"OriginalArray: got %#v; want %#v\", got, wantOriginalArray)\n\t}\n\n\twantLimitedFirst := -999 // TODO: replace this value.\n\tif got := limited[0]; got != wantLimitedFirst {\n\t\tt.Errorf(\"LimitedFirst: got %#v; want %#v\", got, wantLimitedFirst)\n\t}\n\n\twantLimitedSecond := -999 // TODO: replace this value.\n\tif got := limited[1]; got != wantLimitedSecond {\n\t\tt.Errorf(\"LimitedSecond: got %#v; want %#v\", got, wantLimitedSecond)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -474,7 +474,7 @@
     "topic": "Slices",
     "title": "Delete a slice element",
     "instruction": "Implement deleteAt for a valid index. Keep the remaining elements in order and leave the input unchanged. A result with zero elements may be nil.",
-    "reference": "https://go.dev/wiki/SliceTricks",
+    "reference": "https://go.dev/wiki/SliceTricks#delete",
     "code": "package main\n\n// Delete a slice element\n// Implement deleteAt for a valid index. Keep the remaining elements in order and leave the\n// input unchanged. A result with zero elements may be nil.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc deleteAt(values []int, index int) []int {\n\treturn values // TODO: construct an independent result.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\tindex  int\n\t\twant   []int\n\t}{\n\t\t{[]int{1, 2, 3}, 0, []int{2, 3}}, {[]int{1, 2, 3}, 1, []int{1, 3}},\n\t\t{[]int{1, 2, 3}, 2, []int{1, 2}}, {[]int{7}, 0, nil},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tgot := deleteAt(tc.values, tc.index)\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"deleteAt(%v,%d)=%v; want %v\", before, tc.index, got, tc.want)\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"result shares mutable storage with input\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -489,7 +489,7 @@
     "topic": "Maps",
     "title": "Create a map",
     "instruction": "Implement frequencies. Count every word, including an empty string, and return an initialized map for empty input.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Map_types",
     "code": "package main\n\n// Create a map\n// Implement frequencies. Count every word, including an empty string, and return an\n// initialized map for empty input.\n\nimport (\n\t\"maps\"\n\t\"testing\"\n)\n\nfunc frequencies(words []string) map[string]int {\n\treturn nil // TODO: initialize and populate the map.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\twords []string\n\t\twant  map[string]int\n\t}{\n\t\t{nil, map[string]int{}}, {[]string{\"go\"}, map[string]int{\"go\": 1}},\n\t\t{[]string{\"go\", \"code\", \"go\"}, map[string]int{\"go\": 2, \"code\": 1}},\n\t\t{[]string{\"\", \"go\", \"\"}, map[string]int{\"\": 2, \"go\": 1}},\n\t}\n\tfor _, tc := range cases {\n\t\tgot := frequencies(tc.words)\n\t\tif got == nil {\n\t\t\tt.Error(\"return an initialized map\")\n\t\t\tcontinue\n\t\t}\n\t\tif !maps.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"frequencies(%q)=%v; want %v\", tc.words, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": []
@@ -500,7 +500,7 @@
     "topic": "Maps",
     "title": "Missing keys return zero",
     "instruction": "Fill both values and presence flags. A missing key and a present key storing zero have the same value but different presence.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Index_expressions",
     "code": "package main\n\n// Missing keys return zero\n// Fill both values and presence flags. A missing key and a present key storing zero have\n// the same value but different presence.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tcounts := map[string]int{\"zero\": 0, \"go\": 2}\n\tzero, hasZero := counts[\"zero\"]\n\tmissing, hasMissing := counts[\"missing\"]\n\n\twantZeroValue := -999 // TODO: replace this value.\n\tif got := zero; got != wantZeroValue {\n\t\tt.Errorf(\"ZeroValue: got %#v; want %#v\", got, wantZeroValue)\n\t}\n\n\twantMissingValue := -999 // TODO: replace this value.\n\tif got := missing; got != wantMissingValue {\n\t\tt.Errorf(\"MissingValue: got %#v; want %#v\", got, wantMissingValue)\n\t}\n\n\twantZeroPresent := false // TODO: replace this value.\n\tif got := hasZero; got != wantZeroPresent {\n\t\tt.Errorf(\"ZeroPresent: got %#v; want %#v\", got, wantZeroPresent)\n\t}\n\n\twantMissingPresent := true // TODO: replace this value.\n\tif got := hasMissing; got != wantMissingPresent {\n\t\tt.Errorf(\"MissingPresent: got %#v; want %#v\", got, wantMissingPresent)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -514,7 +514,7 @@
     "topic": "Maps",
     "title": "Check whether a key exists",
     "instruction": "Implement lookupOr. Return the stored value when the key exists, including zero; use fallback only for an absent key. Nil maps are allowed.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Index_expressions",
     "code": "package main\n\n// Check whether a key exists\n// Implement lookupOr. Return the stored value when the key exists, including zero; use\n// fallback only for an absent key. Nil maps are allowed.\n\nimport (\n\t\"testing\"\n)\n\nfunc lookupOr(values map[string]int, key string, fallback int) int {\n\treturn fallback // TODO: distinguish missing from zero.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcounts := map[string]int{\"zero\": 0, \"go\": 2}\n\tcases := []struct {\n\t\tvalues         map[string]int\n\t\tkey            string\n\t\tfallback, want int\n\t}{\n\t\t{counts, \"zero\", 9, 0}, {counts, \"go\", 9, 2}, {counts, \"missing\", 9, 9}, {nil, \"go\", -1, -1},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := lookupOr(tc.values, tc.key, tc.fallback); got != tc.want {\n\t\t\tt.Errorf(\"lookupOr(%v,%q,%d)=%d; want %d\", tc.values, tc.key, tc.fallback, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -527,7 +527,7 @@
     "topic": "Maps",
     "title": "Delete a key",
     "instruction": "Implement removeKeys. Delete the requested keys in place, preserve other entries, and accept absent keys or a nil map.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Deletion_of_map_elements",
     "code": "package main\n\n// Delete a key\n// Implement removeKeys. Delete the requested keys in place, preserve other entries, and\n// accept absent keys or a nil map.\n\nimport (\n\t\"maps\"\n\t\"testing\"\n)\n\nfunc removeKeys(values map[string]int, keys []string) { // TODO: delete only the requested keys.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues map[string]int\n\t\tkeys   []string\n\t\twant   map[string]int\n\t}{\n\t\t{map[string]int{\"a\": 1, \"b\": 2}, []string{\"a\"}, map[string]int{\"b\": 2}},\n\t\t{map[string]int{\"a\": 1}, []string{\"missing\", \"a\", \"a\"}, map[string]int{}},\n\t\t{map[string]int{\"a\": 1}, nil, map[string]int{\"a\": 1}},\n\t\t{nil, []string{\"a\"}, nil},\n\t}\n\tfor _, tc := range cases {\n\t\tremoveKeys(tc.values, tc.keys)\n\t\tif !maps.Equal(tc.values, tc.want) {\n\t\t\tt.Errorf(\"removeKeys(%q): got %v; want %v\", tc.keys, tc.values, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -541,7 +541,7 @@
     "topic": "Maps",
     "title": "Map assignment shares data",
     "instruction": "Fill the map contents and lengths after modifying an assigned map. Assignment shares the entries; it does not clone the map.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Map_types",
     "code": "package main\n\n// Map assignment shares data\n// Fill the map contents and lengths after modifying an assigned map. Assignment shares the\n// entries; it does not clone the map.\n\nimport (\n\t\"maps\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\toriginal := map[string]int{\"a\": 1, \"b\": 2}\n\talias := original\n\talias[\"a\"] = 9\n\tdelete(alias, \"b\")\n\toriginal[\"c\"] = 3\n\twantOriginal := map[string]int{} // TODO: all entries.\n\twantAlias := map[string]int{}    // TODO: all entries.\n\tif !maps.Equal(original, wantOriginal) {\n\t\tt.Errorf(\"original=%v; want %v\", original, wantOriginal)\n\t}\n\tif !maps.Equal(alias, wantAlias) {\n\t\tt.Errorf(\"alias=%v; want %v\", alias, wantAlias)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -556,7 +556,7 @@
     "topic": "Maps",
     "title": "Read from a nil map",
     "instruction": "Repair putCount so a nil map can receive its first entry. Return the resulting map and preserve existing entries when it is already initialized.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Map_types",
     "code": "package main\n\n// Read from a nil map\n// Repair putCount so a nil map can receive its first entry. Return the resulting map and\n// preserve existing entries when it is already initialized.\n\nimport (\n\t\"maps\"\n\t\"testing\"\n)\n\nfunc putCount(values map[string]int, key string, count int) map[string]int {\n\tif values == nil {\n\t\treturn nil\n\t} // TODO: initialize before inserting.\n\tvalues[key] = count\n\treturn values\n}\n\nfunc TestKoan(t *testing.T) {\n\tvar missing map[string]int\n\tif got := missing[\"go\"]; got != 0 {\n\t\tt.Errorf(\"nil-map read=%d; want 0\", got)\n\t}\n\tcreated := putCount(missing, \"go\", 2)\n\tif !maps.Equal(created, map[string]int{\"go\": 2}) {\n\t\tt.Errorf(\"created=%v; want map[go:2]\", created)\n\t}\n\texisting := map[string]int{\"old\": 1}\n\tupdated := putCount(existing, \"go\", 3)\n\tif !maps.Equal(updated, map[string]int{\"old\": 1, \"go\": 3}) {\n\t\tt.Errorf(\"updated=%v\", updated)\n\t}\n\tif existing[\"go\"] != 3 {\n\t\tt.Error(\"an existing map must be updated in place\")\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -570,7 +570,7 @@
     "topic": "Control flow",
     "title": "If and else",
     "instruction": "Implement sign with if/else. Return negative, zero, or positive according to the input.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#If_statements",
     "code": "package main\n\n// If and else\n// Implement sign with if/else. Return negative, zero, or positive according to the input.\n\nimport (\n\t\"testing\"\n)\n\nfunc sign(value int) string {\n\treturn \"\" // TODO: implement with if/else.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalue int\n\t\twant  string\n\t}{{-7, \"negative\"}, {-1, \"negative\"}, {0, \"zero\"}, {1, \"positive\"}, {8, \"positive\"}}\n\tfor _, tc := range cases {\n\t\tif got := sign(tc.value); got != tc.want {\n\t\t\tt.Errorf(\"sign(%d)=%q; want %q\", tc.value, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": []
@@ -581,7 +581,7 @@
     "topic": "Control flow",
     "title": "If with an initializer",
     "instruction": "Complete the if initializer and condition. Use comma-ok so a stored zero succeeds, and keep the lookup variable scoped to the if.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#If_statements",
     "code": "package main\n\n// If with an initializer\n// Complete the if initializer and condition. Use comma-ok so a stored zero succeeds, and\n// keep the lookup variable scoped to the if.\n\nimport (\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc describeLookup(values map[string]int, key string) string {\n\tif value, ok := values[key]; value != 0 { // TODO: use the presence flag.\n\t\t_ = ok\n\t\treturn fmt.Sprintf(\"found:%d\", value)\n\t}\n\treturn \"missing\"\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tkey  string\n\t\twant string\n\t}{{\"zero\", \"found:0\"}, {\"go\", \"found:2\"}, {\"missing\", \"missing\"}}\n\tfor _, tc := range cases {\n\t\tif got := describeLookup(map[string]int{\"zero\": 0, \"go\": 2}, tc.key); got != tc.want {\n\t\t\tt.Errorf(\"key=%q: got %q; want %q\", tc.key, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -595,7 +595,7 @@
     "topic": "Control flow",
     "title": "Switch chooses one case",
     "instruction": "Implement commandName with switch. Start and run share a case; stop has another; any other input returns unknown. Go cases do not fall through automatically.",
-    "reference": "https://go.dev/wiki/Switch",
+    "reference": "https://go.dev/ref/spec#Expression_switches",
     "code": "package main\n\n// Switch chooses one case\n// Implement commandName with switch. Start and run share a case; stop has another; any\n// other input returns unknown. Go cases do not fall through automatically.\n\nimport (\n\t\"testing\"\n)\n\nfunc commandName(command string) string {\n\treturn \"\" // TODO: implement a switch.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ command, want string }{{\"start\", \"running\"}, {\"run\", \"running\"}, {\"stop\", \"stopped\"}, {\"\", \"unknown\"}, {\"restart\", \"unknown\"}}\n\tfor _, tc := range cases {\n\t\tif got := commandName(tc.command); got != tc.want {\n\t\t\tt.Errorf(\"commandName(%q)=%q; want %q\", tc.command, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": []
@@ -606,7 +606,7 @@
     "topic": "Control flow",
     "title": "Switch without an expression",
     "instruction": "Repair the expressionless switch. Test invalid values first, then high scores. Return invalid outside 0..100, pass for 60..100, and fail otherwise.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Expression_switches",
     "code": "package main\n\n// Switch without an expression\n// Repair the expressionless switch. Test invalid values first, then high scores. Return\n// invalid outside 0..100, pass for 60..100, and fail otherwise.\n\nimport (\n\t\"testing\"\n)\n\nfunc grade(score int) string {\n\tswitch {\n\tcase score >= 60:\n\t\treturn \"pass\" // TODO: put invalid inputs first.\n\tcase score < 0 || score > 100:\n\t\treturn \"invalid\"\n\tdefault:\n\t\treturn \"fail\"\n\t}\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tscore int\n\t\twant  string\n\t}{{-1, \"invalid\"}, {0, \"fail\"}, {59, \"fail\"}, {60, \"pass\"}, {100, \"pass\"}, {101, \"invalid\"}}\n\tfor _, tc := range cases {\n\t\tif got := grade(tc.score); got != tc.want {\n\t\t\tt.Errorf(\"grade(%d)=%q; want %q\", tc.score, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -620,7 +620,7 @@
     "topic": "Loops and range",
     "title": "For loop",
     "instruction": "Implement sum using a for loop. Handle empty input, a single value, and negative numbers without changing the input.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#For_statements",
     "code": "package main\n\n// For loop\n// Implement sum using a for loop. Handle empty input, a single value, and negative numbers\n// without changing the input.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc sum(values []int) int {\n\treturn 0 // TODO: accumulate with a loop.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\twant   int\n\t}{{nil, 0}, {[]int{7}, 7}, {[]int{1, 2, 3}, 6}, {[]int{-4, 2, -1}, -3}}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tif got := sum(tc.values); got != tc.want {\n\t\t\tt.Errorf(\"sum(%v)=%d; want %d\", tc.values, got, tc.want)\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"sum changed its input\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -633,7 +633,7 @@
     "topic": "Loops and range",
     "title": "Break a loop",
     "instruction": "Implement takeUntilZero. Use break to stop before the first zero; ignore values after it. Return an independent result.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Break_statements",
     "code": "package main\n\n// Break a loop\n// Implement takeUntilZero. Use break to stop before the first zero; ignore values after\n// it. Return an independent result.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc takeUntilZero(values []int) []int {\n\treturn nil // TODO: stop at the first zero.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ values, want []int }{\n\t\t{nil, nil}, {[]int{0, 1}, nil}, {[]int{2, 3, 0, 4}, []int{2, 3}},\n\t\t{[]int{2, 3}, []int{2, 3}}, {[]int{-1, 0}, []int{-1}},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tgot := takeUntilZero(tc.values)\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"takeUntilZero(%v)=%v; want %v\", before, got, tc.want)\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"the result must have independent storage\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -647,7 +647,7 @@
     "topic": "Loops and range",
     "title": "Continue a loop",
     "instruction": "Implement positiveValues with continue. Skip nonpositive elements, keep all later positive values in order, and leave the input unchanged.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Continue_statements",
     "code": "package main\n\n// Continue a loop\n// Implement positiveValues with continue. Skip nonpositive elements, keep all later\n// positive values in order, and leave the input unchanged.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc positiveValues(values []int) []int {\n\treturn nil // TODO: skip, rather than stop, on nonpositive values.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ values, want []int }{\n\t\t{nil, nil}, {[]int{0, -1}, nil}, {[]int{2, 0, 3, -4, 5}, []int{2, 3, 5}}, {[]int{7}, []int{7}},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tgot := positiveValues(tc.values)\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"positiveValues(%v)=%v; want %v\", before, got, tc.want)\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"input changed\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -660,7 +660,7 @@
     "topic": "Loops and range",
     "title": "Range gives index and value",
     "instruction": "Implement positions with range. Return the indices where the target occurs, not the matching values. An absent target returns no indices.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#For_range",
     "code": "package main\n\n// Range gives index and value\n// Implement positions with range. Return the indices where the target occurs, not the\n// matching values. An absent target returns no indices.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc positions(values []int, target int) []int {\n\treturn nil // TODO: collect the matching indices.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\ttarget int\n\t\twant   []int\n\t}{\n\t\t{nil, 7, nil}, {[]int{7, 2, 7}, 7, []int{0, 2}}, {[]int{2, 7}, 7, []int{1}},\n\t\t{[]int{1, 2}, 7, nil}, {[]int{0, 0}, 0, []int{0, 1}},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := positions(tc.values, tc.target); !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"positions(%v,%d)=%v; want %v\", tc.values, tc.target, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -674,7 +674,7 @@
     "topic": "Loops and range",
     "title": "Range over an integer",
     "instruction": "Implement indices using range over an integer. Return 0 through n-1; zero or negative n should produce no values.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#For_range",
     "code": "package main\n\n// Range over an integer\n// Implement indices using range over an integer. Return 0 through n-1; zero or negative n\n// should produce no values.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc indices(n int) []int {\n\treturn nil // TODO: range over n.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tn    int\n\t\twant []int\n\t}{{-2, nil}, {0, nil}, {1, []int{0}}, {4, []int{0, 1, 2, 3}}}\n\tfor _, tc := range cases {\n\t\tif got := indices(tc.n); !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"indices(%d)=%v; want %v\", tc.n, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -687,7 +687,7 @@
     "topic": "Functions",
     "title": "Call a function",
     "instruction": "Implement clamp. Return the nearest bound when value is outside lower..upper, and the value itself otherwise. lower is never greater than upper.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Function_declarations",
     "code": "package main\n\n// Call a function\n// Implement clamp. Return the nearest bound when value is outside lower..upper, and the\n// value itself otherwise. lower is never greater than upper.\n\nimport (\n\t\"testing\"\n)\n\nfunc clamp(value, lower, upper int) int {\n\treturn value // TODO: implement the bounds.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ value, lower, upper, want int }{\n\t\t{-1, 0, 10, 0}, {0, 0, 10, 0}, {4, 0, 10, 4}, {10, 0, 10, 10}, {11, 0, 10, 10},\n\t\t{-7, -5, -2, -5}, {-3, -5, -2, -3}, {9, 4, 4, 4},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := clamp(tc.value, tc.lower, tc.upper); got != tc.want {\n\t\t\tt.Errorf(\"clamp(%d,%d,%d)=%d; want %d\", tc.value, tc.lower, tc.upper, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -701,7 +701,7 @@
     "topic": "Functions",
     "title": "Multiple return values",
     "instruction": "Implement first. Return the first element and true for a nonempty slice. Return zero and false for empty input; a stored zero is still present.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Function_types",
     "code": "package main\n\n// Multiple return values\n// Implement first. Return the first element and true for a nonempty slice. Return zero and\n// false for empty input; a stored zero is still present.\n\nimport (\n\t\"testing\"\n)\n\nfunc first(values []int) (int, bool) {\n\treturn 0, false // TODO: return both results.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\twant   int\n\t\tok     bool\n\t}{{nil, 0, false}, {[]int{}, 0, false}, {[]int{0, 7}, 0, true}, {[]int{4, 5}, 4, true}}\n\tfor _, tc := range cases {\n\t\tgot, ok := first(tc.values)\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"first(%v)=(%d,%v); want (%d,%v)\", tc.values, got, ok, tc.want, tc.ok)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -715,7 +715,7 @@
     "topic": "Functions",
     "title": "Named return values",
     "instruction": "Complete the named result assignments. Return a quotient and remainder with a bare return; divisor is nonzero.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Return_statements",
     "code": "package main\n\n// Named return values\n// Complete the named result assignments. Return a quotient and remainder with a bare\n// return; divisor is nonzero.\n\nimport (\n\t\"testing\"\n)\n\nfunc divide(value, divisor int) (quotient, remainder int) {\n\t// TODO: assign quotient and remainder before the bare return.\n\treturn\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ value, divisor, quotient, remainder int }{{7, 2, 3, 1}, {-7, 2, -3, -1}, {8, 4, 2, 0}, {0, 3, 0, 0}}\n\tfor _, tc := range cases {\n\t\tquotient, remainder := divide(tc.value, tc.divisor)\n\t\tif quotient != tc.quotient || remainder != tc.remainder {\n\t\t\tt.Errorf(\"divide(%d,%d)=(%d,%d); want (%d,%d)\", tc.value, tc.divisor, quotient, remainder, tc.quotient, tc.remainder)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -729,7 +729,7 @@
     "topic": "Functions",
     "title": "Variadic arguments",
     "instruction": "Implement total as a variadic function. Zero arguments return zero; positive and negative values are included.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Passing_arguments_to_..._parameters",
     "code": "package main\n\n// Variadic arguments\n// Implement total as a variadic function. Zero arguments return zero; positive and\n// negative values are included.\n\nimport (\n\t\"testing\"\n)\n\nfunc total(values ...int) int {\n\treturn 0 // TODO: sum the variadic values.\n}\n\nfunc TestKoan(t *testing.T) {\n\tif got := total(); got != 0 {\n\t\tt.Errorf(\"total()=%d; want 0\", got)\n\t}\n\tif got := total(7); got != 7 {\n\t\tt.Errorf(\"total(7)=%d; want 7\", got)\n\t}\n\tif got := total(1, 2, 3); got != 6 {\n\t\tt.Errorf(\"total(1,2,3)=%d; want 6\", got)\n\t}\n\tif got := total(-4, 2); got != -2 {\n\t\tt.Errorf(\"total(-4,2)=%d; want -2\", got)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -742,7 +742,7 @@
     "topic": "Functions",
     "title": "Expand a slice argument",
     "instruction": "Complete addAll by expanding the slice into total's variadic arguments. Preserve the input and include base even for an empty slice.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Passing_arguments_to_..._parameters",
     "code": "package main\n\n// Expand a slice argument\n// Complete addAll by expanding the slice into total's variadic arguments. Preserve the\n// input and include base even for an empty slice.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc total(values ...int) int {\n\tsum := 0\n\tfor _, value := range values {\n\t\tsum += value\n\t}\n\treturn sum\n}\nfunc addAll(base int, values []int) int {\n\treturn base // TODO: forward values with slice expansion.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tbase   int\n\t\tvalues []int\n\t\twant   int\n\t}{{5, nil, 5}, {1, []int{2, 3}, 6}, {0, []int{-4, 2}, -2}}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tif got := addAll(tc.base, tc.values); got != tc.want {\n\t\t\tt.Errorf(\"addAll(%d,%v)=%d; want %d\", tc.base, tc.values, got, tc.want)\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"input changed\")\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -755,7 +755,7 @@
     "topic": "Closures",
     "title": "Capture a variable",
     "instruction": "Compare a closure reading an outer variable with a function using a copied argument. Fill the state after the outer variable changes.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Function_literals",
     "code": "package main\n\n// Capture a variable\n// Compare a closure reading an outer variable with a function using a copied argument.\n// Fill the state after the outer variable changes.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\tcaptured := func() int { return value }\n\tcopied := func(n int) int { n++; return n }\n\tbefore := captured()\n\tvalue = 5\n\tafter := captured()\n\targumentResult := copied(value)\n\n\twantBefore := -999 // TODO: replace this value.\n\tif got := before; got != wantBefore {\n\t\tt.Errorf(\"Before: got %#v; want %#v\", got, wantBefore)\n\t}\n\n\twantAfter := -999 // TODO: replace this value.\n\tif got := after; got != wantAfter {\n\t\tt.Errorf(\"After: got %#v; want %#v\", got, wantAfter)\n\t}\n\n\twantArgumentResult := -999 // TODO: replace this value.\n\tif got := argumentResult; got != wantArgumentResult {\n\t\tt.Errorf(\"ArgumentResult: got %#v; want %#v\", got, wantArgumentResult)\n\t}\n\n\twantOuterValue := -999 // TODO: replace this value.\n\tif got := value; got != wantOuterValue {\n\t\tt.Errorf(\"OuterValue: got %#v; want %#v\", got, wantOuterValue)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -769,7 +769,7 @@
     "topic": "Closures",
     "title": "Closure retains state",
     "instruction": "Implement counter. Each factory call returns a closure with its own state; each call adds step and returns the updated value.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Function_literals",
     "code": "package main\n\n// Closure retains state\n// Implement counter. Each factory call returns a closure with its own state; each call\n// adds step and returns the updated value.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc counter(start, step int) func() int {\n\treturn func() int { return start } // TODO: retain independent state.\n}\n\nfunc TestKoan(t *testing.T) {\n\ta := counter(0, 1)\n\tb := counter(10, 2)\n\tgot := []int{a(), a(), b(), a(), b()}\n\twant := []int{1, 2, 12, 3, 14}\n\tif !slices.Equal(got, want) {\n\t\tt.Errorf(\"interleaved counters=%v; want %v\", got, want)\n\t}\n\tnegative := counter(3, -2)\n\tif got := []int{negative(), negative()}; !slices.Equal(got, []int{1, -1}) {\n\t\tt.Errorf(\"negative step=%v\", got)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -782,7 +782,7 @@
     "topic": "Closures",
     "title": "A function is a value",
     "instruction": "Implement transform. Apply the supplied function once to each value, in order, and return independent storage. The function is non-nil; empty input produces no calls.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Function_types",
     "code": "package main\n\n// A function is a value\n// Implement transform. Apply the supplied function once to each value, in order, and\n// return independent storage. The function is non-nil; empty input produces no calls.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc transform(values []int, fn func(int) int) []int {\n\treturn nil // TODO: call the supplied function for each value.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\tfn     func(int) int\n\t\twant   []int\n\t}{\n\t\t{nil, func(n int) int { return n * 2 }, nil},\n\t\t{[]int{1, 2, 3}, func(n int) int { return n * 2 }, []int{2, 4, 6}},\n\t\t{[]int{1, 2, 3}, func(n int) int { return -n }, []int{-1, -2, -3}},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tcalls := 0\n\t\tgot := transform(tc.values, func(n int) int { calls++; return tc.fn(n) })\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"transform(%v)=%v; want %v\", before, got, tc.want)\n\t\t}\n\t\tif calls != len(tc.values) {\n\t\t\tt.Errorf(\"calls=%d; want %d\", calls, len(tc.values))\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"input changed\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -797,7 +797,7 @@
     "topic": "Pointers and allocation",
     "title": "Dereference a pointer",
     "instruction": "Implement swap through the two non-nil pointers. It must also work when both pointers refer to the same variable.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Address_operators",
     "code": "package main\n\n// Dereference a pointer\n// Implement swap through the two non-nil pointers. It must also work when both pointers\n// refer to the same variable.\n\nimport (\n\t\"testing\"\n)\n\nfunc swap(a, b *int) { // TODO: swap the pointed-to values.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, pair := range [][2]int{{2, 5}, {0, 7}, {-3, 4}} {\n\t\ta, b := pair[0], pair[1]\n\t\tswap(&a, &b)\n\t\tif a != pair[1] || b != pair[0] {\n\t\t\tt.Errorf(\"swap(%v)=[%d %d]\", pair, a, b)\n\t\t}\n\t}\n\tvalue := 7\n\tswap(&value, &value)\n\tif value != 7 {\n\t\tt.Errorf(\"same-pointer swap=%d; want 7\", value)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -810,7 +810,7 @@
     "topic": "Pointers and allocation",
     "title": "Pass values by value",
     "instruction": "Fill the caller's values and the returned value. Changing a copied integer or array parameter does not update its caller.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Calls",
     "code": "package main\n\n// Pass values by value\n// Fill the caller's values and the returned value. Changing a copied integer or array\n// parameter does not update its caller.\n\nimport (\n\t\"testing\"\n)\n\nfunc increment(value int) int   { value++; return value }\nfunc changeArray(values [2]int) { values[0] = 9 }\n\nfunc TestKoan(t *testing.T) {\n\tnumber := 3\n\treturned := increment(number)\n\tarray := [2]int{1, 2}\n\tchangeArray(array)\n\n\twantCaller := -999 // TODO: replace this value.\n\tif got := number; got != wantCaller {\n\t\tt.Errorf(\"Caller: got %#v; want %#v\", got, wantCaller)\n\t}\n\n\twantReturned := -999 // TODO: replace this value.\n\tif got := returned; got != wantReturned {\n\t\tt.Errorf(\"Returned: got %#v; want %#v\", got, wantReturned)\n\t}\n\n\twantArray := [2]int{-1, -1} // TODO: replace this value.\n\tif got := array; got != wantArray {\n\t\tt.Errorf(\"Array: got %#v; want %#v\", got, wantArray)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -824,7 +824,7 @@
     "topic": "Pointers and allocation",
     "title": "Pass a pointer",
     "instruction": "Repair reset. Changing a local pointer variable does not update the object it originally pointed to; write through the pointer instead. Inputs are non-nil.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Address_operators",
     "code": "package main\n\n// Pass a pointer\n// Repair reset. Changing a local pointer variable does not update the object it originally\n// pointed to; write through the pointer instead. Inputs are non-nil.\n\nimport (\n\t\"testing\"\n)\n\nfunc reset(value *int) {\n\tvalue = new(int) // TODO: reset the pointed-to integer.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, initial := range []int{7, -3, 0} {\n\t\tvalue := initial\n\t\tpointer := &value\n\t\toriginalAddress := pointer\n\t\treset(pointer)\n\t\tif value != 0 {\n\t\t\tt.Errorf(\"reset(%d): value=%d; want 0\", initial, value)\n\t\t}\n\t\tif pointer != originalAddress {\n\t\t\tt.Error(\"reset changed the caller's pointer\")\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -838,7 +838,7 @@
     "topic": "Pointers and allocation",
     "title": "New allocates a zero value",
     "instruction": "Compare a nil pointer, new(int), and an initialized address. Fill both nil checks and values; new returns allocated zero-initialized storage.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Allocation",
     "code": "package main\n\n// New allocates a zero value\n// Compare a nil pointer, new(int), and an initialized address. Fill both nil checks and\n// values; new returns allocated zero-initialized storage.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar absent *int\n\tallocated := new(int)\n\tinitialized := 7\n\taddress := &initialized\n\tsecond := new(int)\n\t*allocated = 4\n\n\twantAbsentNil := false // TODO: replace this value.\n\tif got := absent == nil; got != wantAbsentNil {\n\t\tt.Errorf(\"AbsentNil: got %#v; want %#v\", got, wantAbsentNil)\n\t}\n\n\twantAllocatedNil := true // TODO: replace this value.\n\tif got := allocated == nil; got != wantAllocatedNil {\n\t\tt.Errorf(\"AllocatedNil: got %#v; want %#v\", got, wantAllocatedNil)\n\t}\n\n\twantAllocatedValue := -999 // TODO: replace this value.\n\tif got := *allocated; got != wantAllocatedValue {\n\t\tt.Errorf(\"AllocatedValue: got %#v; want %#v\", got, wantAllocatedValue)\n\t}\n\n\twantSecondValue := -999 // TODO: replace this value.\n\tif got := *second; got != wantSecondValue {\n\t\tt.Errorf(\"SecondValue: got %#v; want %#v\", got, wantSecondValue)\n\t}\n\n\twantInitializedValue := -999 // TODO: replace this value.\n\tif got := *address; got != wantInitializedValue {\n\t\tt.Errorf(\"InitializedValue: got %#v; want %#v\", got, wantInitializedValue)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -852,7 +852,7 @@
     "topic": "Pointers and allocation",
     "title": "Make sets length and capacity",
     "instruction": "Complete the allocation: two zero-valued elements, with capacity for five. Append three values and check that an existing view observes them without changing its own length.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Making_slices_maps_and_channels",
     "code": "package main\n\n// Make sets length and capacity\n// Complete the allocation: two zero-valued elements, with capacity for five. Append three\n// values and check that an existing view observes them without changing its own length.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tbuffer := []int{} // TODO: allocate the required length and capacity.\n\tif len(buffer) != 2 || cap(buffer) != 5 {\n\t\tt.Fatalf(\"len=%d cap=%d; want len=2 cap=5\", len(buffer), cap(buffer))\n\t}\n\tif !slices.Equal(buffer, []int{0, 0}) {\n\t\tt.Error(\"the initial elements must be zero\")\n\t}\n\told := buffer\n\tview := buffer[:cap(buffer)]\n\tbuffer = append(buffer, 3, 4, 5)\n\tif len(old) != 2 {\n\t\tt.Error(\"append changed the old slice header\")\n\t}\n\tif !slices.Equal(view, []int{0, 0, 3, 4, 5}) {\n\t\tt.Errorf(\"view=%v; want [0 0 3 4 5]\", view)\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -867,7 +867,7 @@
     "topic": "Structs and methods",
     "title": "Struct fields",
     "instruction": "Implement newPerson with a struct literal. Store the supplied name and age; leave Active at its zero value.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Struct_types",
     "code": "package main\n\n// Struct fields\n// Implement newPerson with a struct literal. Store the supplied name and age; leave Active\n// at its zero value.\n\nimport (\n\t\"testing\"\n)\n\ntype Person struct {\n\tName   string\n\tAge    int\n\tActive bool\n}\n\nfunc newPerson(name string, age int) Person {\n\treturn Person{} // TODO: initialize the supplied fields.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tname string\n\t\tage  int\n\t}{{\"Ada\", 30}, {\"Grace\", 42}, {\"\", 0}}\n\tfor _, tc := range cases {\n\t\tgot := newPerson(tc.name, tc.age)\n\t\twant := Person{Name: tc.name, Age: tc.age}\n\t\tif got != want {\n\t\t\tt.Errorf(\"newPerson(%q,%d)=%+v; want %+v\", tc.name, tc.age, got, want)\n\t\t}\n\t\tif got.Active {\n\t\t\tt.Error(\"Active must default to false\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -882,7 +882,7 @@
     "topic": "Structs and methods",
     "title": "Struct assignment copies fields",
     "instruction": "Fill the expected fields after struct assignment. Scalar fields are copied, while copied slices and pointers still refer to shared storage.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Assignment_statements",
     "code": "package main\n\n// Struct assignment copies fields\n// Fill the expected fields after struct assignment. Scalar fields are copied, while copied\n// slices and pointers still refer to shared storage.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\ntype Record struct {\n\tCount   int\n\tValues  []int\n\tPointer *int\n}\n\nfunc TestKoan(t *testing.T) {\n\tnumber := 4\n\toriginal := Record{Count: 1, Values: []int{2, 3}, Pointer: &number}\n\tcopied := original\n\tcopied.Count = 9\n\tcopied.Values[0] = 7\n\t*copied.Pointer = 8\n\twantCount := -999         // TODO: original scalar.\n\twantValues := []int{-999} // TODO: original slice.\n\twantPointed := -999       // TODO: original pointed-to value.\n\tif original.Count != wantCount {\n\t\tt.Errorf(\"original.Count=%d; want %d\", original.Count, wantCount)\n\t}\n\tif !slices.Equal(original.Values, wantValues) {\n\t\tt.Errorf(\"original.Values=%v; want %v\", original.Values, wantValues)\n\t}\n\tif *original.Pointer != wantPointed {\n\t\tt.Errorf(\"*original.Pointer=%d; want %d\", *original.Pointer, wantPointed)\n\t}\n\tif copied.Count != 9 {\n\t\tt.Error(\"the copied scalar was not updated\")\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -898,7 +898,7 @@
     "topic": "Structs and methods",
     "title": "Methods on named types",
     "instruction": "Implement the Kilometers method on Meters. Use the receiver value and a floating-point conversion; do not lose the fractional kilometer.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Method_declarations",
     "code": "package main\n\n// Methods on named types\n// Implement the Kilometers method on Meters. Use the receiver value and a floating-point\n// conversion; do not lose the fractional kilometer.\n\nimport (\n\t\"testing\"\n)\n\ntype Meters int\n\nfunc (m Meters) Kilometers() float64 {\n\treturn 0 // TODO: use the receiver and preserve the fraction.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tmeters Meters\n\t\twant   float64\n\t}{{0, 0}, {1000, 1}, {1500, 1.5}, {250, 0.25}}\n\tfor _, tc := range cases {\n\t\tif got := tc.meters.Kilometers(); got != tc.want {\n\t\t\tt.Errorf(\"%d meters=%v km; want %v\", tc.meters, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -913,7 +913,7 @@
     "topic": "Structs and methods",
     "title": "Pointer receivers modify values",
     "instruction": "Repair the method receiver so Add updates the caller's Counter. Repeated positive and negative additions must accumulate.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Method_declarations",
     "code": "package main\n\n// Pointer receivers modify values\n// Repair the method receiver so Add updates the caller's Counter. Repeated positive and\n// negative additions must accumulate.\n\nimport (\n\t\"testing\"\n)\n\ntype Counter struct{ N int }\n\nfunc (c Counter) Add(delta int) { // TODO: use a receiver that updates the caller.\n\tc.N += delta\n}\n\nfunc TestKoan(t *testing.T) {\n\tcounter := Counter{N: 2}\n\tfor _, step := range []struct{ delta, want int }{{3, 5}, {-2, 3}, {0, 3}} {\n\t\tcounter.Add(step.delta)\n\t\tif counter.N != step.want {\n\t\t\tt.Errorf(\"Add(%d): N=%d; want %d\", step.delta, counter.N, step.want)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -927,7 +927,7 @@
     "topic": "Structs and methods",
     "title": "Value receivers use a copy",
     "instruction": "Fill the caller state and method result. A value receiver copies the struct, but its slice field still shares an array.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Method_declarations",
     "code": "package main\n\n// Value receivers use a copy\n// Fill the caller state and method result. A value receiver copies the struct, but its\n// slice field still shares an array.\n\nimport (\n\t\"testing\"\n)\n\ntype Counter struct {\n\tN      int\n\tValues []int\n}\n\nfunc (c Counter) Change() int { c.N++; c.Values[0]++; return c.N }\n\nfunc TestKoan(t *testing.T) {\n\tcounter := Counter{N: 2, Values: []int{4}}\n\treturned := counter.Change()\n\n\twantCallerNumber := -999 // TODO: replace this value.\n\tif got := counter.N; got != wantCallerNumber {\n\t\tt.Errorf(\"CallerNumber: got %#v; want %#v\", got, wantCallerNumber)\n\t}\n\n\twantReturnedNumber := -999 // TODO: replace this value.\n\tif got := returned; got != wantReturnedNumber {\n\t\tt.Errorf(\"ReturnedNumber: got %#v; want %#v\", got, wantReturnedNumber)\n\t}\n\n\twantSharedElement := -999 // TODO: replace this value.\n\tif got := counter.Values[0]; got != wantSharedElement {\n\t\tt.Errorf(\"SharedElement: got %#v; want %#v\", got, wantSharedElement)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -942,7 +942,7 @@
     "topic": "Embedding",
     "title": "Promoted fields",
     "instruction": "Complete newEmployee. Initialize the embedded Person through its field name, then read Name through both promoted and explicit selectors.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Struct_types",
     "code": "package main\n\n// Promoted fields\n// Complete newEmployee. Initialize the embedded Person through its field name, then read\n// Name through both promoted and explicit selectors.\n\nimport (\n\t\"testing\"\n)\n\ntype Person struct{ Name string }\ntype Employee struct {\n\tPerson\n\tID int\n}\n\nfunc newEmployee(name string, id int) Employee {\n\treturn Employee{} // TODO: initialize the embedded value and ID.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tname string\n\t\tid   int\n\t}{{\"Ada\", 7}, {\"Grace\", 9}, {\"\", 0}}\n\tfor _, tc := range cases {\n\t\temployee := newEmployee(tc.name, tc.id)\n\t\tif employee.Name != tc.name || employee.Person.Name != tc.name || employee.ID != tc.id {\n\t\t\tt.Errorf(\"employee=%+v; want name=%q id=%d\", employee, tc.name, tc.id)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -955,7 +955,7 @@
     "topic": "Embedding",
     "title": "Promoted methods",
     "instruction": "Implement Tagged.Label to override the promoted method. Append a nonempty tag in brackets; keep Base.Label available without the tag.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Struct_types",
     "code": "package main\n\n// Promoted methods\n// Implement Tagged.Label to override the promoted method. Append a nonempty tag in\n// brackets; keep Base.Label available without the tag.\n\nimport (\n\t\"testing\"\n)\n\ntype Base struct{ Name string }\n\nfunc (b Base) Label() string { return b.Name }\n\ntype Tagged struct {\n\tBase\n\tTag string\n}\n\nfunc (t Tagged) Label() string {\n\treturn t.Base.Label() // TODO: add the tag without changing Base.\n}\n\nfunc TestKoan(t *testing.T) {\n\tplain := struct{ Base }{Base{Name: \"Ada\"}}\n\tif got := plain.Label(); got != \"Ada\" {\n\t\tt.Errorf(\"promoted label=%q; want Ada\", got)\n\t}\n\tfor _, tc := range []struct{ name, tag, want string }{{\"Ada\", \"admin\", \"Ada [admin]\"}, {\"Grace\", \"\", \"Grace\"}, {\"Go\", \"test\", \"Go [test]\"}} {\n\t\tvalue := Tagged{Base: Base{Name: tc.name}, Tag: tc.tag}\n\t\tif got := value.Label(); got != tc.want {\n\t\t\tt.Errorf(\"overridden label=%q; want %q\", got, tc.want)\n\t\t}\n\t\tif got := value.Base.Label(); got != tc.name {\n\t\t\tt.Errorf(\"base label=%q; want %q\", got, tc.name)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -970,7 +970,7 @@
     "topic": "Interfaces",
     "title": "Implicit interface implementation",
     "instruction": "Complete Robot.Name so Robot satisfies Named's behavior. The same consumer must accept people and robots; robot names are robot: followed by the ID.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Interface_types",
     "code": "package main\n\n// Implicit interface implementation\n// Complete Robot.Name so Robot satisfies Named's behavior. The same consumer must accept\n// people and robots; robot names are robot: followed by the ID.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\ntype Named interface{ Name() string }\ntype Person struct{ Value string }\n\nfunc (p Person) Name() string { return p.Value }\n\ntype Robot struct{ ID string }\n\nfunc (r Robot) Name() string {\n\treturn \"\" // TODO: implement the interface method.\n}\nfunc greetings(values []Named) []string {\n\tvar result []string\n\tfor _, value := range values {\n\t\tresult = append(result, \"Hello \"+value.Name())\n\t}\n\treturn result\n}\n\nfunc TestKoan(t *testing.T) {\n\tvalues := []Named{Person{Value: \"Ada\"}, Robot{ID: \"r1\"}, Person{Value: \"Grace\"}, Robot{ID: \"r2\"}}\n\twant := []string{\"Hello Ada\", \"Hello robot:r1\", \"Hello Grace\", \"Hello robot:r2\"}\n\tif got := greetings(values); !slices.Equal(got, want) {\n\t\tt.Errorf(\"greetings=%q; want %q\", got, want)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -984,7 +984,7 @@
     "topic": "Interfaces",
     "title": "Type assertions",
     "instruction": "Implement stringValue with a comma-ok type assertion. Return the string and true only for dynamic type string, including an empty string. Other types must return empty and false without panicking.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Type_assertions",
     "code": "package main\n\n// Type assertions\n// Implement stringValue with a comma-ok type assertion. Return the string and true only\n// for dynamic type string, including an empty string. Other types must return empty and\n// false without panicking.\n\nimport (\n\t\"testing\"\n)\n\ntype Label string\n\nfunc stringValue(value any) (string, bool) {\n\treturn \"\", false // TODO: use a safe type assertion.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalue any\n\t\twant  string\n\t\tok    bool\n\t}{\n\t\t{\"Go\", \"Go\", true}, {\"\", \"\", true}, {7, \"\", false}, {nil, \"\", false}, {Label(\"Go\"), \"\", false}, {[]byte(\"Go\"), \"\", false},\n\t}\n\tfor _, tc := range cases {\n\t\tgot, ok := stringValue(tc.value)\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"stringValue(%T)=(%q,%v); want (%q,%v)\", tc.value, got, ok, tc.want, tc.ok)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -999,7 +999,7 @@
     "topic": "Interfaces",
     "title": "Type switches",
     "instruction": "Implement describeType using a type switch. Recognize nil, int, string, and []int; other dynamic types, including Label, return other.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Type_switches",
     "code": "package main\n\n// Type switches\n// Implement describeType using a type switch. Recognize nil, int, string, and []int; other\n// dynamic types, including Label, return other.\n\nimport (\n\t\"testing\"\n)\n\ntype Label string\n\nfunc describeType(value any) string {\n\treturn \"other\" // TODO: switch on the dynamic type.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalue any\n\t\twant  string\n\t}{{nil, \"nil\"}, {7, \"int\"}, {\"Go\", \"string\"}, {[]int{1}, \"slice\"}, {Label(\"Go\"), \"other\"}, {3.5, \"other\"}}\n\tfor _, tc := range cases {\n\t\tif got := describeType(tc.value); got != tc.want {\n\t\t\tt.Errorf(\"describeType(%T)=%q; want %q\", tc.value, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1028,7 +1028,7 @@
     "topic": "Interfaces",
     "title": "Interface method sets",
     "instruction": "Repair the receiver so only *Counter implements Incrementer. The pointer must mutate its counter; a Counter value must fail the runtime interface assertion.",
-    "reference": "https://go.dev/wiki/MethodSets",
+    "reference": "https://go.dev/ref/spec#Method_sets",
     "code": "package main\n\n// Interface method sets\n// Repair the receiver so only *Counter implements Incrementer. The pointer must mutate its\n// counter; a Counter value must fail the runtime interface assertion.\n\nimport (\n\t\"testing\"\n)\n\ntype Incrementer interface{ Increment() }\ntype Counter struct{ N int }\n\nfunc (c Counter) Increment() { // TODO: choose the pointer receiver.\n\tc.N++\n}\n\nfunc TestKoan(t *testing.T) {\n\t_, valueOK := any(Counter{}).(Incrementer)\n\tif valueOK {\n\t\tt.Error(\"Counter value must not implement Incrementer\")\n\t}\n\tcounter := &Counter{}\n\tincrementer, pointerOK := any(counter).(Incrementer)\n\tif !pointerOK {\n\t\tt.Fatal(\"*Counter must implement Incrementer\")\n\t}\n\tincrementer.Increment()\n\tincrementer.Increment()\n\tif counter.N != 2 {\n\t\tt.Errorf(\"counter.N=%d; want 2\", counter.N)\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1044,7 +1044,7 @@
     "topic": "Errors",
     "title": "Create an error",
     "instruction": "Implement requirePositive. Return the provided ErrNonpositive for zero or negative input, and an actual nil error for positive input.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/errors#New",
     "code": "package main\n\n// Create an error\n// Implement requirePositive. Return the provided ErrNonpositive for zero or negative\n// input, and an actual nil error for positive input.\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nvar ErrNonpositive = errors.New(\"value must be positive\")\n\nfunc requirePositive(value int) error {\n\treturn nil // TODO: validate the value.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, tc := range []struct {\n\t\tvalue   int\n\t\tinvalid bool\n\t}{{-7, true}, {0, true}, {1, false}, {9, false}} {\n\t\terr := requirePositive(tc.value)\n\t\tif tc.invalid && err != ErrNonpositive {\n\t\t\tt.Errorf(\"requirePositive(%d)=%v; want ErrNonpositive\", tc.value, err)\n\t\t}\n\t\tif !tc.invalid && err != nil {\n\t\t\tt.Errorf(\"requirePositive(%d)=%v; want nil\", tc.value, err)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1058,7 +1058,7 @@
     "topic": "Errors",
     "title": "Wrap and identify an error",
     "instruction": "Repair readNumber's error wrapping. Add parse context while preserving strconv's underlying error so callers can recognize syntax and range errors with errors.Is.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/errors#Is",
     "code": "package main\n\n// Wrap and identify an error\n// Repair readNumber's error wrapping. Add parse context while preserving strconv's\n// underlying error so callers can recognize syntax and range errors with errors.Is.\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"strconv\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc readNumber(text string) (int, error) {\n\tvalue, err := strconv.Atoi(text)\n\tif err != nil {\n\t\treturn 0, fmt.Errorf(\"parse: %v\", err) // TODO: preserve the underlying error.\n\t}\n\treturn value, nil\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext string\n\t\twant int\n\t\terr  error\n\t}{\n\t\t{\"42\", 42, nil}, {\"-7\", -7, nil}, {\"bad\", 0, strconv.ErrSyntax}, {\"\", 0, strconv.ErrSyntax},\n\t\t{\"999999999999999999999999999999\", 0, strconv.ErrRange},\n\t}\n\tfor _, tc := range cases {\n\t\tvalue, err := readNumber(tc.text)\n\t\tif tc.err == nil {\n\t\t\tif err != nil || value != tc.want {\n\t\t\t\tt.Errorf(\"readNumber(%q)=(%d,%v); want (%d,nil)\", tc.text, value, err, tc.want)\n\t\t\t}\n\t\t} else {\n\t\t\tif !errors.Is(err, tc.err) {\n\t\t\t\tt.Errorf(\"readNumber(%q): error %v does not wrap %v\", tc.text, err, tc.err)\n\t\t\t}\n\t\t\tif err == nil || !strings.HasPrefix(err.Error(), \"parse: \") {\n\t\t\t\tt.Errorf(\"missing parse context: %v\", err)\n\t\t\t}\n\t\t}\n\t}\n\tsameMessage := errors.New(strconv.ErrSyntax.Error())\n\tif errors.Is(sameMessage, strconv.ErrSyntax) {\n\t\tt.Error(\"matching error text does not imply matching error identity\")\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1072,7 +1072,7 @@
     "topic": "Errors",
     "title": "Inspect a typed error",
     "instruction": "Implement errorPath with errors.As. Find a *PathError through wrapping and return its Path; unrelated errors, nil errors, or a typed nil *PathError return empty and false.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/errors#As",
     "code": "package main\n\n// Inspect a typed error\n// Implement errorPath with errors.As. Find a *PathError through wrapping and return its\n// Path; unrelated errors, nil errors, or a typed nil *PathError return empty and false.\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"testing\"\n)\n\ntype PathError struct{ Path string }\n\nfunc (e *PathError) Error() string { return e.Path }\nfunc errorPath(err error) (string, bool) {\n\treturn \"\", false // TODO: extract the typed error and its path.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\terr  error\n\t\tpath string\n\t\tok   bool\n\t}{\n\t\t{&PathError{Path: \"a.txt\"}, \"a.txt\", true},\n\t\t{fmt.Errorf(\"read: %w\", &PathError{Path: \"b.txt\"}), \"b.txt\", true},\n\t\t{errors.New(\"a.txt\"), \"\", false}, {nil, \"\", false}, {(*PathError)(nil), \"\", false},\n\t}\n\tfor _, tc := range cases {\n\t\tpath, ok := errorPath(tc.err)\n\t\tif path != tc.path || ok != tc.ok {\n\t\t\tt.Errorf(\"errorPath(%v)=(%q,%v); want (%q,%v)\", tc.err, path, ok, tc.path, tc.ok)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1087,7 +1087,7 @@
     "topic": "Defer and panic",
     "title": "Defer runs on return",
     "instruction": "Repair runWithCleanup. Register cleanup with defer so it runs once after the work, on both success and early return.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Defer_statements",
     "code": "package main\n\n// Defer runs on return\n// Repair runWithCleanup. Register cleanup with defer so it runs once after the work, on\n// both success and early return.\n\nimport (\n\t\"errors\"\n\t\"slices\"\n\t\"testing\"\n)\n\nvar ErrWork = errors.New(\"work failed\")\n\nfunc runWithCleanup(work func() error, cleanup func()) error {\n\tcleanup() // TODO: run cleanup when this function returns.\n\treturn work()\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, fail := range []bool{false, true} {\n\t\tvar trace []string\n\t\terr := runWithCleanup(func() error {\n\t\t\ttrace = append(trace, \"work\")\n\t\t\tif fail {\n\t\t\t\treturn ErrWork\n\t\t\t}\n\t\t\treturn nil\n\t\t}, func() { trace = append(trace, \"cleanup\") })\n\t\tif !slices.Equal(trace, []string{\"work\", \"cleanup\"}) {\n\t\t\tt.Errorf(\"fail=%v: trace=%q; want [work cleanup]\", fail, trace)\n\t\t}\n\t\tif fail && err != ErrWork {\n\t\t\tt.Errorf(\"error=%v; want ErrWork\", err)\n\t\t}\n\t\tif !fail && err != nil {\n\t\t\tt.Errorf(\"error=%v; want nil\", err)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1101,7 +1101,7 @@
     "topic": "Defer and panic",
     "title": "Deferred calls run in reverse order",
     "instruction": "Fill the complete execution trace. Include ordinary statements and all deferred calls in the order they actually run.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Defer_statements",
     "code": "package main\n\n// Deferred calls run in reverse order\n// Fill the complete execution trace. Include ordinary statements and all deferred calls in\n// the order they actually run.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\ttrace := \"\"\n\tfunc() {\n\t\ttrace += \"start \"\n\t\tdefer func() { trace += \"first \" }()\n\t\tdefer func() { trace += \"second \" }()\n\t\ttrace += \"return \"\n\t}()\n\n\twantTrace := \"TODO\" // TODO: replace this value.\n\tif got := trace; got != wantTrace {\n\t\tt.Errorf(\"Trace: got %#v; want %#v\", got, wantTrace)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -1114,7 +1114,7 @@
     "topic": "Defer and panic",
     "title": "Deferred arguments are evaluated immediately",
     "instruction": "Compare a deferred argument with a deferred closure reading the variable later. Then check how defer changes a named result before it reaches the caller.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Defer_statements",
     "code": "package main\n\n// Deferred arguments are evaluated immediately\n// Compare a deferred argument with a deferred closure reading the variable later. Then\n// check how defer changes a named result before it reaches the caller.\n\nimport (\n\t\"testing\"\n)\n\nfunc adjusted() (result int) { defer func() { result++ }(); return 4 }\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\targument, closure := 0, 0\n\tfunc() {\n\t\tdefer func(n int) { argument = n }(value)\n\t\tdefer func() { closure = value }()\n\t\tvalue = 2\n\t}()\n\tresult := adjusted()\n\n\twantArgument := -999 // TODO: replace this value.\n\tif got := argument; got != wantArgument {\n\t\tt.Errorf(\"Argument: got %#v; want %#v\", got, wantArgument)\n\t}\n\n\twantClosure := -999 // TODO: replace this value.\n\tif got := closure; got != wantClosure {\n\t\tt.Errorf(\"Closure: got %#v; want %#v\", got, wantClosure)\n\t}\n\n\twantNamedResult := -999 // TODO: replace this value.\n\tif got := result; got != wantNamedResult {\n\t\tt.Errorf(\"NamedResult: got %#v; want %#v\", got, wantNamedResult)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -1130,7 +1130,7 @@
     "topic": "Defer and panic",
     "title": "Recover a panic",
     "instruction": "Implement catchPanic. Run work once; a panic becomes an error containing its value, while normal completion returns a real nil error. Use a deferred recovery in the same goroutine.",
-    "reference": "https://go.dev/wiki/PanicAndRecover",
+    "reference": "https://go.dev/ref/spec#Handling_panics",
     "code": "package main\n\n// Recover a panic\n// Implement catchPanic. Run work once; a panic becomes an error containing its value,\n// while normal completion returns a real nil error. Use a deferred recovery in the same\n// goroutine.\n\nimport (\n\t\"fmt\"\n\t\"testing\"\n)\n\nfunc catchPanic(work func()) (err error) {\n\treturn fmt.Errorf(\"not implemented\") // TODO: recover only when work panics.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcalls := 0\n\tif err := catchPanic(func() { calls++ }); err != nil {\n\t\tt.Errorf(\"normal work returned %v\", err)\n\t}\n\tif calls != 1 {\n\t\tt.Errorf(\"calls=%d; want 1\", calls)\n\t}\n\tfor _, message := range []string{\"stop\", \"bad input\"} {\n\t\terr := catchPanic(func() { panic(message) })\n\t\tif err == nil || err.Error() != message {\n\t\t\tt.Errorf(\"panic(%q): error=%v\", message, err)\n\t\t}\n\t}\n\tif err := catchPanic(func() { panic(7) }); err == nil || err.Error() != \"7\" {\n\t\tt.Errorf(\"numeric panic: error=%v\", err)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1146,7 +1146,7 @@
     "topic": "Channels",
     "title": "Buffered channel length",
     "instruction": "Track queue length separately from capacity as values are sent and received. Fill the first received value and each queue length.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Channel_types",
     "code": "package main\n\n// Buffered channel length\n// Track queue length separately from capacity as values are sent and received. Fill the\n// first received value and each queue length.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tinitial := len(ch)\n\tch <- 7\n\tch <- 0\n\tfilled := len(ch)\n\tfirst := <-ch\n\tremaining := len(ch)\n\n\twantInitial := -999 // TODO: replace this value.\n\tif got := initial; got != wantInitial {\n\t\tt.Errorf(\"Initial: got %#v; want %#v\", got, wantInitial)\n\t}\n\n\twantCapacity := -999 // TODO: replace this value.\n\tif got := cap(ch); got != wantCapacity {\n\t\tt.Errorf(\"Capacity: got %#v; want %#v\", got, wantCapacity)\n\t}\n\n\twantFilled := -999 // TODO: replace this value.\n\tif got := filled; got != wantFilled {\n\t\tt.Errorf(\"Filled: got %#v; want %#v\", got, wantFilled)\n\t}\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := first; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantRemaining := -999 // TODO: replace this value.\n\tif got := remaining; got != wantRemaining {\n\t\tt.Errorf(\"Remaining: got %#v; want %#v\", got, wantRemaining)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -1160,7 +1160,7 @@
     "topic": "Channels",
     "title": "Send and receive",
     "instruction": "Complete the send and receive loops. Use the supplied buffered channel to round-trip every string in order; return the values and the number still queued.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Send_statements",
     "code": "package main\n\n// Send and receive\n// Complete the send and receive loops. Use the supplied buffered channel to round-trip\n// every string in order; return the values and the number still queued.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc roundTrip(values []string) ([]string, int) {\n\tch := make(chan string, len(values))\n\tfor _, value := range values {\n\t\t_ = value\n\t\t// TODO: send each value to ch.\n\t}\n\tvar result []string\n\tfor range values {\n\t\t// TODO: receive one value and append it to result.\n\t}\n\treturn result, len(ch)\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, values := range [][]string{nil, {}, {\"Go\"}, {\"first\", \"\", \"last\"}} {\n\t\tgot, remaining := roundTrip(values)\n\t\tif !slices.Equal(got, values) {\n\t\t\tt.Errorf(\"roundTrip(%q)=%q\", values, got)\n\t\t}\n\t\tif remaining != 0 {\n\t\t\tt.Errorf(\"remaining=%d; want 0\", remaining)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -1175,7 +1175,7 @@
     "topic": "Channels",
     "title": "Receive from a closed channel",
     "instruction": "Fill the value and ok result for each receive. Closing a buffered channel does not discard queued values; only a closed and drained channel returns zero and false.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Receive_operator",
     "code": "package main\n\n// Receive from a closed channel\n// Fill the value and ok result for each receive. Closing a buffered channel does not\n// discard queued values; only a closed and drained channel returns zero and false.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tch <- 7\n\tch <- 8\n\tclose(ch)\n\tfirst, firstOK := <-ch\n\tsecond, secondOK := <-ch\n\tthird, thirdOK := <-ch\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := first; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantFirstOK := false // TODO: replace this value.\n\tif got := firstOK; got != wantFirstOK {\n\t\tt.Errorf(\"FirstOK: got %#v; want %#v\", got, wantFirstOK)\n\t}\n\n\twantSecond := -999 // TODO: replace this value.\n\tif got := second; got != wantSecond {\n\t\tt.Errorf(\"Second: got %#v; want %#v\", got, wantSecond)\n\t}\n\n\twantSecondOK := false // TODO: replace this value.\n\tif got := secondOK; got != wantSecondOK {\n\t\tt.Errorf(\"SecondOK: got %#v; want %#v\", got, wantSecondOK)\n\t}\n\n\twantDrained := -999 // TODO: replace this value.\n\tif got := third; got != wantDrained {\n\t\tt.Errorf(\"Drained: got %#v; want %#v\", got, wantDrained)\n\t}\n\n\twantDrainedOK := true // TODO: replace this value.\n\tif got := thirdOK; got != wantDrainedOK {\n\t\tt.Errorf(\"DrainedOK: got %#v; want %#v\", got, wantDrainedOK)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
@@ -1190,7 +1190,7 @@
     "topic": "Channels",
     "title": "Range over a channel",
     "instruction": "Implement drain with range over the channel. Return all queued values, including zero, and finish when the sender closes the channel.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#For_range",
     "code": "package main\n\n// Range over a channel\n// Implement drain with range over the channel. Return all queued values, including zero,\n// and finish when the sender closes the channel.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc drain(input <-chan int) []int {\n\treturn nil // TODO: receive until the input closes.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, values := range [][]int{nil, {0}, {2, 0, 3}} {\n\t\tinput := make(chan int, len(values))\n\t\tfor _, value := range values {\n\t\t\tinput <- value\n\t\t}\n\t\tclose(input)\n\t\tfinished := make(chan []int, 1)\n\t\tgo func() { finished <- drain(input) }()\n\t\tselect {\n\t\tcase got := <-finished:\n\t\t\tif !slices.Equal(got, values) {\n\t\t\t\tt.Errorf(\"drain(%v)=%v\", values, got)\n\t\t\t}\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"drain did not stop at channel closure\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1204,7 +1204,7 @@
     "topic": "Channels",
     "title": "Select with a default",
     "instruction": "Implement tryReceive with select and default. Return value, ready, and open: a closed channel is ready but not open; an unready or nil channel returns zero, false, false.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Select_statements",
     "code": "package main\n\n// Select with a default\n// Implement tryReceive with select and default. Return value, ready, and open: a closed\n// channel is ready but not open; an unready or nil channel returns zero, false, false.\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc tryReceive(ch <-chan int) (int, bool, bool) {\n\treturn 0, false, false // TODO: perform a nonblocking receive.\n}\n\nfunc TestKoan(t *testing.T) {\n\tbuffered := make(chan int, 2)\n\ttype result struct {\n\t\tvalue       int\n\t\tready, open bool\n\t}\n\tbuffered <- 7\n\tbuffered <- 0\n\tclosed := make(chan int)\n\tclose(closed)\n\tcases := []struct {\n\t\tname        string\n\t\tch          <-chan int\n\t\tvalue       int\n\t\tready, open bool\n\t}{\n\t\t{\"nil\", nil, 0, false, false}, {\"unready\", make(chan int), 0, false, false},\n\t\t{\"buffered\", buffered, 7, true, true}, {\"buffered zero\", buffered, 0, true, true},\n\t\t{\"closed\", closed, 0, true, false},\n\t}\n\tfor _, tc := range cases {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\tfinished := make(chan result, 1)\n\t\t\tgo func() {\n\t\t\t\tvalue, ready, open := tryReceive(tc.ch)\n\t\t\t\tfinished <- result{value, ready, open}\n\t\t\t}()\n\t\t\tselect {\n\t\t\tcase got := <-finished:\n\t\t\t\tif got.value != tc.value || got.ready != tc.ready || got.open != tc.open {\n\t\t\t\t\tt.Errorf(\"got %+v; want (value=%d,ready=%v,open=%v)\", got, tc.value, tc.ready, tc.open)\n\t\t\t\t}\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"tryReceive blocked\")\n\t\t\t}\n\t\t})\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1217,7 +1217,7 @@
     "topic": "Concurrency",
     "title": "Synchronize a goroutine",
     "instruction": "Implement squareAsync. Launch a goroutine that sends the square on the supplied unbuffered output, then closes it. Return the channel before the receiver starts.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Go_statements",
     "code": "package main\n\n// Synchronize a goroutine\n// Implement squareAsync. Launch a goroutine that sends the square on the supplied\n// unbuffered output, then closes it. Return the channel before the receiver starts.\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc squareAsync(value int) <-chan int {\n\toutput := make(chan int)\n\tclose(output) // TODO: send and close from a goroutine.\n\treturn output\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, tc := range []struct {\n\t\tname        string\n\t\tvalue, want int\n\t}{{\"positive\", 3, 9}, {\"negative\", -4, 16}, {\"zero\", 0, 0}} {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\treturned := make(chan (<-chan int), 1)\n\t\t\tgo func() { returned <- squareAsync(tc.value) }()\n\t\t\tvar output <-chan int\n\t\t\tselect {\n\t\t\tcase output = <-returned:\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"squareAsync did not return before a receiver started\")\n\t\t\t}\n\t\t\tselect {\n\t\t\tcase got, ok := <-output:\n\t\t\t\tif !ok || got != tc.want {\n\t\t\t\t\tt.Errorf(\"got (%d,%v); want (%d,true)\", got, ok, tc.want)\n\t\t\t\t}\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"no squared value arrived\")\n\t\t\t}\n\t\t\tselect {\n\t\t\tcase _, ok := <-output:\n\t\t\t\tif ok {\n\t\t\t\t\tt.Error(\"output should close after one value\")\n\t\t\t\t}\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"output did not close\")\n\t\t\t}\n\t\t})\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1232,7 +1232,7 @@
     "topic": "Concurrency",
     "title": "Wait for goroutines",
     "instruction": "Complete parallelMap using one goroutine per value and a WaitGroup. Keep results in input order and wait for every worker before returning. The barrier test requires the workers to run concurrently.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/sync#WaitGroup",
     "code": "package main\n\n// Wait for goroutines\n// Complete parallelMap using one goroutine per value and a WaitGroup. Keep results in\n// input order and wait for every worker before returning. The barrier test requires the\n// workers to run concurrently.\n\nimport (\n\t\"slices\"\n\t\"sync\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc parallelMap(values []int, fn func(int) int) []int {\n\tresult := make([]int, len(values))\n\tvar wg sync.WaitGroup\n\t_ = wg\n\t// TODO: launch workers, write each result to its own index, and wait.\n\treturn result\n}\n\nfunc TestKoan(t *testing.T) {\n\tif got := parallelMap(nil, func(n int) int { return n }); len(got) != 0 {\n\t\tt.Errorf(\"empty result=%v\", got)\n\t}\n\tvalues := []int{2, 3, 4}\n\tstarted := make(chan int, len(values))\n\trelease := make(chan struct{})\n\tdefer close(release)\n\tfinished := make(chan []int, 1)\n\tgo func() {\n\t\tfinished <- parallelMap(values, func(n int) int { started <- n; <-release; return n * n })\n\t}()\n\tfor range values {\n\t\tselect {\n\t\tcase <-started:\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"all workers must start before any worker finishes\")\n\t\t}\n\t}\n\t// Signal workers without closing release twice on the failure path.\n\tfor range values {\n\t\trelease <- struct{}{}\n\t}\n\tselect {\n\tcase got := <-finished:\n\t\tif !slices.Equal(got, []int{4, 9, 16}) {\n\t\t\tt.Errorf(\"results=%v; want [4 9 16]\", got)\n\t\t}\n\tcase <-time.After(time.Second):\n\t\tt.Fatal(\"parallelMap did not wait for workers\")\n\t}\n\tif !slices.Equal(values, []int{2, 3, 4}) {\n\t\tt.Error(\"input changed\")\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -1247,7 +1247,7 @@
     "topic": "Concurrency",
     "title": "Protect shared state with a mutex",
     "instruction": "Implement Add and Value using the counter's mutex to protect all accesses. Multiple goroutines update and read the same counter. The downloaded test can also be checked with go test -race.",
-    "reference": "https://go.dev/wiki/MutexOrChannel",
+    "reference": "https://pkg.go.dev/sync#Mutex",
     "code": "package main\n\n// Protect shared state with a mutex\n// Implement Add and Value using the counter's mutex to protect all accesses. Multiple\n// goroutines update and read the same counter. The downloaded test can also be checked\n// with go test -race.\n\nimport (\n\t\"sync\"\n\t\"testing\"\n)\n\ntype Counter struct {\n\tmu sync.Mutex\n\tn  int\n}\n\nfunc (c *Counter) Add(delta int) { // TODO: protect and update n.\n}\nfunc (c *Counter) Value() int {\n\treturn 0 // TODO: read n under the mutex.\n}\n\nfunc TestKoan(t *testing.T) {\n\tvar counter Counter\n\tvar wg sync.WaitGroup\n\tfor range 200 {\n\t\twg.Add(1)\n\t\tgo func() { defer wg.Done(); counter.Add(3); counter.Add(-1); _ = counter.Value() }()\n\t}\n\twg.Wait()\n\tif got := counter.Value(); got != 400 {\n\t\tt.Errorf(\"counter=%d; want 400\", got)\n\t}\n\tcounter.Add(-400)\n\tif got := counter.Value(); got != 0 {\n\t\tt.Errorf(\"counter after reset=%d; want 0\", got)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1262,7 +1262,7 @@
     "topic": "Context",
     "title": "Cancel a context",
     "instruction": "Implement waitForValue with select. Return a received value, or return ctx.Err when cancellation ends the wait. A nil input disables the receive branch.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/context#WithCancel",
     "code": "package main\n\n// Cancel a context\n// Implement waitForValue with select. Return a received value, or return ctx.Err when\n// cancellation ends the wait. A nil input disables the receive branch.\n\nimport (\n\t\"context\"\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc waitForValue(ctx context.Context, input <-chan int) (int, error) {\n\treturn 0, nil // TODO: receive a value or respond to cancellation.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcancelled, cancel := context.WithCancel(context.Background())\n\tcancel()\n\tready := make(chan int, 1)\n\tready <- 7\n\tzero := make(chan int, 1)\n\tzero <- 0\n\texpired, stop := context.WithDeadline(context.Background(), time.Unix(0, 0))\n\tdefer stop()\n\tcases := []struct {\n\t\tname  string\n\t\tctx   context.Context\n\t\tinput <-chan int\n\t\tvalue int\n\t\terr   error\n\t}{\n\t\t{\"ready\", context.Background(), ready, 7, nil}, {\"zero\", context.Background(), zero, 0, nil},\n\t\t{\"cancelled\", cancelled, nil, 0, context.Canceled}, {\"expired\", expired, nil, 0, context.DeadlineExceeded},\n\t}\n\tfor _, tc := range cases {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\ttype result struct {\n\t\t\t\tvalue int\n\t\t\t\terr   error\n\t\t\t}\n\t\t\tfinished := make(chan result, 1)\n\t\t\tgo func() { value, err := waitForValue(tc.ctx, tc.input); finished <- result{value, err} }()\n\t\t\tselect {\n\t\t\tcase got := <-finished:\n\t\t\t\tif got.value != tc.value || !errors.Is(got.err, tc.err) {\n\t\t\t\t\tt.Errorf(\"got (%d,%v); want (%d,%v)\", got.value, got.err, tc.value, tc.err)\n\t\t\t\t}\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"waitForValue did not respond\")\n\t\t\t}\n\t\t})\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1278,7 +1278,7 @@
     "topic": "Context",
     "title": "Context deadlines",
     "instruction": "Repair cancellable so its child retains the parent's deadline and cancellation. An expired deadline must remain DeadlineExceeded rather than being replaced with Canceled.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/context#WithDeadline",
     "code": "package main\n\n// Context deadlines\n// Repair cancellable so its child retains the parent's deadline and cancellation. An\n// expired deadline must remain DeadlineExceeded rather than being replaced with Canceled.\n\nimport (\n\t\"context\"\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc cancellable(parent context.Context) (context.Context, context.CancelFunc) {\n\treturn context.WithCancel(context.Background()) // TODO: derive from parent.\n}\n\nfunc TestKoan(t *testing.T) {\n\texpired, stop := context.WithDeadline(context.Background(), time.Unix(0, 0))\n\tdefer stop()\n\tchild, cancelChild := cancellable(expired)\n\tdefer cancelChild()\n\tdeadline, ok := child.Deadline()\n\tif !ok || !deadline.Equal(time.Unix(0, 0)) {\n\t\tt.Errorf(\"child deadline=(%v,%v); want Unix(0,0)\", deadline, ok)\n\t}\n\tselect {\n\tcase <-child.Done():\n\t\tif !errors.Is(child.Err(), context.DeadlineExceeded) {\n\t\t\tt.Errorf(\"child error=%v; want DeadlineExceeded\", child.Err())\n\t\t}\n\tcase <-time.After(time.Second):\n\t\tt.Error(\"expired parent did not stop the child\")\n\t}\n\tparent, cancelParent := context.WithCancel(context.Background())\n\tother, cancelOther := cancellable(parent)\n\tdefer cancelOther()\n\tcancelParent()\n\tselect {\n\tcase <-other.Done():\n\t\tif !errors.Is(other.Err(), context.Canceled) {\n\t\t\tt.Errorf(\"child error=%v; want Canceled\", other.Err())\n\t\t}\n\tcase <-time.After(time.Second):\n\t\tt.Error(\"parent cancellation did not stop the child\")\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1292,7 +1292,7 @@
     "topic": "IO and files",
     "title": "Read from a reader",
     "instruction": "Implement readText with io.ReadAll. Return the text and read error, including any partial data received together with an error.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/io#ReadAll",
     "code": "package main\n\n// Read from a reader\n// Implement readText with io.ReadAll. Return the text and read error, including any\n// partial data received together with an error.\n\nimport (\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nvar ErrRead = errors.New(\"read failed\")\n\ntype brokenReader struct{}\n\nfunc (brokenReader) Read(p []byte) (int, error) { return copy(p, \"partial\"), ErrRead }\nfunc readText(reader io.Reader) (string, error) {\n\treturn \"\", nil // TODO: read all bytes without discarding errors or partial data.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tname   string\n\t\treader io.Reader\n\t\ttext   string\n\t\terr    error\n\t}{\n\t\t{\"ordinary\", strings.NewReader(\"Go\"), \"Go\", nil}, {\"empty\", strings.NewReader(\"\"), \"\", nil},\n\t\t{\"unicode\", strings.NewReader(\"é世\"), \"é世\", nil}, {\"partial error\", brokenReader{}, \"partial\", ErrRead},\n\t}\n\tfor _, tc := range cases {\n\t\ttext, err := readText(tc.reader)\n\t\tif text != tc.text || !errors.Is(err, tc.err) {\n\t\t\tt.Errorf(\"%s: got (%q,%v); want (%q,%v)\", tc.name, text, err, tc.text, tc.err)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1309,7 +1309,7 @@
     "topic": "IO and files",
     "title": "Copy reader to writer",
     "instruction": "Implement copyAll with io.Copy. Return the actual byte count and preserve reader or writer errors instead of treating partial copying as success.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/io#Copy",
     "code": "package main\n\n// Copy reader to writer\n// Implement copyAll with io.Copy. Return the actual byte count and preserve reader or\n// writer errors instead of treating partial copying as success.\n\nimport (\n\t\"bytes\"\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nvar ErrRead = errors.New(\"read failed\")\nvar ErrWrite = errors.New(\"write failed\")\n\ntype brokenReader struct{}\n\nfunc (brokenReader) Read(p []byte) (int, error) { return copy(p, \"partial\"), ErrRead }\n\ntype brokenWriter struct{}\n\nfunc (brokenWriter) Write([]byte) (int, error) { return 0, ErrWrite }\nfunc copyAll(writer io.Writer, reader io.Reader) (int64, error) {\n\treturn 0, nil // TODO: copy and return both results.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, text := range []string{\"\", \"hello\", \"é世\"} {\n\t\tvar out bytes.Buffer\n\t\tcount, err := copyAll(&out, strings.NewReader(text))\n\t\tif err != nil || count != int64(len(text)) || out.String() != text {\n\t\t\tt.Errorf(\"copyAll(%q)=(%d,%v,%q)\", text, count, err, out.String())\n\t\t}\n\t}\n\tcount, err := copyAll(brokenWriter{}, strings.NewReader(\"hello\"))\n\tif count != 0 || !errors.Is(err, ErrWrite) {\n\t\tt.Errorf(\"writer failure=(%d,%v); want (0,ErrWrite)\", count, err)\n\t}\n\tvar partial bytes.Buffer\n\tcount, err = copyAll(&partial, brokenReader{})\n\tif count != 7 || !errors.Is(err, ErrRead) || partial.String() != \"partial\" {\n\t\tt.Errorf(\"partial read=(%d,%v,%q)\", count, err, partial.String())\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1325,7 +1325,7 @@
     "topic": "IO and files",
     "title": "Copy a limited number of bytes",
     "instruction": "Repair copyPrefix with io.CopyN. Copy at most n bytes; if the reader ends early, return the bytes copied and io.EOF. n is nonnegative.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/io#CopyN",
     "code": "package main\n\n// Copy a limited number of bytes\n// Repair copyPrefix with io.CopyN. Copy at most n bytes; if the reader ends early, return\n// the bytes copied and io.EOF. n is nonnegative.\n\nimport (\n\t\"bytes\"\n\t\"errors\"\n\t\"io\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc copyPrefix(writer io.Writer, reader io.Reader, n int64) (int64, error) {\n\treturn io.Copy(writer, reader) // TODO: limit the copy to n bytes.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext  string\n\t\tn     int64\n\t\twant  string\n\t\tcount int64\n\t\terr   error\n\t}{\n\t\t{\"hello world\", 5, \"hello\", 5, nil}, {\"hello\", 0, \"\", 0, nil},\n\t\t{\"Go\", 2, \"Go\", 2, nil}, {\"Go\", 5, \"Go\", 2, io.EOF}, {\"\", 1, \"\", 0, io.EOF},\n\t}\n\tfor _, tc := range cases {\n\t\tvar out bytes.Buffer\n\t\tcount, err := copyPrefix(&out, strings.NewReader(tc.text), tc.n)\n\t\tif count != tc.count || !errors.Is(err, tc.err) || out.String() != tc.want {\n\t\t\tt.Errorf(\"text=%q n=%d: got (%d,%v,%q); want (%d,%v,%q)\", tc.text, tc.n, count, err, out.String(), tc.count, tc.err, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1340,7 +1340,7 @@
     "topic": "IO and files",
     "title": "Write and read a file",
     "instruction": "Implement storeText and loadText with os.WriteFile and os.ReadFile. Overwrite existing contents, use mode 0600 when creating a file, and return filesystem errors.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/os#WriteFile",
     "code": "package main\n\n// Write and read a file\n// Implement storeText and loadText with os.WriteFile and os.ReadFile. Overwrite existing\n// contents, use mode 0600 when creating a file, and return filesystem errors.\n\nimport (\n\t\"errors\"\n\t\"os\"\n\t\"path/filepath\"\n\t\"testing\"\n)\n\nfunc storeText(filename, text string) error {\n\treturn nil // TODO: write the file and return its error.\n}\nfunc loadText(filename string) (string, error) {\n\treturn \"\", nil // TODO: read the file and preserve its error.\n}\n\nfunc TestKoan(t *testing.T) {\n\tdirectory := t.TempDir()\n\tfilename := filepath.Join(directory, \"sample.txt\")\n\tfor _, text := range []string{\"Go\", \"\", \"new contents\", \"é世\"} {\n\t\tif err := storeText(filename, text); err != nil {\n\t\t\tt.Fatalf(\"storeText: %v\", err)\n\t\t}\n\t\tgot, err := loadText(filename)\n\t\tif err != nil || got != text {\n\t\t\tt.Errorf(\"loadText=(%q,%v); want (%q,nil)\", got, err, text)\n\t\t}\n\t}\n\tif _, err := loadText(filepath.Join(directory, \"missing.txt\")); !errors.Is(err, os.ErrNotExist) {\n\t\tt.Errorf(\"missing file error=%v\", err)\n\t}\n\tif err := storeText(filepath.Join(directory, \"missing-directory\", \"file.txt\"), \"data\"); !errors.Is(err, os.ErrNotExist) {\n\t\tt.Errorf(\"missing directory error=%v\", err)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1356,7 +1356,7 @@
     "topic": "JSON",
     "title": "Marshal a struct",
     "instruction": "Complete the JSON tags and encodeRecord. Use lowercase name and tags keys; omit an empty nickname. Nil tags encode as null, empty non-nil tags as []. Unexported fields are excluded.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/encoding/json#Marshal",
     "code": "package main\n\n// Marshal a struct\n// Complete the JSON tags and encodeRecord. Use lowercase name and tags keys; omit an empty\n// nickname. Nil tags encode as null, empty non-nil tags as []. Unexported fields are\n// excluded.\n\nimport (\n\t\"encoding/json\"\n\t\"testing\"\n)\n\ntype Record struct {\n\tName     string   `json:\"Name\"` // TODO: use the name key.\n\tTags     []string `json:\"tags\"`\n\tNickname string   `json:\"nickname\"` // TODO: omit an empty nickname.\n\thidden   string\n}\n\nfunc encodeRecord(record Record) ([]byte, error) {\n\treturn json.Marshal(record.Name) // TODO: encode the struct.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalue Record\n\t\twant  string\n\t}{\n\t\t{Record{Name: \"Ada\", hidden: \"private\"}, \"{\\\"name\\\":\\\"Ada\\\",\\\"tags\\\":null}\"},\n\t\t{Record{Name: \"Go\", Tags: []string{}}, \"{\\\"name\\\":\\\"Go\\\",\\\"tags\\\":[]}\"},\n\t\t{Record{Name: \"Grace\", Tags: []string{\"admin\"}, Nickname: \"G\"}, \"{\\\"name\\\":\\\"Grace\\\",\\\"tags\\\":[\\\"admin\\\"],\\\"nickname\\\":\\\"G\\\"}\"},\n\t}\n\tfor _, tc := range cases {\n\t\tdata, err := encodeRecord(tc.value)\n\t\tif err != nil || string(data) != tc.want {\n\t\t\tt.Errorf(\"encodeRecord(%+v)=(%s,%v); want %s\", tc.value, data, err, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -1371,7 +1371,7 @@
     "topic": "JSON",
     "title": "Unmarshal JSON",
     "instruction": "Implement decodePerson with json.Unmarshal into a pointer. Return decoding errors for malformed JSON or a nonnumeric age; omitted fields keep zero values.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/encoding/json#Unmarshal",
     "code": "package main\n\n// Unmarshal JSON\n// Implement decodePerson with json.Unmarshal into a pointer. Return decoding errors for\n// malformed JSON or a nonnumeric age; omitted fields keep zero values.\n\nimport (\n\t\"encoding/json\"\n\t\"testing\"\n)\n\ntype Person struct {\n\tName string `json:\"name\"`\n\tAge  int    `json:\"age\"`\n}\n\nfunc decodePerson(data []byte) (Person, error) {\n\t_ = json.Unmarshal\n\treturn Person{}, nil // TODO: decode into a pointer and return the error.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tdata    string\n\t\twant    Person\n\t\tinvalid bool\n\t}{\n\t\t{\"{\\\"name\\\":\\\"Ada\\\",\\\"age\\\":30}\", Person{Name: \"Ada\", Age: 30}, false},\n\t\t{\"{}\", Person{}, false},\n\t\t{\"{\\\"name\\\":\\\"Grace\\\",\\\"extra\\\":true}\", Person{Name: \"Grace\"}, false},\n\t\t{\"{\", Person{}, true},\n\t\t{\"{\\\"age\\\":\\\"30\\\"}\", Person{}, true},\n\t}\n\tfor _, tc := range cases {\n\t\tgot, err := decodePerson([]byte(tc.data))\n\t\tif tc.invalid {\n\t\t\tif err == nil {\n\t\t\t\tt.Errorf(\"decodePerson(%q) should return an error\", tc.data)\n\t\t\t}\n\t\t\tcontinue\n\t\t}\n\t\tif err != nil || got != tc.want {\n\t\t\tt.Errorf(\"decodePerson(%q)=(%+v,%v); want (%+v,nil)\", tc.data, got, err, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1388,7 +1388,7 @@
     "topic": "Regular expressions",
     "title": "Match a pattern",
     "instruction": "Write the regexp for a complete ID: lowercase go followed by one or more ASCII digits. Reject prefixes, suffixes, spaces, and non-ASCII digits.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/regexp#MustCompile",
     "code": "package main\n\n// Match a pattern\n// Write the regexp for a complete ID: lowercase go followed by one or more ASCII digits.\n// Reject prefixes, suffixes, spaces, and non-ASCII digits.\n\nimport (\n\t\"regexp\"\n\t\"testing\"\n)\n\nvar idPattern = regexp.MustCompile(\"TODO\") // TODO: supply an anchored pattern.\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext string\n\t\twant bool\n\t}{\n\t\t{\"go0\", true}, {\"go123\", true}, {\"go\", false}, {\"Go1\", false}, {\"xgo1\", false},\n\t\t{\"go1x\", false}, {\"go-1\", false}, {\"go1\\n\", false}, {\"go١\", false}, {\"\", false},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := idPattern.MatchString(tc.text); got != tc.want {\n\t\t\tt.Errorf(\"MatchString(%q)=%v; want %v\", tc.text, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -1402,7 +1402,7 @@
     "topic": "Regular expressions",
     "title": "Find a substring",
     "instruction": "Complete firstNumber using the input text. Find the first run of ASCII digits, parse it, and return false when no number is present. Numbers in these inputs fit in int.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/regexp#Regexp.FindString",
     "code": "package main\n\n// Find a substring\n// Complete firstNumber using the input text. Find the first run of ASCII digits, parse it,\n// and return false when no number is present. Numbers in these inputs fit in int.\n\nimport (\n\t\"regexp\"\n\t\"strconv\"\n\t\"testing\"\n)\n\nvar digits = regexp.MustCompile(`[0-9]+`)\n\nfunc firstNumber(text string) (int, bool) {\n\tmatch := digits.FindString(\"\") // TODO: search the input text.\n\tvalue, err := strconv.Atoi(match)\n\treturn value, err == nil\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext string\n\t\twant int\n\t\tok   bool\n\t}{\n\t\t{\"go123x\", 123, true}, {\"a7b42\", 7, true}, {\"zero0\", 0, true}, {\"x007\", 7, true}, {\"none\", 0, false}, {\"\", 0, false},\n\t}\n\tfor _, tc := range cases {\n\t\tgot, ok := firstNumber(tc.text)\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"firstNumber(%q)=(%d,%v); want (%d,%v)\", tc.text, got, ok, tc.want, tc.ok)\n\t\t}\n\t}\n}\n",
     "kind": "complete",
     "revisits": [
@@ -1417,7 +1417,7 @@
     "topic": "Generics",
     "title": "Type parameters",
     "instruction": "Implement generic first. Return the first value and true, or the type's zero value and false for empty input. The same function must handle numbers, strings, and slices.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Type_parameter_declarations",
     "code": "package main\n\n// Type parameters\n// Implement generic first. Return the first value and true, or the type's zero value and\n// false for empty input. The same function must handle numbers, strings, and slices.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc first[T any](values []T) (T, bool) {\n\tvar zero T\n\treturn zero, false // TODO: handle both empty and nonempty input.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, tc := range []struct {\n\t\tvalues []int\n\t\twant   int\n\t\tok     bool\n\t}{{nil, 0, false}, {[]int{0, 7}, 0, true}, {[]int{7, 8}, 7, true}} {\n\t\tgot, ok := first(tc.values)\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"first(%v)=(%d,%v)\", tc.values, got, ok)\n\t\t}\n\t}\n\tfor _, tc := range []struct {\n\t\tvalues []string\n\t\twant   string\n\t\tok     bool\n\t}{{nil, \"\", false}, {[]string{\"\", \"Go\"}, \"\", true}, {[]string{\"Go\", \"code\"}, \"Go\", true}} {\n\t\tgot, ok := first(tc.values)\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"first(%q)=(%q,%v)\", tc.values, got, ok)\n\t\t}\n\t}\n\tgot, ok := first([][]int{{1, 2}, {3}})\n\tif !ok || !slices.Equal(got, []int{1, 2}) {\n\t\tt.Errorf(\"first of slices=(%v,%v)\", got, ok)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1433,7 +1433,7 @@
     "topic": "Generics",
     "title": "Type constraints",
     "instruction": "Implement generic sum. The constraint permits addition for int and float64, and ~ includes defined types with those underlying types.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Type_constraints",
     "code": "package main\n\n// Type constraints\n// Implement generic sum. The constraint permits addition for int and float64, and ~\n// includes defined types with those underlying types.\n\nimport (\n\t\"testing\"\n)\n\ntype Distance int\ntype Weight float64\ntype Number interface{ ~int | ~float64 }\n\nfunc sum[T Number](values []T) T {\n\tvar zero T\n\treturn zero // TODO: accumulate using the constraint's allowed addition.\n}\n\nfunc TestKoan(t *testing.T) {\n\tif got := sum([]int{2, 3, -1}); got != 4 {\n\t\tt.Errorf(\"integer sum=%d; want 4\", got)\n\t}\n\tif got := sum([]float64{1.5, 2.25}); got != 3.75 {\n\t\tt.Errorf(\"float sum=%v; want 3.75\", got)\n\t}\n\tif got := sum([]Distance{2, 5}); got != Distance(7) {\n\t\tt.Errorf(\"defined int sum=%v; want 7\", got)\n\t}\n\tif got := sum([]Weight{0.5, 1.25}); got != Weight(1.75) {\n\t\tt.Errorf(\"defined float sum=%v; want 1.75\", got)\n\t}\n\tif got := sum([]int(nil)); got != 0 {\n\t\tt.Errorf(\"empty int sum=%d; want 0\", got)\n\t}\n\tif got := sum([]Weight(nil)); got != 0 {\n\t\tt.Errorf(\"empty Weight sum=%v; want 0\", got)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1449,7 +1449,7 @@
     "topic": "Generics",
     "title": "Comparable type parameters",
     "instruction": "Implement generic indexOf using ==. Return the first matching index and true; return -1 and false if absent. comparable supports strings, numbers, and comparable structs, but not slices.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://go.dev/ref/spec#Satisfying_a_type_constraint",
     "code": "package main\n\n// Comparable type parameters\n// Implement generic indexOf using ==. Return the first matching index and true; return -1\n// and false if absent. comparable supports strings, numbers, and comparable structs, but\n// not slices.\n\nimport (\n\t\"testing\"\n)\n\ntype Point struct{ X, Y int }\n\nfunc indexOf[T comparable](values []T, target T) (int, bool) {\n\treturn 0, false // TODO: compare values and return the first index.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, tc := range []struct {\n\t\tvalues        []int\n\t\ttarget, index int\n\t\tok            bool\n\t}{\n\t\t{nil, 7, -1, false}, {[]int{7, 2, 7}, 7, 0, true}, {[]int{2, 7}, 7, 1, true}, {[]int{1, 2}, 7, -1, false},\n\t} {\n\t\tindex, ok := indexOf(tc.values, tc.target)\n\t\tif index != tc.index || ok != tc.ok {\n\t\t\tt.Errorf(\"indexOf(%v,%d)=(%d,%v); want (%d,%v)\", tc.values, tc.target, index, ok, tc.index, tc.ok)\n\t\t}\n\t}\n\tif index, ok := indexOf([]string{\"Go\", \"code\"}, \"code\"); index != 1 || !ok {\n\t\tt.Errorf(\"string index=(%d,%v)\", index, ok)\n\t}\n\tif index, ok := indexOf([]Point{{1, 2}, {3, 4}}, Point{3, 4}); index != 1 || !ok {\n\t\tt.Errorf(\"struct index=(%d,%v)\", index, ok)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1466,7 +1466,7 @@
     "topic": "Standard library",
     "title": "Sort a slice",
     "instruction": "Implement sortedCopy with slices.Sort. Return a sorted independent copy; preserve the input and its storage. Empty input may produce nil.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/slices#Sort",
     "code": "package main\n\n// Sort a slice\n// Implement sortedCopy with slices.Sort. Return a sorted independent copy; preserve the\n// input and its storage. Empty input may produce nil.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc sortedCopy(values []int) []int {\n\treturn values // TODO: clone before sorting.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ values, want []int }{\n\t\t{nil, nil}, {[]int{7}, []int{7}}, {[]int{3, 1, 2}, []int{1, 2, 3}},\n\t\t{[]int{3, 1, 3, 1}, []int{1, 1, 3, 3}}, {[]int{-1, 0, -2}, []int{-2, -1, 0}},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tgot := sortedCopy(tc.values)\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"sortedCopy(%v)=%v; want %v\", before, got, tc.want)\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"sorting or editing the result changed the input\")\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1480,7 +1480,7 @@
     "topic": "Standard library",
     "title": "Clone a map",
     "instruction": "Repair cloneGroups. maps.Clone copies entries shallowly; clone each slice too. Preserve nil maps and nil slice values, and make edits independent in both directions.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/maps#Clone",
     "code": "package main\n\n// Clone a map\n// Repair cloneGroups. maps.Clone copies entries shallowly; clone each slice too. Preserve\n// nil maps and nil slice values, and make edits independent in both directions.\n\nimport (\n\t\"maps\"\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc cloneGroups(groups map[string][]int) map[string][]int {\n\treturn maps.Clone(groups) // TODO: also clone the reference-bearing values.\n}\n\nfunc TestKoan(t *testing.T) {\n\tif got := cloneGroups(nil); got != nil {\n\t\tt.Error(\"nil input should stay nil\")\n\t}\n\toriginal := map[string][]int{\"go\": {1, 2}, \"empty\": {}, \"nil\": nil}\n\tclone := cloneGroups(original)\n\tif !maps.EqualFunc(original, clone, func(a, b []int) bool { return slices.Equal(a, b) }) {\n\t\tt.Fatalf(\"clone=%v; want %v\", clone, original)\n\t}\n\tif clone[\"nil\"] != nil {\n\t\tt.Error(\"nil slice became non-nil\")\n\t}\n\tclone[\"new\"] = []int{7}\n\tif _, ok := original[\"new\"]; ok {\n\t\tt.Error(\"the cloned map shares entries\")\n\t}\n\tclone[\"go\"][0] = 9\n\tif original[\"go\"][0] != 1 {\n\t\tt.Error(\"the cloned slice still shares its array\")\n\t}\n\toriginal[\"go\"][1] = 8\n\tif clone[\"go\"][1] != 2 {\n\t\tt.Error(\"editing the original changed the clone\")\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1496,7 +1496,7 @@
     "topic": "Standard library",
     "title": "Parse an integer",
     "instruction": "Implement parseNumbers. Parse every string with strconv.Atoi. If any conversion fails, return no values and wrap the error with item N: using the zero-based index.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/strconv#Atoi",
     "code": "package main\n\n// Parse an integer\n// Implement parseNumbers. Parse every string with strconv.Atoi. If any conversion fails,\n// return no values and wrap the error with item N: using the zero-based index.\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"slices\"\n\t\"strconv\"\n\t\"strings\"\n\t\"testing\"\n)\n\nfunc parseNumbers(texts []string) ([]int, error) {\n\treturn nil, nil // TODO: parse all values and preserve the first error.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttexts    []string\n\t\twant     []int\n\t\tbadIndex int\n\t\terr      error\n\t}{\n\t\t{nil, nil, -1, nil}, {[]string{\"42\", \"-7\", \"0\"}, []int{42, -7, 0}, -1, nil},\n\t\t{[]string{\"1\", \"bad\", \"3\"}, nil, 1, strconv.ErrSyntax}, {[]string{\"\"}, nil, 0, strconv.ErrSyntax},\n\t\t{[]string{\"99999999999999999999999999999\"}, nil, 0, strconv.ErrRange},\n\t}\n\tfor _, tc := range cases {\n\t\tgot, err := parseNumbers(tc.texts)\n\t\tif tc.err == nil {\n\t\t\tif err != nil || !slices.Equal(got, tc.want) {\n\t\t\t\tt.Errorf(\"parseNumbers(%q)=(%v,%v); want (%v,nil)\", tc.texts, got, err, tc.want)\n\t\t\t}\n\t\t} else {\n\t\t\tif got != nil || !errors.Is(err, tc.err) {\n\t\t\t\tt.Errorf(\"invalid input: got (%v,%v)\", got, err)\n\t\t\t}\n\t\t\tprefix := fmt.Sprintf(\"item %d:\", tc.badIndex)\n\t\t\tif err == nil || !strings.HasPrefix(err.Error(), prefix) {\n\t\t\t\tt.Errorf(\"error=%v; want prefix %q\", err, prefix)\n\t\t\t}\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1512,7 +1512,7 @@
     "topic": "Standard library",
     "title": "Inspect a value with reflection",
     "instruction": "Repair inspect. Return the type's Name and its Kind string, not its full type string. A nil interface has no type; a typed nil pointer still does.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/reflect#TypeOf",
     "code": "package main\n\n// Inspect a value with reflection\n// Repair inspect. Return the type's Name and its Kind string, not its full type string. A\n// nil interface has no type; a typed nil pointer still does.\n\nimport (\n\t\"reflect\"\n\t\"testing\"\n)\n\ntype Count int\n\nvar CountValue Count = 7\n\nfunc inspect(value any) (string, string) {\n\ttyp := reflect.TypeOf(value)\n\tif typ == nil {\n\t\treturn \"\", \"nil\"\n\t}\n\treturn typ.String(), typ.String() // TODO: distinguish type name from kind.\n}\n\nfunc TestKoan(t *testing.T) {\n\tvar nilPointer *Count\n\tcases := []struct {\n\t\tvalue      any\n\t\tname, kind string\n\t}{\n\t\t{7, \"int\", \"int\"}, {Count(7), \"Count\", \"int\"}, {&CountValue, \"\", \"ptr\"},\n\t\t{[]int{1}, \"\", \"slice\"}, {nil, \"\", \"nil\"}, {nilPointer, \"\", \"ptr\"},\n\t}\n\tfor _, tc := range cases {\n\t\tname, kind := inspect(tc.value)\n\t\tif name != tc.name || kind != tc.kind {\n\t\t\tt.Errorf(\"inspect(%T)=(%q,%q); want (%q,%q)\", tc.value, name, kind, tc.name, tc.kind)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1543,7 +1543,7 @@
     "topic": "HTTP",
     "title": "Read request query parameters",
     "instruction": "Implement queryName. Read the first name query value, URL-decoded. Return false for a missing or empty name; repeated names use the first value.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/net/url#URL.Query",
     "code": "package main\n\n// Read request query parameters\n// Implement queryName. Read the first name query value, URL-decoded. Return false for a\n// missing or empty name; repeated names use the first value.\n\nimport (\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"testing\"\n)\n\nfunc queryName(request *http.Request) (string, bool) {\n\treturn \"\", false // TODO: read and validate the name query value.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\turl, name string\n\t\tok        bool\n\t}{\n\t\t{\"/?name=Ada\", \"Ada\", true}, {\"/?name=Ada+Lovelace\", \"Ada Lovelace\", true},\n\t\t{\"/?name=%C3%A9\", \"é\", true}, {\"/\", \"\", false}, {\"/?name=\", \"\", false},\n\t\t{\"/?name=first&name=second\", \"first\", true},\n\t}\n\tfor _, tc := range cases {\n\t\trequest := httptest.NewRequest(\"GET\", tc.url, nil)\n\t\tname, ok := queryName(request)\n\t\tif name != tc.name || ok != tc.ok {\n\t\t\tt.Errorf(\"queryName(%q)=(%q,%v); want (%q,%v)\", tc.url, name, ok, tc.name, tc.ok)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1558,7 +1558,7 @@
     "topic": "HTTP",
     "title": "Write an HTTP response",
     "instruction": "Implement createItem. POST returns status 201 and created followed by a newline. Other methods return 405, Allow: POST, and method not allowed followed by a newline. Set status before writing the body.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/net/http#ResponseWriter",
     "code": "package main\n\n// Write an HTTP response\n// Implement createItem. POST returns status 201 and created followed by a newline. Other\n// methods return 405, Allow: POST, and method not allowed followed by a newline. Set\n// status before writing the body.\n\nimport (\n\t\"io\"\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"testing\"\n)\n\nfunc createItem(writer http.ResponseWriter, request *http.Request) { // TODO: implement method handling, status, and body.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tmethod      string\n\t\tstatus      int\n\t\tbody, allow string\n\t}{\n\t\t{\"POST\", http.StatusCreated, \"created\\n\", \"\"},\n\t\t{\"GET\", http.StatusMethodNotAllowed, \"method not allowed\\n\", \"POST\"},\n\t\t{\"PUT\", http.StatusMethodNotAllowed, \"method not allowed\\n\", \"POST\"},\n\t}\n\tfor _, tc := range cases {\n\t\trecorder := httptest.NewRecorder()\n\t\tcreateItem(recorder, httptest.NewRequest(tc.method, \"/\", nil))\n\t\tresponse := recorder.Result()\n\t\tbody, err := io.ReadAll(response.Body)\n\t\tresponse.Body.Close()\n\t\tif err != nil {\n\t\t\tt.Fatal(err)\n\t\t}\n\t\tif response.StatusCode != tc.status || string(body) != tc.body || response.Header.Get(\"Allow\") != tc.allow {\n\t\t\tt.Errorf(\"%s: status=%d body=%q Allow=%q; want %d %q %q\", tc.method, response.StatusCode, body, response.Header.Get(\"Allow\"), tc.status, tc.body, tc.allow)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1574,7 +1574,7 @@
     "topic": "HTTP",
     "title": "Set response headers",
     "instruction": "Repair jsonHandler by setting both headers before the body commits the response. Inspect the actual response snapshot, not just the recorder's mutable header map.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/net/http#Header.Set",
     "code": "package main\n\n// Set response headers\n// Repair jsonHandler by setting both headers before the body commits the response. Inspect\n// the actual response snapshot, not just the recorder's mutable header map.\n\nimport (\n\t\"io\"\n\t\"net/http\"\n\t\"net/http/httptest\"\n\t\"testing\"\n)\n\nfunc jsonHandler(writer http.ResponseWriter, request *http.Request) {\n\t// TODO: move the header changes before the first write.\n\t_, _ = writer.Write([]byte(\"{\\\"ok\\\":true}\\n\"))\n\twriter.Header().Set(\"Content-Type\", \"application/json\")\n\twriter.Header().Set(\"Cache-Control\", \"no-store\")\n}\n\nfunc TestKoan(t *testing.T) {\n\trecorder := httptest.NewRecorder()\n\tjsonHandler(recorder, httptest.NewRequest(\"GET\", \"/\", nil))\n\tresponse := recorder.Result()\n\tdefer response.Body.Close()\n\tif got := response.Header.Get(\"Content-Type\"); got != \"application/json\" {\n\t\tt.Errorf(\"Content-Type=%q; want application/json\", got)\n\t}\n\tif got := response.Header.Get(\"Cache-Control\"); got != \"no-store\" {\n\t\tt.Errorf(\"Cache-Control=%q; want no-store\", got)\n\t}\n\tbody, err := io.ReadAll(response.Body)\n\tif err != nil {\n\t\tt.Fatal(err)\n\t}\n\tif response.StatusCode != http.StatusOK || string(body) != \"{\\\"ok\\\":true}\\n\" {\n\t\tt.Errorf(\"status=%d body=%q\", response.StatusCode, body)\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1588,7 +1588,7 @@
     "topic": "Time",
     "title": "Parse a time",
     "instruction": "Repair parseDate's layout using Go's reference date. Parse YYYY-MM-DD in UTC, and preserve errors for invalid dates or a different input format.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/time#Parse",
     "code": "package main\n\n// Parse a time\n// Repair parseDate's layout using Go's reference date. Parse YYYY-MM-DD in UTC, and\n// preserve errors for invalid dates or a different input format.\n\nimport (\n\t\"testing\"\n\t\"time\"\n)\n\nfunc parseDate(text string) (time.Time, error) {\n\treturn time.Parse(\"YYYY-MM-DD\", text) // TODO: use the Go reference-date layout.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\ttext    string\n\t\tyear    int\n\t\tmonth   time.Month\n\t\tday     int\n\t\tinvalid bool\n\t}{\n\t\t{\"2024-03-14\", 2024, time.March, 14, false}, {\"2000-02-29\", 2000, time.February, 29, false},\n\t\t{\"2023-02-29\", 0, 0, 0, true}, {\"14-03-2024\", 0, 0, 0, true}, {\"2024-3-14\", 0, 0, 0, true}, {\"\", 0, 0, 0, true},\n\t}\n\tfor _, tc := range cases {\n\t\tvalue, err := parseDate(tc.text)\n\t\tif tc.invalid {\n\t\t\tif err == nil {\n\t\t\t\tt.Errorf(\"parseDate(%q) should fail\", tc.text)\n\t\t\t}\n\t\t\tcontinue\n\t\t}\n\t\tif err != nil {\n\t\t\tt.Errorf(\"parseDate(%q): %v\", tc.text, err)\n\t\t\tcontinue\n\t\t}\n\t\tyear, month, day := value.Date()\n\t\tif year != tc.year || month != tc.month || day != tc.day || value.Location() != time.UTC {\n\t\t\tt.Errorf(\"date=%v; want %04d-%02d-%02d UTC\", value, tc.year, tc.month, tc.day)\n\t\t}\n\t}\n}\n",
     "kind": "repair",
     "revisits": [
@@ -1603,7 +1603,7 @@
     "topic": "Time",
     "title": "Calculate a duration",
     "instruction": "Implement billableMinutes for intervals up to 24 hours. Round each positive partial minute up, keep zero at zero, and return ErrOrder when end is before start. Compare instants even if their timezones differ.",
-    "reference": "https://go.dev/ref/spec",
+    "reference": "https://pkg.go.dev/time#Time.Sub",
     "code": "package main\n\n// Calculate a duration\n// Implement billableMinutes for intervals up to 24 hours. Round each positive partial\n// minute up, keep zero at zero, and return ErrOrder when end is before start. Compare\n// instants even if their timezones differ.\n\nimport (\n\t\"errors\"\n\t\"testing\"\n\t\"time\"\n)\n\nvar ErrOrder = errors.New(\"end is before start\")\n\nfunc billableMinutes(start, end time.Time) (int, error) {\n\treturn 0, nil // TODO: calculate and round elapsed minutes.\n}\n\nfunc TestKoan(t *testing.T) {\n\tstart := time.Date(2024, 1, 1, 12, 0, 0, 0, time.UTC)\n\tcases := []struct {\n\t\tend  time.Time\n\t\twant int\n\t\terr  error\n\t}{\n\t\t{start, 0, nil}, {start.Add(time.Second), 1, nil}, {start.Add(time.Minute), 1, nil},\n\t\t{start.Add(61 * time.Second), 2, nil}, {start.Add(90*time.Minute + 30*time.Second), 91, nil},\n\t\t{start.Add(5 * time.Minute).In(time.FixedZone(\"offset\", 2*60*60)), 5, nil},\n\t\t{start.Add(-time.Second), 0, ErrOrder},\n\t}\n\tfor _, tc := range cases {\n\t\tminutes, err := billableMinutes(start, tc.end)\n\t\tif minutes != tc.want || !errors.Is(err, tc.err) {\n\t\t\tt.Errorf(\"end=%v: got (%d,%v); want (%d,%v)\", tc.end, minutes, err, tc.want, tc.err)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1620,7 +1620,7 @@
     "topic": "Projects",
     "title": "Classify triangles",
     "instruction": "Implement triangle. Reject nonpositive sides and degenerate or impossible triangles; return equilateral, isosceles, or scalene. Side order must not matter. Positive sides can be near the largest int, so avoid overflowing their sum.",
-    "reference": "https://go.dev/doc/effective_go",
+    "reference": "https://go.dev/ref/spec#If_statements",
     "code": "package main\n\n// Classify triangles\n// Implement triangle. Reject nonpositive sides and degenerate or impossible triangles;\n// return equilateral, isosceles, or scalene. Side order must not matter. Positive sides\n// can be near the largest int, so avoid overflowing their sum.\n\nimport (\n\t\"errors\"\n\t\"testing\"\n)\n\nfunc triangle(a, b, c int) (string, error) {\n\treturn \"\", errors.New(\"not implemented\") // TODO: classify after validating all sides.\n}\n\nfunc TestKoan(t *testing.T) {\n\tlargest := int(^uint(0) >> 1)\n\tvalid := []struct {\n\t\ta, b, c int\n\t\twant    string\n\t}{\n\t\t{2, 2, 2, \"equilateral\"}, {10, 10, 10, \"equilateral\"}, {4, 4, 3, \"isosceles\"},\n\t\t{1, 2, 2, \"isosceles\"}, {3, 4, 5, \"scalene\"}, {2, 3, 4, \"scalene\"},\n\t\t{largest, largest, largest, \"equilateral\"}, {largest - 2, largest - 1, largest, \"scalene\"},\n\t}\n\tfor _, tc := range valid {\n\t\tfor _, sides := range [][3]int{{tc.a, tc.b, tc.c}, {tc.a, tc.c, tc.b}, {tc.b, tc.a, tc.c}, {tc.b, tc.c, tc.a}, {tc.c, tc.a, tc.b}, {tc.c, tc.b, tc.a}} {\n\t\t\tgot, err := triangle(sides[0], sides[1], sides[2])\n\t\t\tif err != nil || got != tc.want {\n\t\t\t\tt.Errorf(\"triangle(%v)=(%q,%v); want (%q,nil)\", sides, got, err, tc.want)\n\t\t\t}\n\t\t}\n\t}\n\tfor _, sides := range [][3]int{{0, 0, 0}, {0, 2, 2}, {2, -1, 2}, {2, 2, -1}, {1, 1, 3}, {3, 1, 1}, {2, 4, 2}, {4, 2, 2}, {largest, 1, 1}} {\n\t\tif _, err := triangle(sides[0], sides[1], sides[2]); err == nil {\n\t\t\tt.Errorf(\"triangle(%v) should return an error\", sides)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1636,7 +1636,7 @@
     "topic": "Projects",
     "title": "Score a dice roll",
     "instruction": "Implement score for zero to five dice, each from 1 through 6. Three ones score 1000; other triples score 100 times the face. Remaining ones score 100, fives score 50, and other faces score zero. Order must not matter; preserve the input.",
-    "reference": "https://go.dev/doc/effective_go",
+    "reference": "https://go.dev/ref/spec#For_range",
     "code": "package main\n\n// Score a dice roll\n// Implement score for zero to five dice, each from 1 through 6. Three ones score 1000;\n// other triples score 100 times the face. Remaining ones score 100, fives score 50, and\n// other faces score zero. Order must not matter; preserve the input.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc score(dice []int) int {\n\treturn -1 // TODO: count faces and score each die once.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tdice []int\n\t\twant int\n\t}{\n\t\t{nil, 0}, {[]int{}, 0}, {[]int{5}, 50}, {[]int{1}, 100}, {[]int{1, 5, 5, 1}, 300},\n\t\t{[]int{2, 3, 4, 6}, 0}, {[]int{1, 1, 1}, 1000}, {[]int{1, 1, 1, 1}, 1100}, {[]int{1, 1, 1, 1, 1}, 1200},\n\t\t{[]int{2, 2, 2}, 200}, {[]int{3, 3, 3}, 300}, {[]int{4, 4, 4}, 400},\n\t\t{[]int{5, 5, 5}, 500}, {[]int{5, 5, 5, 5}, 550}, {[]int{5, 5, 5, 5, 5}, 600}, {[]int{6, 6, 6}, 600},\n\t\t{[]int{1, 1, 1, 5, 1}, 1150}, {[]int{3, 5, 3, 1, 3}, 450}, {[]int{2, 5, 2, 1, 2}, 350},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.dice)\n\t\tif got := score(tc.dice); got != tc.want {\n\t\t\tt.Errorf(\"score(%v)=%d; want %d\", before, got, tc.want)\n\t\t}\n\t\tif !slices.Equal(tc.dice, before) {\n\t\t\tt.Error(\"score changed its input\")\n\t\t}\n\t\treversed := slices.Clone(before)\n\t\tslices.Reverse(reversed)\n\t\tif got := score(reversed); got != tc.want {\n\t\t\tt.Errorf(\"score reversed(%v)=%d; want %d\", before, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1653,7 +1653,7 @@
     "topic": "Projects",
     "title": "Implement a dice set",
     "instruction": "Implement Roll using Next exactly once per die. n is nonnegative and Next returns 1..6. Store n values in fresh storage, preserve every previous roll, and make no generator calls for zero dice.",
-    "reference": "https://go.dev/doc/effective_go",
+    "reference": "https://go.dev/tour/methods/4",
     "code": "package main\n\n// Implement a dice set\n// Implement Roll using Next exactly once per die. n is nonnegative and Next returns 1..6.\n// Store n values in fresh storage, preserve every previous roll, and make no generator\n// calls for zero dice.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\ntype DiceSet struct {\n\tValues []int\n\tNext   func() int\n}\n\nfunc (d *DiceSet) Roll(n int) { // TODO: allocate a fresh roll and call Next once per position.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcalls := 0\n\td := DiceSet{Next: func() int { calls++; return (calls-1)%6 + 1 }}\n\td.Roll(3)\n\tfirst := d.Values\n\tif !slices.Equal(first, []int{1, 2, 3}) || calls != 3 {\n\t\tt.Fatalf(\"first=%v calls=%d; want [1 2 3],3\", first, calls)\n\t}\n\td.Roll(2)\n\tsecond := d.Values\n\tif !slices.Equal(second, []int{4, 5}) || calls != 5 {\n\t\tt.Fatalf(\"second=%v calls=%d; want [4 5],5\", second, calls)\n\t}\n\td.Roll(0)\n\tif len(d.Values) != 0 || calls != 5 {\n\t\tt.Errorf(\"zero dice=%v calls=%d\", d.Values, calls)\n\t}\n\td.Roll(5)\n\tif !slices.Equal(d.Values, []int{6, 1, 2, 3, 4}) || calls != 10 {\n\t\tt.Errorf(\"third=%v calls=%d; want [6 1 2 3 4],10\", d.Values, calls)\n\t}\n\tif !slices.Equal(first, []int{1, 2, 3}) || !slices.Equal(second, []int{4, 5}) {\n\t\tt.Errorf(\"previous rolls changed: first=%v second=%v\", first, second)\n\t}\n\tfixedCalls := 0\n\tfixed := DiceSet{Next: func() int { fixedCalls++; return 6 }}\n\tfixed.Roll(4)\n\tif !slices.Equal(fixed.Values, []int{6, 6, 6, 6}) || fixedCalls != 4 {\n\t\tt.Errorf(\"must use the supplied generator: values=%v calls=%d\", fixed.Values, fixedCalls)\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
@@ -1672,7 +1672,7 @@
     "topic": "Projects",
     "title": "Implement a channel pipeline",
     "instruction": "Implement squares as a streaming pipeline. Return an output channel immediately; a goroutine squares and sends each input in order, then closes output when input closes. Consumers drain output, and input values fit safely when squared.",
-    "reference": "https://go.dev/doc/effective_go",
+    "reference": "https://go.dev/blog/pipelines",
     "code": "package main\n\n// Implement a channel pipeline\n// Implement squares as a streaming pipeline. Return an output channel immediately; a\n// goroutine squares and sends each input in order, then closes output when input closes.\n// Consumers drain output, and input values fit safely when squared.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n\t\"time\"\n)\n\nfunc squares(input <-chan int) <-chan int {\n\toutput := make(chan int)\n\tclose(output) // TODO: transform input in a goroutine, then close output.\n\treturn output\n}\n\nfunc TestKoan(t *testing.T) {\n\tt.Run(\"closed empty\", func(t *testing.T) {\n\t\tinput := make(chan int)\n\t\tclose(input)\n\t\treturned := make(chan (<-chan int), 1)\n\t\tgo func() { returned <- squares(input) }()\n\t\tvar output <-chan int\n\t\tselect {\n\t\tcase output = <-returned:\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"squares did not return for closed input\")\n\t\t}\n\t\tselect {\n\t\tcase _, ok := <-output:\n\t\t\tif ok {\n\t\t\t\tt.Error(\"empty input must not produce a value\")\n\t\t\t}\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"empty output did not close\")\n\t\t}\n\t})\n\tt.Run(\"buffered values\", func(t *testing.T) {\n\t\tinput := make(chan int, 5)\n\t\tfor _, value := range []int{2, 3, 4, -2, 0} {\n\t\t\tinput <- value\n\t\t}\n\t\tclose(input)\n\t\tfinished := make(chan []int, 1)\n\t\tgo func() {\n\t\t\tvar values []int\n\t\t\tfor value := range squares(input) {\n\t\t\t\tvalues = append(values, value)\n\t\t\t}\n\t\t\tfinished <- values\n\t\t}()\n\t\tselect {\n\t\tcase got := <-finished:\n\t\t\tif !slices.Equal(got, []int{4, 9, 16, 4, 0}) {\n\t\t\t\tt.Errorf(\"squares=%v; want [4 9 16 4 0]\", got)\n\t\t\t}\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"buffered pipeline did not finish\")\n\t\t}\n\t})\n\tt.Run(\"stream before input closes\", func(t *testing.T) {\n\t\tinput := make(chan int)\n\t\tinputClosed := false\n\t\tdefer func() {\n\t\t\tif !inputClosed {\n\t\t\t\tclose(input)\n\t\t\t}\n\t\t}()\n\t\treturned := make(chan (<-chan int), 1)\n\t\tgo func() { returned <- squares(input) }()\n\t\tvar output <-chan int\n\t\tselect {\n\t\tcase output = <-returned:\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"squares waited for input before returning\")\n\t\t}\n\t\tfor _, value := range []int{3, -2, 0, 5} {\n\t\t\tselect {\n\t\t\tcase input <- value:\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"pipeline did not receive the next input\")\n\t\t\t}\n\t\t\tselect {\n\t\t\tcase got, ok := <-output:\n\t\t\t\tif !ok || got != value*value {\n\t\t\t\t\tt.Errorf(\"input=%d: got (%d,%v); want (%d,true)\", value, got, ok, value*value)\n\t\t\t\t}\n\t\t\tcase <-time.After(time.Second):\n\t\t\t\tt.Fatal(\"pipeline waited for input closure before producing output\")\n\t\t\t}\n\t\t}\n\t\tclose(input)\n\t\tinputClosed = true\n\t\tselect {\n\t\tcase _, ok := <-output:\n\t\t\tif ok {\n\t\t\t\tt.Error(\"pipeline produced an extra value\")\n\t\t\t}\n\t\tcase <-time.After(time.Second):\n\t\t\tt.Fatal(\"output did not close after input\")\n\t\t}\n\t})\n}\n",
     "kind": "implement",
     "revisits": [
