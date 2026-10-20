@@ -28,6 +28,7 @@ export default function Koans() {
   const focusEditorAfterNavigation = useRef<string | null>(null);
   const exercise = curriculum.find((item) => item.id === selected) || curriculum[0];
   const code = entries[exercise.id]?.code ?? exercise.code;
+  const documentationLinks = exercise.references ?? [{ title: "Go documentation", url: exercise.reference }];
   const index = curriculum.indexOf(exercise);
   const completed = curriculum.filter((item) => entries[item.id]?.passed).length;
 
@@ -154,7 +155,9 @@ export default function Koans() {
             {running && <button type="button" onClick={stopRun}>Cancel</button>}
             <button type="button" onClick={download}>Download test</button>
             <button type="button" onClick={() => { if (window.confirm("Reset this exercise? Your edits and passed status will be removed.")) edit(exercise.code); }}>Reset</button>
-            <a href={exercise.reference} target="_blank" rel="noopener noreferrer">Go documentation</a>
+            {documentationLinks.map((reference) => (
+              <a key={reference.url} href={reference.url} target="_blank" rel="noopener noreferrer">{reference.title}</a>
+            ))}
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Ctrl/Cmd + Shift + Enter opens the next exercise. Edits and progress are saved in this browser.</p>
           {updatedExercises > 0 && <p className="notice" role="status">{updatedExercises === 1 ? "An exercise was updated. Its saved edits and completion were reset." : `${updatedExercises} exercises were updated. Their saved edits and completion were reset.`}</p>}
