@@ -1693,5 +1693,187 @@
       "091-synchronize-a-goroutine",
       "092-wait-for-goroutines"
     ]
+  },
+  {
+    "id": "121-read-binary-masks",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Read binary masks",
+    "instruction": "Fill the decimal values of these uint8 binary masks. The rightmost bit represents 1, and each position to its left doubles the value. Keep the binary literals and checks.",
+    "reference": "https://go.dev/ref/spec#Integer_literals",
+    "references": [
+      {
+        "title": "Binary integer literals",
+        "url": "https://go.dev/ref/spec#Integer_literals"
+      },
+      {
+        "title": "Unsigned integer types",
+        "url": "https://go.dev/ref/spec#Numeric_types"
+      }
+    ],
+    "code": "package main\n\n// Read binary masks\n// Fill the decimal values of these uint8 binary masks. The rightmost bit represents 1, and\n// each position to its left doubles the value. Keep the binary literals and checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\twantRead := uint8(0) // TODO: replace this value.\n\tif got := uint8(0b00000001); got != wantRead {\n\t\tt.Errorf(\"Read: got %#v; want %#v\", got, wantRead)\n\t}\n\n\twantWrite := uint8(0) // TODO: replace this value.\n\tif got := uint8(0b00000010); got != wantWrite {\n\t\tt.Errorf(\"Write: got %#v; want %#v\", got, wantWrite)\n\t}\n\n\twantExecute := uint8(0) // TODO: replace this value.\n\tif got := uint8(0b00000100); got != wantExecute {\n\t\tt.Errorf(\"Execute: got %#v; want %#v\", got, wantExecute)\n\t}\n\n\twantCombined := uint8(0) // TODO: replace this value.\n\tif got := uint8(0b00000101); got != wantCombined {\n\t\tt.Errorf(\"Combined: got %#v; want %#v\", got, wantCombined)\n\t}\n\n\twantHighBit := uint8(0) // TODO: replace this value.\n\tif got := uint8(0b10000000); got != wantHighBit {\n\t\tt.Errorf(\"HighBit: got %#v; want %#v\", got, wantHighBit)\n\t}\n\n\twantAllBits := uint8(0) // TODO: replace this value.\n\tif got := uint8(0b11111111); got != wantAllBits {\n\t\tt.Errorf(\"AllBits: got %#v; want %#v\", got, wantAllBits)\n\t}\n}\n",
+    "kind": "observe",
+    "revisits": [
+      "012-bitwise-xor"
+    ]
+  },
+  {
+    "id": "122-declare-bit-flags",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Declare bit flags",
+    "instruction": "Complete the first permission constant using 1 << iota. Read, Write, and Execute must occupy distinct bits with masks 1, 2, and 4. Keep the other declarations and checks.",
+    "reference": "https://go.dev/ref/spec#Iota",
+    "references": [
+      {
+        "title": "Iota",
+        "url": "https://go.dev/ref/spec#Iota"
+      },
+      {
+        "title": "Constant expressions and shifts",
+        "url": "https://go.dev/ref/spec#Constant_expressions"
+      }
+    ],
+    "code": "package main\n\n// Declare bit flags\n// Complete the first permission constant using 1 << iota. Read, Write, and Execute must\n// occupy distinct bits with masks 1, 2, and 4. Keep the other declarations and checks.\n\nimport (\n\t\"testing\"\n)\n\ntype Permission uint8\n\nconst (\n\tRead Permission = 0 // TODO: use 1 << iota.\n\tWrite\n\tExecute\n)\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tname       string\n\t\tflag, want Permission\n\t}{\n\t\t{\"Read\", Read, 0b001}, {\"Write\", Write, 0b010}, {\"Execute\", Execute, 0b100},\n\t}\n\tfor _, tc := range cases {\n\t\tif tc.flag != tc.want {\n\t\t\tt.Errorf(\"%s=%08b; want %08b\", tc.name, tc.flag, tc.want)\n\t\t}\n\t}\n}\n",
+    "kind": "complete",
+    "revisits": [
+      "009-iota-enumeration",
+      "121-read-binary-masks"
+    ]
+  },
+  {
+    "id": "123-set-bit-flags",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Set bit flags",
+    "instruction": "Implement setFlags using bitwise OR (|). Set every bit selected by mask and preserve the others. Setting an already-set flag must leave it set. Keep the checks.",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
+    "references": [
+      {
+        "title": "Bitwise OR (|)",
+        "url": "https://go.dev/ref/spec#Arithmetic_operators"
+      }
+    ],
+    "code": "package main\n\n// Set bit flags\n// Implement setFlags using bitwise OR (|). Set every bit selected by mask and preserve the\n// others. Setting an already-set flag must leave it set. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc setFlags(flags, mask uint8) uint8 {\n\treturn flags // TODO: set the selected bits.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ flags, mask, want uint8 }{\n\t\t{0, 0, 0}, {0, 0b101, 0b101}, {0b001, 0b010, 0b011},\n\t\t{0b101, 0b001, 0b101}, {0b101, 0b101, 0b101},\n\t\t{0b10000000, 0b001, 0b10000001}, {0xff, 0b011, 0xff},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := setFlags(tc.flags, tc.mask); got != tc.want {\n\t\t\tt.Errorf(\"setFlags(%08b,%08b)=%08b; want %08b\", tc.flags, tc.mask, got, tc.want)\n\t\t}\n\t}\n}\n",
+    "kind": "implement",
+    "revisits": [
+      "121-read-binary-masks",
+      "122-declare-bit-flags"
+    ]
+  },
+  {
+    "id": "124-check-bit-flags",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Check bit flags",
+    "instruction": "Implement hasAny and hasAll using bitwise AND (&). hasAny reports whether at least one requested bit is set; hasAll requires every requested bit. An empty mask matches all, but does not match any. Keep the checks.",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
+    "references": [
+      {
+        "title": "Bitwise AND (&)",
+        "url": "https://go.dev/ref/spec#Arithmetic_operators"
+      },
+      {
+        "title": "Comparisons",
+        "url": "https://go.dev/ref/spec#Comparison_operators"
+      }
+    ],
+    "code": "package main\n\n// Check bit flags\n// Implement hasAny and hasAll using bitwise AND (&). hasAny reports whether at least one\n// requested bit is set; hasAll requires every requested bit. An empty mask matches all,\n// but does not match any. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc hasAny(flags, mask uint8) bool {\n\treturn false // TODO: test whether any requested bit is set.\n}\nfunc hasAll(flags, mask uint8) bool {\n\treturn false // TODO: test whether all requested bits are set.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tflags, mask uint8\n\t\tany, all    bool\n\t}{\n\t\t{0, 0, false, true}, {0, 0b001, false, false}, {0b001, 0b001, true, true},\n\t\t{0b001, 0b011, true, false}, {0b011, 0b011, true, true}, {0b100, 0b011, false, false},\n\t\t{0b10000000, 0b10000000, true, true}, {0b10000001, 0b011, true, false},\n\t\t{0xff, 0xff, true, true}, {0xff, 0, false, true},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := hasAny(tc.flags, tc.mask); got != tc.any {\n\t\t\tt.Errorf(\"hasAny(%08b,%08b)=%v; want %v\", tc.flags, tc.mask, got, tc.any)\n\t\t}\n\t\tif got := hasAll(tc.flags, tc.mask); got != tc.all {\n\t\t\tt.Errorf(\"hasAll(%08b,%08b)=%v; want %v\", tc.flags, tc.mask, got, tc.all)\n\t\t}\n\t}\n}\n",
+    "kind": "implement",
+    "revisits": [
+      "013-boolean-expressions",
+      "123-set-bit-flags"
+    ]
+  },
+  {
+    "id": "125-clear-bit-flags",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Clear bit flags",
+    "instruction": "Implement clearFlags using Go's bit-clear operator (&^). Clear every bit selected by mask, preserving all other bits. Clearing an absent flag or an empty mask must do nothing. Keep the checks.",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
+    "references": [
+      {
+        "title": "Bit clear / AND NOT (&^)",
+        "url": "https://go.dev/ref/spec#Arithmetic_operators"
+      }
+    ],
+    "code": "package main\n\n// Clear bit flags\n// Implement clearFlags using Go's bit-clear operator (&^). Clear every bit selected by\n// mask, preserving all other bits. Clearing an absent flag or an empty mask must do\n// nothing. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc clearFlags(flags, mask uint8) uint8 {\n\treturn flags // TODO: clear only the selected bits.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ flags, mask, want uint8 }{\n\t\t{0, 0xff, 0}, {0b111, 0b010, 0b101}, {0b101, 0b010, 0b101},\n\t\t{0xff, 0b00001111, 0b11110000}, {0b10000000, 0b10000000, 0},\n\t\t{0b10000001, 0b001, 0b10000000}, {0b111, 0, 0b111}, {0xff, 0xff, 0},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := clearFlags(tc.flags, tc.mask); got != tc.want {\n\t\t\tt.Errorf(\"clearFlags(%08b,%08b)=%08b; want %08b\", tc.flags, tc.mask, got, tc.want)\n\t\t}\n\t}\n}\n",
+    "kind": "implement",
+    "revisits": [
+      "123-set-bit-flags",
+      "124-check-bit-flags"
+    ]
+  },
+  {
+    "id": "126-toggle-bit-flags",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Toggle bit flags",
+    "instruction": "Implement toggleFlags using XOR (^). Flip each selected bit and preserve unselected bits. Toggling the same mask twice must restore the original flags. Keep the checks.",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
+    "references": [
+      {
+        "title": "Bitwise XOR (^)",
+        "url": "https://go.dev/ref/spec#Arithmetic_operators"
+      }
+    ],
+    "code": "package main\n\n// Toggle bit flags\n// Implement toggleFlags using XOR (^). Flip each selected bit and preserve unselected\n// bits. Toggling the same mask twice must restore the original flags. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc toggleFlags(flags, mask uint8) uint8 {\n\treturn flags // TODO: toggle the selected bits.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ flags, mask, want uint8 }{\n\t\t{0, 0, 0}, {0, 0b101, 0b101}, {0b101, 0b001, 0b100},\n\t\t{0b101, 0b010, 0b111}, {0b101, 0b111, 0b010}, {0xff, 0xff, 0},\n\t\t{0b10000001, 0b10000000, 0b001}, {0b101, 0, 0b101},\n\t}\n\tfor _, tc := range cases {\n\t\tgot := toggleFlags(tc.flags, tc.mask)\n\t\tif got != tc.want {\n\t\t\tt.Errorf(\"toggleFlags(%08b,%08b)=%08b; want %08b\", tc.flags, tc.mask, got, tc.want)\n\t\t}\n\t\tif restored := toggleFlags(got, tc.mask); restored != tc.flags {\n\t\t\tt.Errorf(\"toggling mask %08b twice: got %08b; want %08b\", tc.mask, restored, tc.flags)\n\t\t}\n\t}\n}\n",
+    "kind": "implement",
+    "revisits": [
+      "012-bitwise-xor",
+      "123-set-bit-flags",
+      "125-clear-bit-flags"
+    ]
+  },
+  {
+    "id": "127-invert-bits",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Invert bits",
+    "instruction": "Implement invertBits with unary ^. Flip all eight bits of a uint8, including leading zero bits. Unary ^ complements one value; binary ^ toggles bits using a second value. Keep the checks.",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
+    "references": [
+      {
+        "title": "Unary bitwise complement (^)",
+        "url": "https://go.dev/ref/spec#Arithmetic_operators"
+      },
+      {
+        "title": "Unsigned integer widths",
+        "url": "https://go.dev/ref/spec#Numeric_types"
+      }
+    ],
+    "code": "package main\n\n// Invert bits\n// Implement invertBits with unary ^. Flip all eight bits of a uint8, including leading\n// zero bits. Unary ^ complements one value; binary ^ toggles bits using a second value.\n// Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc invertBits(value uint8) uint8 {\n\treturn value // TODO: complement all eight bits.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ value, want uint8 }{\n\t\t{0b00000000, 0b11111111}, {0b11111111, 0b00000000},\n\t\t{0b00001111, 0b11110000}, {0b10000000, 0b01111111},\n\t\t{0b01010101, 0b10101010}, {0b11000011, 0b00111100},\n\t}\n\tfor _, tc := range cases {\n\t\tgot := invertBits(tc.value)\n\t\tif got != tc.want {\n\t\t\tt.Errorf(\"invertBits(%08b)=%08b; want %08b\", tc.value, got, tc.want)\n\t\t}\n\t\tif restored := invertBits(got); restored != tc.value {\n\t\t\tt.Errorf(\"inverting %08b twice: got %08b; want %08b\", tc.value, restored, tc.value)\n\t\t}\n\t}\n}\n",
+    "kind": "implement",
+    "revisits": [
+      "121-read-binary-masks",
+      "126-toggle-bit-flags"
+    ]
+  },
+  {
+    "id": "128-pack-and-unpack-bit-fields",
+    "version": 1,
+    "topic": "Bit flags and operations",
+    "title": "Pack and unpack bit fields",
+    "instruction": "Implement packFields and unpackFields using shifts and masks. A nibble is four bits: pack the low four bits of high into bits 7-4 and the low four bits of low into bits 3-0. Unpack both fields as values from 0 through 15. Keep the checks.",
+    "reference": "https://go.dev/ref/spec#Arithmetic_operators",
+    "references": [
+      {
+        "title": "Shifts and bitwise masks",
+        "url": "https://go.dev/ref/spec#Arithmetic_operators"
+      },
+      {
+        "title": "Unsigned integer widths",
+        "url": "https://go.dev/ref/spec#Numeric_types"
+      }
+    ],
+    "code": "package main\n\n// Pack and unpack bit fields\n// Implement packFields and unpackFields using shifts and masks. A nibble is four bits:\n// pack the low four bits of high into bits 7-4 and the low four bits of low into bits 3-0.\n// Unpack both fields as values from 0 through 15. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc packFields(high, low uint8) uint8 {\n\treturn 0 // TODO: mask and pack both fields.\n}\nfunc unpackFields(packed uint8) (uint8, uint8) {\n\treturn 0, 0 // TODO: extract the high and low nibbles.\n}\n\nfunc TestKoan(t *testing.T) {\n\tpackedCases := []struct{ high, low, want uint8 }{\n\t\t{0, 0, 0}, {1, 2, 0x12}, {0x0a, 0x05, 0xa5}, {0x0f, 0x0f, 0xff},\n\t\t{0x12, 0x34, 0x24}, {0xff, 0xff, 0xff}, {0x80, 0x08, 0x08},\n\t}\n\tfor _, tc := range packedCases {\n\t\tif got := packFields(tc.high, tc.low); got != tc.want {\n\t\t\tt.Errorf(\"packFields(%08b,%08b)=%08b; want %08b\", tc.high, tc.low, got, tc.want)\n\t\t}\n\t}\n\tunpackedCases := []struct{ packed, high, low uint8 }{\n\t\t{0, 0, 0}, {0x12, 1, 2}, {0xa5, 0x0a, 0x05}, {0xf0, 0x0f, 0},\n\t\t{0x0f, 0, 0x0f}, {0xff, 0x0f, 0x0f}, {0x80, 8, 0},\n\t}\n\tfor _, tc := range unpackedCases {\n\t\thigh, low := unpackFields(tc.packed)\n\t\tif high != tc.high || low != tc.low {\n\t\t\tt.Errorf(\"unpackFields(%08b)=(%04b,%04b); want (%04b,%04b)\", tc.packed, high, low, tc.high, tc.low)\n\t\t}\n\t}\n\tfor value := 0; value < 256; value++ {\n\t\tpacked := uint8(value)\n\t\thigh, low := unpackFields(packed)\n\t\tif high > 15 || low > 15 {\n\t\t\tt.Fatalf(\"fields must fit in four bits: high=%d low=%d\", high, low)\n\t\t}\n\t\tif got := packFields(high, low); got != packed {\n\t\t\tt.Fatalf(\"round trip for %08b: got %08b\", packed, got)\n\t\t}\n\t}\n}\n",
+    "kind": "implement",
+    "revisits": [
+      "007-simultaneous-assignment",
+      "121-read-binary-masks",
+      "123-set-bit-flags",
+      "124-check-bit-flags"
+    ]
   }
 ]

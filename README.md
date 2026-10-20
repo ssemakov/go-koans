@@ -1,6 +1,6 @@
 # Go Koans
 
-120 runnable Go exercises in 30 topics. The tests initially fail. Follow each exercise's instructions, edit the marked code, and run the tests again.
+128 runnable Go exercises in 31 topics. The tests initially fail. Follow each exercise's instructions, edit the marked code, and run the tests again.
 
 The interface has a topic list, code editor, test output, and previous/next controls. Browser edits and progress are saved locally. There are no accounts or services to configure.
 
@@ -8,7 +8,9 @@ The interface has a topic list, code editor, test output, and previous/next cont
 
 The sequence starts with assertions, variables, constants, numbers, types, strings, and arrays before slices. It continues through maps, control flow, loops, functions, closures, pointers, allocation, structs, methods, embedding, interfaces, errors, defer, panic, channels, concurrency, context, IO, files, JSON, regular expressions, generics, standard-library functions, testing, HTTP, and time. Four projects cover triangles, dice scoring, a dice set, and a channel pipeline.
 
-There are 31 exercises that ask for expected values, 19 that ask for missing code or inputs, 16 repairs, and 54 implementations. Expected-value exercises compare related states or inputs. Implementations have fixed checks for several cases, including empty inputs, boundaries, ownership, errors, or termination where relevant. Later exercises reuse earlier concepts.
+Exercises 121–128 form **Bit flags and operations**: binary masks, flag constants with `iota`, setting flags with OR, checking any/all flags with AND, clearing flags with AND NOT, toggling with XOR, complementing a `uint8`, and packing/unpacking four-bit fields with shifts and masks. The tests include empty masks, overlapping flags, the highest bit, and all 256 byte values for field round trips.
+
+There are 32 exercises that ask for expected values, 19 that ask for missing code or inputs, 17 repairs, and 60 implementations. Expected-value exercises compare related states or inputs. Implementations have fixed checks for several cases, including empty inputs, boundaries, ownership, errors, or termination where relevant. Later exercises reuse earlier concepts.
 
 All checks use ordinary Go tests: `testing.T`, `t.Run`, direct comparisons, and standard-library functions such as `slices.Equal`, `maps.Equal`, `errors.Is`, and `errors.As`. There are no assertion helpers or third-party Go packages.
 
@@ -61,7 +63,7 @@ The site uses Next.js, TypeScript, and Biome. No secret or application environme
 
 ## Validate curriculum changes
 
-With Go 1.23+ and a C compiler on PATH, run `npm run test:curriculum`. This checks that all 120 starters execute and fail, all 120 reference solutions pass, and the web and local starter files match. It also runs concurrency solutions with the race detector and verifies that the tests reject selected incorrect implementations: shared clone storage, lost error identity, dropped IO errors, incorrect table-driven checks, overflow-prone triangle validation, reused dice storage, and a pipeline that waits for input closure. It works in a temporary directory and leaves learners' files untouched.
+With Go 1.23+ and a C compiler on PATH, run `npm run test:curriculum`. This checks that all 128 starters execute and fail, all 128 reference solutions pass, and the web and local starter files match. It also runs concurrency solutions with the race detector and verifies that the tests reject selected incorrect implementations: shared clone storage, lost error identity, dropped IO errors, incorrect table-driven checks, overflow-prone triangle validation, reused dice storage, a pipeline that waits for input closure, incorrect bitwise operators, and swapped or unmasked bit fields. It works in a temporary directory and leaves learners' files untouched.
 
 The reference solutions in `scripts/solutions.json` are validation fixtures and are not imported into the website or download archive. A passing check establishes the tested behavior; it does not measure a learner's retention.
 
