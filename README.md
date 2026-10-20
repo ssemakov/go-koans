@@ -30,6 +30,23 @@ Each exercise displays its version. When its starter code or instructions change
 
 Enable **Vim mode** above the editor for Vim keybindings. Use `i` to enter insert mode and `Esc` to return to normal mode. Normal-mode motions, visual selections, search, and undo are available. The setting is saved in this browser; toggling it preserves the code. Edits save automatically, and Ctrl/Cmd + Enter still runs tests.
 
+Vim mode uses relative line numbers, with the current line's absolute number highlighted. Use counts such as `5j`, `3k`, or `4dd` with the gutter. `:set nornu` switches to absolute numbers; `:set rnu` restores relative numbers for this editor session.
+
+| Commands | Behavior |
+| --- | --- |
+| `h j k l`, `w b e`, `0 ^ $`, `gg G`, `%` | Move by character, word, line, document, or matching bracket. |
+| Ctrl-D / Ctrl-U, Ctrl-F / Ctrl-B | Scroll half a screen or a full screen; counts work with half-screen scrolling. |
+| `i a I A`, `o O` | Insert text or open a line with Go indentation. |
+| Enter | In Normal mode, move to the next line's first nonblank character. In Insert mode, insert a newline with Go indentation, including nested blocks, braces, imports, and `case` clauses. |
+| Tab / Shift-Tab | In Insert mode, insert a tab or reduce indentation. These keys keep focus in the editor in Normal and Visual modes too. |
+| `v`, `V`, Ctrl-V | Select characters, lines, or a rectangular block. |
+| `d c y`, `p P`, `ciw`, `ci"` | Delete, change, copy, paste, or edit inside a word or quotes. |
+| `> <`, `=` | Shift indentation or reindent a selection/motion; `gg=G` reindents the document with tabs. |
+| `/`, `?`, `n N`, `:%s/old/new/g` | Search forward/backward, repeat a search, or replace text. |
+| `u`, Ctrl-R, `.` | Undo, redo, or repeat the last edit. |
+| `"ayy`, `"ap`, `qa…q`, `@a`, `ma`, `'a` | Use named registers, record/replay macros, or set/jump to marks. |
+| Ctrl-A / Ctrl-X | Increment or decrement a number. |
+
 **Download test** saves your current edits. **Download all tests** creates a ZIP containing the full starter set and a Go module.
 
 ## Run locally
@@ -60,6 +77,8 @@ npm start
 ```
 
 The site uses Next.js, TypeScript, and Biome. No secret or application environment variable is required. The runner needs outbound HTTPS access to `go.dev`.
+
+With Python Playwright and Chromium at `/usr/bin/chromium`, run `KOANS_BASE_URL=http://127.0.0.1:3000 python scripts/vim-commands-smoke.py` against the running production server to check Vim commands with Linux and Mac key bindings. `scripts/vim-smoke.py` checks editing, an actual Go test run, progress, downloads, persistence, and mobile layout against the same URL.
 
 ## Validate curriculum changes
 
