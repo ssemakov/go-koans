@@ -1768,8 +1768,184 @@ return output
 }""", imports=("slices","time"), revisits=(53,82,88,89,91,92))
 
 
+# Seed metadata for this new topic without renumbering existing lessons. A new
+# seed starts at version 0 so its first authored starter is published as version 1.
+BIT_FLAGS = [
+    (121, "read-binary-masks", "Read binary masks", [
+        ("Binary integer literals", "Integer_literals"), ("Unsigned integer types", "Numeric_types")]),
+    (122, "declare-bit-flags", "Declare bit flags", [
+        ("Iota", "Iota"), ("Constant expressions and shifts", "Constant_expressions")]),
+    (123, "set-bit-flags", "Set bit flags", [("Bitwise OR (|)", "Arithmetic_operators")]),
+    (124, "check-bit-flags", "Check bit flags", [
+        ("Bitwise AND (&)", "Arithmetic_operators"), ("Comparisons", "Comparison_operators")]),
+    (125, "clear-bit-flags", "Clear bit flags", [("Bit clear / AND NOT (&^)", "Arithmetic_operators")]),
+    (126, "toggle-bit-flags", "Toggle bit flags", [("Bitwise XOR (^)", "Arithmetic_operators")]),
+    (127, "invert-bits", "Invert bits", [
+        ("Unary bitwise complement (^)", "Arithmetic_operators"), ("Unsigned integer widths", "Numeric_types")]),
+    (128, "pack-and-unpack-bit-fields", "Pack and unpack bit fields", [
+        ("Shifts and bitwise masks", "Arithmetic_operators"), ("Unsigned integer widths", "Numeric_types")]),
+]
+for number, slug, title, sections in BIT_FLAGS:
+    exercise_id = f"{number:03}-{slug}"
+    if number <= len(METADATA):
+        assert METADATA[number - 1]["id"] == exercise_id
+        continue
+    assert number == len(METADATA) + 1
+    references = [{"title": label, "url": f"https://go.dev/ref/spec#{anchor}"}
+                  for label, anchor in sections]
+    METADATA.append(dict(id=exercise_id, version=0, topic="Bit flags and operations",
+                         title=title, instruction="", reference=references[0]["url"],
+                         references=references, code="", kind="implement", revisits=[]))
+
+
+observe(121, "Fill the decimal values of these uint8 binary masks. The rightmost bit represents 1, and each position to its left doubles the value. Keep the binary literals and checks.", "", [
+    ("Read", "uint8(0b00000001)", "uint8(0)", "uint8(1)"),
+    ("Write", "uint8(0b00000010)", "uint8(0)", "uint8(2)"),
+    ("Execute", "uint8(0b00000100)", "uint8(0)", "uint8(4)"),
+    ("Combined", "uint8(0b00000101)", "uint8(0)", "uint8(5)"),
+    ("HighBit", "uint8(0b10000000)", "uint8(0)", "uint8(128)"),
+    ("AllBits", "uint8(0b11111111)", "uint8(0)", "uint8(255)"),
+], revisits=(12,))
+
+add(122, "Complete the first permission constant using 1 << iota. Read, Write, and Execute must occupy distinct bits with masks 1, 2, and 4. Keep the other declarations and checks.", """
+cases := []struct{ name string; flag, want Permission }{
+    {"Read",Read,0b001}, {"Write",Write,0b010}, {"Execute",Execute,0b100},
+}
+for _,tc := range cases {
+    if tc.flag != tc.want { t.Errorf("%s=%08b; want %08b",tc.name,tc.flag,tc.want) }
+}
+""", [("Read Permission = 0 // TODO: use 1 << iota.", "Read Permission = 1 << iota")],
+    declarations="""type Permission uint8
+const (
+Read Permission = 0 // TODO: use 1 << iota.
+Write
+Execute
+)""", kind="complete", revisits=(9,121))
+
+add(123, "Implement setFlags using bitwise OR (|). Set every bit selected by mask and preserve the others. Setting an already-set flag must leave it set. Keep the checks.", """
+cases := []struct{ flags, mask, want uint8 }{
+    {0,0,0}, {0,0b101,0b101}, {0b001,0b010,0b011},
+    {0b101,0b001,0b101}, {0b101,0b101,0b101},
+    {0b10000000,0b001,0b10000001}, {0xff,0b011,0xff},
+}
+for _,tc := range cases {
+    if got:=setFlags(tc.flags,tc.mask); got != tc.want {
+        t.Errorf("setFlags(%08b,%08b)=%08b; want %08b",tc.flags,tc.mask,got,tc.want)
+    }
+}
+""", [("return flags // TODO: set the selected bits.", "return flags | mask")],
+    declarations="func setFlags(flags,mask uint8) uint8 { return flags // TODO: set the selected bits.\n}",
+    revisits=(121,122))
+
+add(124, "Implement hasAny and hasAll using bitwise AND (&). hasAny reports whether at least one requested bit is set; hasAll requires every requested bit. An empty mask matches all, but does not match any. Keep the checks.", """
+cases := []struct{ flags, mask uint8; any, all bool }{
+    {0,0,false,true}, {0,0b001,false,false}, {0b001,0b001,true,true},
+    {0b001,0b011,true,false}, {0b011,0b011,true,true}, {0b100,0b011,false,false},
+    {0b10000000,0b10000000,true,true}, {0b10000001,0b011,true,false},
+    {0xff,0xff,true,true}, {0xff,0,false,true},
+}
+for _,tc := range cases {
+    if got:=hasAny(tc.flags,tc.mask); got != tc.any {
+        t.Errorf("hasAny(%08b,%08b)=%v; want %v",tc.flags,tc.mask,got,tc.any)
+    }
+    if got:=hasAll(tc.flags,tc.mask); got != tc.all {
+        t.Errorf("hasAll(%08b,%08b)=%v; want %v",tc.flags,tc.mask,got,tc.all)
+    }
+}
+""", [("return false // TODO: test whether any requested bit is set.", "return flags&mask != 0"),
+      ("return false // TODO: test whether all requested bits are set.", "return flags&mask == mask")],
+    declarations="""func hasAny(flags,mask uint8) bool { return false // TODO: test whether any requested bit is set.
+}
+func hasAll(flags,mask uint8) bool { return false // TODO: test whether all requested bits are set.
+}""", revisits=(13,123))
+
+add(125, "Implement clearFlags using Go's bit-clear operator (&^). Clear every bit selected by mask, preserving all other bits. Clearing an absent flag or an empty mask must do nothing. Keep the checks.", """
+cases := []struct{ flags, mask, want uint8 }{
+    {0,0xff,0}, {0b111,0b010,0b101}, {0b101,0b010,0b101},
+    {0xff,0b00001111,0b11110000}, {0b10000000,0b10000000,0},
+    {0b10000001,0b001,0b10000000}, {0b111,0,0b111}, {0xff,0xff,0},
+}
+for _,tc := range cases {
+    if got:=clearFlags(tc.flags,tc.mask); got != tc.want {
+        t.Errorf("clearFlags(%08b,%08b)=%08b; want %08b",tc.flags,tc.mask,got,tc.want)
+    }
+}
+""", [("return flags // TODO: clear only the selected bits.", "return flags &^ mask")],
+    declarations="func clearFlags(flags,mask uint8) uint8 { return flags // TODO: clear only the selected bits.\n}",
+    revisits=(123,124))
+
+add(126, "Implement toggleFlags using XOR (^). Flip each selected bit and preserve unselected bits. Toggling the same mask twice must restore the original flags. Keep the checks.", """
+cases := []struct{ flags, mask, want uint8 }{
+    {0,0,0}, {0,0b101,0b101}, {0b101,0b001,0b100},
+    {0b101,0b010,0b111}, {0b101,0b111,0b010}, {0xff,0xff,0},
+    {0b10000001,0b10000000,0b001}, {0b101,0,0b101},
+}
+for _,tc := range cases {
+    got:=toggleFlags(tc.flags,tc.mask)
+    if got != tc.want { t.Errorf("toggleFlags(%08b,%08b)=%08b; want %08b",tc.flags,tc.mask,got,tc.want) }
+    if restored:=toggleFlags(got,tc.mask); restored != tc.flags {
+        t.Errorf("toggling mask %08b twice: got %08b; want %08b",tc.mask,restored,tc.flags)
+    }
+}
+""", [("return flags // TODO: toggle the selected bits.", "return flags ^ mask")],
+    declarations="func toggleFlags(flags,mask uint8) uint8 { return flags // TODO: toggle the selected bits.\n}",
+    revisits=(12,123,125))
+
+add(127, "Implement invertBits with unary ^. Flip all eight bits of a uint8, including leading zero bits. Unary ^ complements one value; binary ^ toggles bits using a second value. Keep the checks.", """
+cases := []struct{ value, want uint8 }{
+    {0b00000000,0b11111111}, {0b11111111,0b00000000},
+    {0b00001111,0b11110000}, {0b10000000,0b01111111},
+    {0b01010101,0b10101010}, {0b11000011,0b00111100},
+}
+for _,tc := range cases {
+    got:=invertBits(tc.value)
+    if got != tc.want { t.Errorf("invertBits(%08b)=%08b; want %08b",tc.value,got,tc.want) }
+    if restored:=invertBits(got); restored != tc.value {
+        t.Errorf("inverting %08b twice: got %08b; want %08b",tc.value,restored,tc.value)
+    }
+}
+""", [("return value // TODO: complement all eight bits.", "return ^value")],
+    declarations="func invertBits(value uint8) uint8 { return value // TODO: complement all eight bits.\n}",
+    revisits=(121,126))
+
+add(128, "Implement packFields and unpackFields using shifts and masks. A nibble is four bits: pack the low four bits of high into bits 7-4 and the low four bits of low into bits 3-0. Unpack both fields as values from 0 through 15. Keep the checks.", """
+packedCases := []struct{ high, low, want uint8 }{
+    {0,0,0}, {1,2,0x12}, {0x0a,0x05,0xa5}, {0x0f,0x0f,0xff},
+    {0x12,0x34,0x24}, {0xff,0xff,0xff}, {0x80,0x08,0x08},
+}
+for _,tc := range packedCases {
+    if got:=packFields(tc.high,tc.low); got != tc.want {
+        t.Errorf("packFields(%08b,%08b)=%08b; want %08b",tc.high,tc.low,got,tc.want)
+    }
+}
+unpackedCases := []struct{ packed, high, low uint8 }{
+    {0,0,0}, {0x12,1,2}, {0xa5,0x0a,0x05}, {0xf0,0x0f,0},
+    {0x0f,0,0x0f}, {0xff,0x0f,0x0f}, {0x80,8,0},
+}
+for _,tc := range unpackedCases {
+    high,low:=unpackFields(tc.packed)
+    if high != tc.high || low != tc.low {
+        t.Errorf("unpackFields(%08b)=(%04b,%04b); want (%04b,%04b)",tc.packed,high,low,tc.high,tc.low)
+    }
+}
+for value:=0; value<256; value++ {
+    packed:=uint8(value)
+    high,low:=unpackFields(packed)
+    if high>15 || low>15 { t.Fatalf("fields must fit in four bits: high=%d low=%d",high,low) }
+    if got:=packFields(high,low); got != packed {
+        t.Fatalf("round trip for %08b: got %08b",packed,got)
+    }
+}
+""", [("return 0 // TODO: mask and pack both fields.", "return (high&0x0f)<<4 | low&0x0f"),
+      ("return 0,0 // TODO: extract the high and low nibbles.", "return packed >> 4, packed & 0x0f")],
+    declarations="""func packFields(high,low uint8) uint8 { return 0 // TODO: mask and pack both fields.
+}
+func unpackFields(packed uint8) (uint8,uint8) { return 0,0 // TODO: extract the high and low nibbles.
+}""", revisits=(7,121,123,124))
+
+
 def write_curriculum():
-    assert sorted(LESSONS) == list(range(1, 121))
+    assert sorted(LESSONS) == list(range(1, len(METADATA) + 1))
     formatter = shutil.which("gofmt")
     if not formatter:
         raise SystemExit("gofmt is required. Add Go 1.23+ to PATH.")

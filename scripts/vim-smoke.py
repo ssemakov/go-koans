@@ -62,10 +62,10 @@ with sync_playwright() as p:
     assert downloaded_code() == solved
     editor.click(); page.keyboard.press("Control+Enter")
     expect(page.locator(".result.passed")).to_be_visible(timeout=30000)
-    expect(page.locator(".progress")).to_have_text("1 / 120 passed")
+    expect(page.locator(".progress")).to_have_text(f"1 / {len(EXERCISES)} passed")
     toggle.uncheck()
     expect(page.get_by_label("Go test code")).to_have_value(solved)
-    expect(page.locator(".progress")).to_have_text("1 / 120 passed")
+    expect(page.locator(".progress")).to_have_text(f"1 / {len(EXERCISES)} passed")
     toggle.check()
     expect(page.locator(".cm-content")).to_be_visible()
     assert downloaded_code() == solved
@@ -78,11 +78,11 @@ with sync_playwright() as p:
     expect(toggle).to_be_checked()
     expect(page.locator(".cm-content")).to_be_visible()
     assert downloaded_code() == solved
-    expect(page.locator(".progress")).to_have_text("1 / 120 passed")
+    expect(page.locator(".progress")).to_have_text(f"1 / {len(EXERCISES)} passed")
     page.once("dialog", lambda dialog: dialog.accept())
     page.get_by_role("button", name="Reset", exact=True).click()
     assert downloaded_code() == EXERCISES[0]["code"]
-    expect(page.locator(".progress")).to_have_text("0 / 120 passed")
+    expect(page.locator(".progress")).to_have_text(f"0 / {len(EXERCISES)} passed")
     editor.click(); page.keyboard.press("Escape"); page.keyboard.type("gg0i")
     page.keyboard.type("// Insert mode shortcut")
     page.keyboard.press("Enter")
