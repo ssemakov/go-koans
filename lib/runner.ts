@@ -1,5 +1,14 @@
 export type RunResult = { status: "passed" | "failed" | "error"; output: string; passed: number; failed: number; skipped: number };
 
+export function readWasmResult(result: { code: number; stdout: string; stderr: string; termination: string; trapMessage?: string }): RunResult {
+  const output = [result.stdout, result.stderr].filter(Boolean).join("\n");
+  const parsed = readPlaygroundResult({ Errors: "", Events: [{ Message: output }] });
+  if (result.termination !== "exited") {
+    return { ...parsed, status: "error", output: `${output}\nBrowser runner stopped: ${result.termination}.${result.trapMessage ? ` ${result.trapMessage}` : ""}` };
+  }
+  return { ...parsed, status: result.code !== 0 ? "failed" : parsed.status };
+}
+
 export function readPlaygroundResult(value: unknown): RunResult {
   if (!value || typeof value !== "object") throw new Error("Invalid Go Playground response.");
   const data = value as { Errors?: unknown; VetErrors?: unknown; Events?: unknown };

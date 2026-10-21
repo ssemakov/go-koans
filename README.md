@@ -20,7 +20,15 @@ The structure follows [Ruby Koans](https://github.com/edgecase/ruby_koans): run 
 
 Use the **Theme** menu in the header to choose **System**, **Light**, or **Dark**. System follows your device's appearance; explicit choices are saved in this browser. Both code editors use the selected theme.
 
-Use **Run tests** or Ctrl/Cmd + Enter. The Next.js route forwards code to the official Go Playground over HTTPS. It reports actual test failures and compiler errors. Skipped tests and runs with no completed tests do not mark an exercise passed. The runtime has the Go Playground's execution and network limits.
+Use **Run tests** or Ctrl/Cmd + Enter. **Browser (WebAssembly)** is the default runner: Go 1.26.5 compiles your edited source and runs the real `testing` package in browser workers, using [WASM-OJ Forge](https://github.com/wasm-oj/forge). Your code stays in the browser. The first run downloads roughly 60 MB of compiler, standard library, and runtime assets from this site's origin; subsequent runs reuse downloaded assets and cached builds. A first run can still take longer than Go Playground, especially on a slow connection or device.
+
+The browser needs WebAssembly, workers, SharedArrayBuffer, and cross-origin isolation over HTTPS (localhost works for development). Unsupported browsers report an error. Select **Go Playground** explicitly to use the existing remote runner, which sends your code through the Next.js API to the official Go Playground. There is no automatic remote fallback.
+
+Both runners report actual test failures and compiler errors. Skipped tests and runs with no completed tests do not mark an exercise passed. The browser runner also checks the process exit status. Cancel, editing, navigation, and switching runners stop the current run and prevent stale results from changing progress.
+
+The WebAssembly target is WASI, with a temporary virtual filesystem and no network sockets or subprocesses. It supports this curriculum's standard-library imports, goroutines, and HTTP handler tests (which use in-memory requests and recorders). Arbitrary native Go programs and third-party modules are outside its scope. Top-level `Test…` functions run through `testing.Main`; custom `TestMain`, example tests, benchmarks, the race detector, and `go vet` are not provided. Download a test to use the full native Go toolchain.
+
+Guest execution is bounded by a 10-second wall and virtual-time limit, a billion weighted instructions, 256 MiB of memory, 256 KiB of output, and an 8 MiB/1,024-entry filesystem write allowance. The Go test timeout is 5 seconds. The overall browser request allows up to 3 minutes for downloads and compilation. These are execution limits, not a guarantee that WASM is faster than a remote runner.
 
 Each exercise's documentation links open the exact specification sections, API references, or tutorials for its topic in new tabs. Exercise 008 has separate links for [constant expressions and exact arithmetic](https://go.dev/ref/spec#Constant_expressions) and [explicit type conversions](https://go.dev/ref/spec#Conversions).
 
@@ -74,13 +82,18 @@ npm run dev
 ```sh
 npm run lint
 npm run typecheck
+npm test
 npm run build
 npm start
 ```
 
-The site uses Next.js, TypeScript, and Biome. No secret or application environment variable is required. The runner needs outbound HTTPS access to `go.dev`.
+The site uses Next.js, TypeScript, and Biome. No secret or application environment variable is required. `npm run dev` and `npm run build` first bundle the browser adapter and copy pinned npm compiler/runtime assets and their license notices into the ignored `public/wasm/` directory. The output URL includes a hash of the dependency lockfile and runner sources; only these versioned assets receive immutable caching. No service worker intercepts app loads. Restart `npm run dev` after changing the adapter so the assets and URL regenerate together.
+
+`next.config.ts` supplies COOP/COEP/CORP headers required for SharedArrayBuffer. Preserve them when adding a reverse proxy or changing hosts. The optional Go Playground route needs outbound HTTPS access to `go.dev`; browser execution needs no compilation backend.
 
 With Python Playwright and Chromium at `/usr/bin/chromium`, run `KOANS_BASE_URL=http://127.0.0.1:3000 python scripts/vim-commands-smoke.py` against the running production server to check Vim commands with Linux and Mac key bindings. `scripts/vim-smoke.py` checks editing, an actual Go test run, progress, downloads, persistence, and mobile layout against the same URL.
+
+Run `KOANS_BASE_URL=http://127.0.0.1:3000 python scripts/wasm-smoke.py` to check actual WASM compilation and execution, failures, skips, added tests, panic, temporary files, execution limits, cancellation/retry, navigation, persistence, isolation/cache headers, mobile dark mode, and explicit remote selection. It also verifies that default runs never request `/api/run` or an external origin. Add `--curriculum` to compile and execute all 128 starters and reference solutions in Chromium; every starter must fail and every solution must pass. This takes several minutes. Set `CHROMIUM_PATH` for a different Chromium executable. The smoke checks exercise Chromium; other browser engines still need compatibility testing.
 
 ## Validate curriculum changes
 
@@ -92,8 +105,8 @@ For maintainers, `scripts/author-curriculum.py` defines the exercises and refere
 
 The authoring script automatically increments an exercise's `version` when its formatted starter code or instructions change. Regenerating unchanged exercises keeps their versions stable. Unversioned browser saves migrate as version 1; the updated Boolean zero value exercise starts at version 2. Versioned saves use separate storage so tabs using the previous storage format cannot overwrite them.
 
-Canonical web exercises are in `lib/curriculum.json`; matching local exercises are in `koans/`. UI code is in `app/koans.tsx`, and runner/download routes are in `app/api/`.
+Canonical web exercises are in `lib/curriculum.json`; matching local exercises are in `koans/`. UI code is in `app/koans.tsx`, browser execution is in `lib/wasm/`, and remote runner/download routes are in `app/api/`.
 
 ## Deploy to Vercel
 
-Import `ssemakov/go-koans` from `main`. Use the Next.js framework, repository root, Node.js 24.x, `npm ci`, and `npm run build`. Leave the output directory at its default. Go is not installed or executed in the Vercel function; Go Playground provides execution. Local build and runtime checks do not publish a deployment.
+Use the Next.js framework, repository root, Node.js 24.x, `npm ci`, and `npm run build`. Leave the output directory at its default. Build preparation emits about 62 MB of static WASM assets (the largest individual file is about 29 MB); these are served as static files and are excluded from the runner function. No native Go installation is required on Vercel. Feature branches can be tested with Vercel preview deployments without merging into `main`. Local build and runtime checks do not publish a deployment.
