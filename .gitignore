@@ -9,3 +9,5 @@ __pycache__/
 next-env.d.ts
 .env*
 !.env.example
+public/wasm/
+public/wasm-cache-sw.js

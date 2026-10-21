@@ -5,6 +5,7 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import curriculum from "@/lib/curriculum.json";
 import { type Entry, restoreEntries } from "@/lib/progress";
 import type { RunResult } from "@/lib/runner";
+import { runWasmTests } from "@/lib/wasm-runner";
 import ThemeSelect from "./theme-select";
 
 const topics = [...new Set(curriculum.map((exercise) => exercise.topic))];
@@ -24,6 +25,8 @@ export default function Koans() {
   const [previousEdits, setPreviousEdits] = useState("");
   const [result, setResult] = useState<RunResult | null>(null);
   const [running, setRunning] = useState(false);
+  const [runner, setRunner] = useState<"wasm" | "playground">("wasm");
+  const [runProgress, setRunProgress] = useState("");
   const sequence = useRef(0);
   const controller = useRef<AbortController | null>(null);
   const focusEditorAfterNavigation = useRef<string | null>(null);
@@ -99,17 +102,30 @@ export default function Koans() {
     controller.current?.abort();
     const current = ++sequence.current;
     const abort = new AbortController(); controller.current = abort;
-    setRunning(true); setResult(null);
-    const timeout = setTimeout(() => abort.abort(), 25_000);
+    setRunning(true); setResult(null); setRunProgress(runner === "wasm" ? "Loading browser runner…" : "Running on Go Playground…");
+    const deadline = () => abort.abort(new Error(runner === "wasm" ? "The browser runner made no progress for three minutes. Completed compiler downloads are saved; run again to resume or select Go Playground." : "The runner timed out. Try again or download the test to run it locally."));
+    let timeout = setTimeout(deadline, runner === "wasm" ? 180_000 : 25_000);
     try {
-      const response = await fetch("/api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }), signal: abort.signal });
-      const output: RunResult = await response.json();
+      let output: RunResult;
+      if (runner === "wasm") {
+        output = await runWasmTests(code, abort.signal, (label) => {
+          if (current !== sequence.current) return;
+          setRunProgress(label);
+          // A slow but advancing first download must not hit an overall deadline.
+          // Compilation and guest execution also have their own SDK limits.
+          clearTimeout(timeout); timeout = setTimeout(deadline, 180_000);
+        });
+      } else {
+        const response = await fetch("/api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }), signal: abort.signal });
+        output = await response.json();
+      }
       if (current !== sequence.current) return;
       if (!["passed", "failed", "error"].includes(output.status) || typeof output.output !== "string") throw new Error("Invalid runner response");
       setResult(output);
       setEntries((previous) => ({ ...previous, [exercise.id]: { code, passed: output.status === "passed", version: exercise.version } }));
-    } catch {
-      if (current === sequence.current) setResult({ status: "error", output: "The test runner did not respond. Try again, or download the test and run it locally.", passed: 0, failed: 0, skipped: 0 });
+    } catch (error) {
+      const reason = abort.signal.aborted ? abort.signal.reason : error;
+      if (current === sequence.current) setResult({ status: "error", output: reason instanceof Error ? `${reason.message}${runner === "wasm" ? "\nSelect Go Playground or download the test if the browser runner is unavailable." : ""}` : "The test runner did not respond. Try again or download the test to run it locally.", passed: 0, failed: 0, skipped: 0 });
     } finally { clearTimeout(timeout); if (current === sequence.current) setRunning(false); }
   }
   function download() {
@@ -152,6 +168,7 @@ export default function Koans() {
           </div>
           {vimEnabled ? <VimEditor key={exercise.id} value={code} onChange={edit} onRun={() => { if (!running) void run(); }} /> : <textarea id="code" aria-describedby="editor-help" spellCheck={false} autoCapitalize="off" autoCorrect="off" wrap="off" value={code} maxLength={40_000} onChange={(event) => edit(event.target.value)} onKeyDown={(event) => { if ((event.ctrlKey || event.metaKey) && !event.shiftKey && !event.altKey && event.key === "Enter" && !event.nativeEvent.isComposing) { event.preventDefault(); if (!running) void run(); } }} />}
           <div className="toolbar">
+            <label className="runner-select">Runner <select value={runner} onChange={(event) => { stopRun(); setRunner(event.target.value as "wasm" | "playground"); }}><option value="wasm">Browser (WebAssembly)</option><option value="playground">Go Playground</option></select></label>
             <button className="run" type="button" onClick={() => void run()} disabled={running}>{running ? "Running…" : "Run tests"}</button>
             {running && <button type="button" onClick={stopRun}>Cancel</button>}
             <button type="button" onClick={download}>Download test</button>
@@ -161,15 +178,16 @@ export default function Koans() {
             ))}
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Ctrl/Cmd + Shift + Enter opens the next exercise. Edits and progress are saved in this browser.</p>
+          <p className="help">{runner === "wasm" ? "Tests compile and run in this browser. First use downloads about 50 MB in cached parts; retries and reloads reuse completed downloads. Files are temporary and network sockets are unavailable." : "Your code is sent to the official Go Playground to compile and run."}</p>
           {updatedExercises > 0 && <p className="notice" role="status">{updatedExercises === 1 ? "An exercise was updated. Its saved edits and completion were reset." : `${updatedExercises} exercises were updated. Their saved edits and completion were reset.`}</p>}
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
           {previousEdits && <div className="previous-edits"><p className="help">These exercises have been rewritten. Your previous edits are saved separately.</p><button type="button" onClick={downloadPreviousEdits}>Download previous edits</button></div>}
           <section className="output" aria-labelledby="output-title" aria-live="polite" aria-busy={running}>
             <h3 id="output-title">Test output{result && <span className={`result ${result.status}`}> — {result.status === "passed" ? "Passed" : result.status === "failed" ? "Failed" : "Runner error"}</span>}</h3>
-            <pre>{running ? "Running tests…" : result?.output || "Run the tests to see the result."}</pre>
+            <pre>{running ? runProgress : result?.output || "Run the tests to see the result."}</pre>
           </section>
           <div className="exercise-navigation"><button type="button" disabled={index === 0} onClick={() => select(curriculum[index - 1].id)}>Previous</button><button type="button" disabled={index === curriculum.length - 1} aria-keyshortcuts="Control+Shift+Enter Meta+Shift+Enter" title="Next exercise (Ctrl/Cmd + Shift + Enter)" onClick={() => select(curriculum[index + 1].id)}>Next exercise</button></div>
-          <details className="local-instructions"><summary>Run on your computer</summary><p>Install Go 1.23 or later. Download this test and run:</p><pre>go test -v {exercise.id}_test.go</pre><p>Or download all tests, extract the archive, and run the first exercise:</p><pre>cd go-koans{`\n`}go test -v ./{curriculum[0].id}</pre><p>Tests run on the Go Playground when you use the Run tests button.</p></details>
+          <details className="local-instructions"><summary>Run on your computer</summary><p>Install Go 1.23 or later. Download this test and run:</p><pre>go test -v {exercise.id}_test.go</pre><p>Or download all tests, extract the archive, and run the first exercise:</p><pre>cd go-koans{`\n`}go test -v ./{curriculum[0].id}</pre><p>The default browser runner uses Go 1.26.5 compiled to WebAssembly. You can also select Go Playground above.</p></details>
         </main>
       </div>
       <footer>References: <a href="https://github.com/edgecase/ruby_koans" target="_blank" rel="noopener noreferrer">Ruby Koans</a>, <a href="https://github.com/cdarwin/go-koans" target="_blank" rel="noopener noreferrer">cdarwin/go-koans</a>, <a href="https://github.com/VictorDenisov/go_koans" target="_blank" rel="noopener noreferrer">VictorDenisov/go_koans</a>, <a href="https://go.dev/wiki/" target="_blank" rel="noopener noreferrer">Go wiki</a>.</footer>

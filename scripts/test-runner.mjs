@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { readPlaygroundResult } from "../lib/runner.ts";
+import { readPlaygroundResult, readWasmResult } from "../lib/runner.ts";
 
 const output = (Message) => ({ Errors: "", Events: [{ Message, Kind: "stdout" }], VetErrors: "" });
 test("passing tests require completed tests and the runner PASS result", () => {
@@ -20,4 +20,14 @@ test("compiler errors and backend failures have distinct outcomes", () => {
   assert.equal(readPlaygroundResult({ Errors: "timeout running go build\n" }).status, "error");
   assert.throws(() => readPlaygroundResult({}), /Invalid/);
   assert.throws(() => readPlaygroundResult({ Errors: "", Events: {} }), /Invalid/);
+});
+test("WASM completion also requires a successful process exit and no resource limit", () => {
+  const result = { code: 0, stdout: "--- PASS: TestKoan (0.00s)\nPASS\n", stderr: "", termination: "exited" };
+  assert.equal(readWasmResult(result).status, "passed");
+  assert.equal(readWasmResult({ ...result, code: 1 }).status, "failed");
+  for (const termination of ["trap", "wall-time-limit", "instruction-limit", "memory-limit", "output-limit", "filesystem-limit", "logical-time-limit"]) {
+    assert.equal(readWasmResult({ ...result, termination }).status, "error");
+  }
+  assert.equal(readWasmResult({ ...result, stdout: "PASS\n" }).status, "error");
+  assert.equal(readWasmResult({ ...result, stdout: "--- SKIP: TestKoan (0.00s)\nPASS\n" }).status, "failed");
 });
