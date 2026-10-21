@@ -103,11 +103,18 @@ export default function Koans() {
     const current = ++sequence.current;
     const abort = new AbortController(); controller.current = abort;
     setRunning(true); setResult(null); setRunProgress(runner === "wasm" ? "Loading browser runner…" : "Running on Go Playground…");
-    const timeout = setTimeout(() => abort.abort(new Error("The runner timed out. Try again or download the test to run it locally.")), runner === "wasm" ? 180_000 : 25_000);
+    const deadline = () => abort.abort(new Error(runner === "wasm" ? "The browser runner made no progress for three minutes. Completed compiler downloads are saved; run again to resume or select Go Playground." : "The runner timed out. Try again or download the test to run it locally."));
+    let timeout = setTimeout(deadline, runner === "wasm" ? 180_000 : 25_000);
     try {
       let output: RunResult;
       if (runner === "wasm") {
-        output = await runWasmTests(code, abort.signal, (label) => { if (current === sequence.current) setRunProgress(label); });
+        output = await runWasmTests(code, abort.signal, (label) => {
+          if (current !== sequence.current) return;
+          setRunProgress(label);
+          // A slow but advancing first download must not hit an overall deadline.
+          // Compilation and guest execution also have their own SDK limits.
+          clearTimeout(timeout); timeout = setTimeout(deadline, 180_000);
+        });
       } else {
         const response = await fetch("/api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ code }), signal: abort.signal });
         output = await response.json();
@@ -171,7 +178,7 @@ export default function Koans() {
             ))}
           </div>
           <p className="help" id="editor-help">Ctrl/Cmd + Enter runs the tests. Ctrl/Cmd + Shift + Enter opens the next exercise. Edits and progress are saved in this browser.</p>
-          <p className="help">{runner === "wasm" ? "Tests compile and run in this browser. First use downloads about 60 MB; later runs reuse cached assets. Files are temporary and network sockets are unavailable." : "Your code is sent to the official Go Playground to compile and run."}</p>
+          <p className="help">{runner === "wasm" ? "Tests compile and run in this browser. First use downloads about 50 MB in cached parts; retries and reloads reuse completed downloads. Files are temporary and network sockets are unavailable." : "Your code is sent to the official Go Playground to compile and run."}</p>
           {updatedExercises > 0 && <p className="notice" role="status">{updatedExercises === 1 ? "An exercise was updated. Its saved edits and completion were reset." : `${updatedExercises} exercises were updated. Their saved edits and completion were reset.`}</p>}
           {storageNotice && <p className="notice" role="status">{storageNotice}</p>}
           {previousEdits && <div className="previous-edits"><p className="help">These exercises have been rewritten. Your previous edits are saved separately.</p><button type="button" onClick={downloadPreviousEdits}>Download previous edits</button></div>}

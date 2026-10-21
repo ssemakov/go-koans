@@ -13,7 +13,13 @@ const config: NextConfig = {
       ],
     }, {
       source: "/wasm/:path*",
-      headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      headers: [
+        { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        { key: "Vercel-CDN-Cache-Control", value: "public, max-age=31536000, immutable" },
+      ],
+    }, {
+      source: "/wasm-cache-sw.js",
+      headers: [{ key: "Cache-Control", value: "no-store" }],
     }];
   },
 };

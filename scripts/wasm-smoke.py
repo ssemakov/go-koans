@@ -23,7 +23,7 @@ with sync_playwright() as p:
     context = browser.new_context()
     page = context.new_page()
     requests, errors = [], []
-    page.on("request", lambda request: requests.append(request.url))
+    context.on("request", lambda request: requests.append(request.url))
     page.on("pageerror", lambda error: errors.append(str(error)))
     response = page.goto(BASE)
     assert response.headers["cross-origin-opener-policy"] == "same-origin"
@@ -54,11 +54,17 @@ with sync_playwright() as p:
     execute(SOLUTIONS[CURRICULUM[0]["id"]], "passed", "--- PASS: TestKoan")
     warm = time.monotonic() - start
     expect(page.locator(".progress")).to_have_text(f"1 / {len(CURRICULUM)} passed")
+    downloaded = [url for url in requests if "/wasm/chunks/" in url]
+    assert downloaded and len(downloaded) == len(set(downloaded)), downloaded
+    # Discard HTTP cache so reload tests exercise persistent chunk storage.
+    context.new_cdp_session(page).send("Network.clearBrowserCache")
+    before_reload = len(requests)
     page.reload()
     expect(editor).to_have_value(SOLUTIONS[CURRICULUM[0]["id"]])
     expect(page.locator(".progress")).to_have_text(f"1 / {len(CURRICULUM)} passed")
 
     execute('package main\nimport "testing"\nfunc TestKoan(t *testing.T) { missing() }', "failed", "undefined")
+    assert not any("/wasm/chunks/" in url for url in requests[before_reload:]), "Reload downloaded compiler bytes again"
     execute('package main\nimport "testing"\nfunc TestKoan(t *testing.T) {t.Skip("skip")}', "failed", "--- SKIP")
     execute('package main\nfunc main() {println("PASS")}', "error", "No tests found")
     expect(page.locator(".progress")).to_have_text(f"0 / {len(CURRICULUM)} passed")
@@ -89,6 +95,8 @@ with sync_playwright() as p:
     module_url = next(url for url in requests if "/wasm/" in url and url.endswith("/runtime/client.js"))
     asset = context.request.get(module_url)
     assert "immutable" in asset.headers["cache-control"]
+    worker = context.request.get(f"{BASE.rstrip('/')}/wasm-cache-sw.js")
+    assert worker.headers["cache-control"] == "no-store"
 
     if "--curriculum" in sys.argv:
         for exercise in CURRICULUM:

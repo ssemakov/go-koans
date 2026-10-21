@@ -5,17 +5,21 @@ import { testFiles } from "./harness";
 
 const toolchains = [browserSource(new URL("../toolchains/", import.meta.url).href)];
 let engine: Awaited<ReturnType<typeof createBrowserEngine>> | undefined;
+let prefetched = false;
 
 export async function runWasmTests(code: string, signal: AbortSignal, progress: (label: string) => void): Promise<RunResult> {
   const files = testFiles(code);
   signal.throwIfAborted();
   // Download outside the compiler's deadline. Completed, integrity-checked
   // downloads are reused by the SDK; aborted downloads can be retried.
-  progress("Preparing Go 1.26.5… First use downloads about 60 MB.");
-  await prefetchBrowserToolchain(toolchains, {
-    language: "go", target: "wasip1", optimization: "release", signal,
-    onProgress: ({ loadedBytes, totalBytes }) => progress(`Downloading Go compiler… ${Math.round(loadedBytes / totalBytes * 100)}%`),
-  });
+  if (!prefetched) {
+    progress("Preparing Go 1.26.5… First use downloads about 50 MB. Completed parts are saved for retries.");
+    await prefetchBrowserToolchain(toolchains, {
+      language: "go", target: "wasip1", optimization: "release", signal,
+      onProgress: ({ loadedBytes, totalBytes }) => progress(`Downloading Go compiler… ${(loadedBytes / 1_000_000).toFixed(1)} / ${(totalBytes / 1_000_000).toFixed(1)} MB (${Math.round(loadedBytes / totalBytes * 100)}%)`),
+    });
+    prefetched = true;
+  }
   signal.throwIfAborted();
 
   let active = engine;
