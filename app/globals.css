@@ -121,7 +121,8 @@ label { display: block; font-weight: 600; margin: 20px 0 8px; }
   /* biome-ignore lint/complexity/noImportantStyles: Vim sets the cursor character color inline; override it to preserve contrast. */
   color: var(--surface) !important;
 }
-.vim-editor .cm-editor:not(.cm-focused) .cm-fat-cursor { background: none; outline-color: var(--foreground); }
+/* Hide Vim's inactive marker so it cannot look like an extra cursor. */
+.vim-editor .cm-editor:not(.cm-focused) .cm-fat-cursor { display: none; }
 textarea { width: 100%; min-height: 380px; resize: vertical; background: var(--surface); color: var(--foreground); border: 1px solid var(--border); border-radius: 3px; padding: 14px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; line-height: 1.65; tab-size: 4; }
 .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
 .run { background: var(--accent); color: var(--accent-foreground); border-color: var(--accent); }
