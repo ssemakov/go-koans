@@ -5,6 +5,7 @@ import { useEffect, useEffectEvent, useRef, useState } from "react";
 import curriculum from "@/lib/curriculum.json";
 import { type Entry, restoreEntries } from "@/lib/progress";
 import type { RunResult } from "@/lib/runner";
+import ThemeSelect from "./theme-select";
 
 const topics = [...new Set(curriculum.map((exercise) => exercise.topic))];
 const storageKey = "go-koans:exercises:v3";
@@ -125,7 +126,7 @@ export default function Koans() {
   return (
     <>
       <a className="skip-link" href="#exercise">Skip to exercise</a>
-      <header className="header"><h1>Go Koans</h1><div className="header-links"><a href="/api/download">Download all tests</a><a href="https://github.com/ssemakov/go-koans">Source</a></div></header>
+      <header className="header"><h1>Go Koans</h1><div className="header-links"><ThemeSelect /><a href="/api/download">Download all tests</a><a href="https://github.com/ssemakov/go-koans">Source</a></div></header>
       <p className="instructions">Follow each exercise&apos;s instructions. Edit the marked Go code and run the tests.</p>
       <div className="workspace">
         <nav className="curriculum" aria-label="Exercises">

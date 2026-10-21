@@ -2,14 +2,25 @@
 
 import { defaultKeymap, history, historyKeymap, indentLess, insertTab } from "@codemirror/commands";
 import { go } from "@codemirror/lang-go";
-import { bracketMatching, defaultHighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } from "@codemirror/language";
+import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } from "@codemirror/language";
 import { Annotation, EditorState, Prec, StateEffect, StateField, Transaction } from "@codemirror/state";
 import { drawSelection, EditorView, gutter, GutterMarker, highlightActiveLineGutter, highlightSpecialChars, keymap } from "@codemirror/view";
+import { tags } from "@lezer/highlight";
 import { getCM, Vim, vim } from "@replit/codemirror-vim";
 import { useEffect, useRef } from "react";
 
 type Props = { value: string; onChange: (value: string) => void; onRun: () => void };
 const externalChange = Annotation.define<boolean>();
+const highlightStyle = HighlightStyle.define([
+  { tag: tags.keyword, color: "var(--syntax-keyword)" },
+  { tag: [tags.atom, tags.bool, tags.number], color: "var(--syntax-literal)" },
+  { tag: [tags.string, tags.character], color: "var(--syntax-string)" },
+  { tag: [tags.typeName, tags.className, tags.namespace], color: "var(--syntax-type)" },
+  { tag: [tags.definition(tags.variableName), tags.function(tags.variableName), tags.propertyName], color: "var(--syntax-name)" },
+  { tag: [tags.special(tags.variableName), tags.standard(tags.variableName)], color: "var(--syntax-builtin)" },
+  { tag: tags.comment, color: "var(--syntax-comment)" },
+  { tag: tags.invalid, color: "var(--error)" },
+]);
 const setRelativeNumbers = StateEffect.define<boolean>();
 let defaultRelativeNumbers = true;
 const relativeNumbers = StateField.define<boolean>({
@@ -78,7 +89,7 @@ export default function VimEditor({ value, onChange, onRun }: Props) {
             run: (view) => { if (getCM(view)?.state.vim?.insertMode) insertTab(view); return true; },
             shift: (view) => { if (getCM(view)?.state.vim?.insertMode) indentLess(view); return true; },
           }, ...defaultKeymap, ...historyKeymap]),
-          go(), indentOnInput(), bracketMatching(), syntaxHighlighting(defaultHighlightStyle),
+          go(), indentOnInput(), bracketMatching(), syntaxHighlighting(highlightStyle),
           EditorState.tabSize.of(4), indentUnit.of("\t"), EditorState.allowMultipleSelections.of(true),
           EditorView.contentAttributes.of({ id: "code", "aria-label": "Go test code", "aria-describedby": "editor-help", spellcheck: "false", autocapitalize: "off", autocorrect: "off" }),
           EditorState.transactionFilter.of((transaction) => transaction.newDoc.length <= 40_000 ? transaction : []),
@@ -86,14 +97,19 @@ export default function VimEditor({ value, onChange, onRun }: Props) {
             if (update.docChanged && !update.transactions.some((transaction) => transaction.annotation(externalChange))) callbacks.current.onChange(update.state.doc.toString());
           }),
           EditorView.theme({
-            "&": { fontSize: "13px", border: "1px solid #bfc4ca", borderRadius: "3px", backgroundColor: "#fafbfc" },
-            "&.cm-focused": { outline: "2px solid #174ea6", outlineOffset: "3px" },
+            "&": { fontSize: "13px", border: "1px solid var(--border)", borderRadius: "3px", backgroundColor: "var(--surface)", color: "var(--foreground)" },
+            "&.cm-focused": { outline: "2px solid var(--accent)", outlineOffset: "3px" },
             ".cm-scroller": { fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace", lineHeight: "1.65", overflow: "auto", maxHeight: "600px" },
-            ".cm-content": { minHeight: "380px", padding: "14px 0" },
-            ".cm-gutters": { border: "none", backgroundColor: "#f2f4f6", color: "#5f6368" },
-            ".cm-activeLineGutter": { color: "#174ea6", backgroundColor: "#e8f0fe", fontWeight: "600" },
-            ".cm-panels": { backgroundColor: "#f2f4f6", fontSize: "12px" },
+            ".cm-content": { minHeight: "380px", padding: "14px 0", caretColor: "var(--foreground)" },
+            ".cm-gutters": { border: "none", backgroundColor: "var(--surface-raised)", color: "var(--muted)" },
+            ".cm-activeLineGutter": { color: "var(--accent)", backgroundColor: "var(--selected)", fontWeight: "600" },
+            ".cm-panels": { backgroundColor: "var(--surface-raised)", color: "var(--foreground)", borderColor: "var(--divider)", fontSize: "12px" },
             ".cm-vim-panel": { padding: "4px 10px" },
+            ".cm-vim-panel input": { color: "var(--foreground)", caretColor: "var(--foreground)" },
+            ".cm-cursor, .cm-dropCursor": { borderLeftColor: "var(--foreground)" },
+            ".cm-selectionBackground, &.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground": { backgroundColor: "var(--selection)" },
+            ".cm-searchMatch": { backgroundColor: "var(--search-match)" },
+            "&.cm-focused .cm-matchingBracket": { backgroundColor: "var(--selected)" },
           }),
         ],
       }),

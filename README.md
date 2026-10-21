@@ -18,6 +18,8 @@ The structure follows [Ruby Koans](https://github.com/edgecase/ruby_koans): run 
 
 ## Run in the browser
 
+Use the **Theme** menu in the header to choose **System**, **Light**, or **Dark**. System follows your device's appearance; explicit choices are saved in this browser. Both code editors use the selected theme.
+
 Use **Run tests** or Ctrl/Cmd + Enter. The Next.js route forwards code to the official Go Playground over HTTPS. It reports actual test failures and compiler errors. Skipped tests and runs with no completed tests do not mark an exercise passed. The runtime has the Go Playground's execution and network limits.
 
 Each exercise's documentation links open the exact specification sections, API references, or tutorials for its topic in new tabs. Exercise 008 has separate links for [constant expressions and exact arithmetic](https://go.dev/ref/spec#Constant_expressions) and [explicit type conversions](https://go.dev/ref/spec#Conversions).
