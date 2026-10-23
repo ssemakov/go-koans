@@ -1,6 +1,8 @@
 // Deliberately wrong implementations check that the learning fixtures reject
 // plausible mistakes, rather than merely agreeing with their own solutions.
 export const mutations = [
+  { number: 32, name: "append-always-allocates", edits: [["{4, []int{10, 20}, []int{10, 20, 40}, []int{10, 20, 40}}", "{4, []int{10, 20}, []int{10, 20, 30}, []int{10, 20, 40}}"]] },
+  { number: 32, name: "append-always-shares-storage", edits: [["{2, []int{10, 20}, []int{10, 20, 30}, []int{10, 20, 40}}", "{2, []int{10, 20}, []int{10, 20, 40}, []int{10, 20, 40}}"]] },
   { number: 34, name: "shared-clone", edits: [["result := make([]int, len(values))", "result := values"]] },
   { number: 38, name: "delete-shares-storage", edits: [["result := make([]int, 0, len(values)-1)", "result := values[:0]"]] },
   { number: 41, name: "zero-as-missing", edits: [["if ok {", "if ok && value != 0 {"]] },
