@@ -398,15 +398,17 @@
   },
   {
     "id": "032-append-elements",
-    "version": 1,
+    "version": 2,
     "topic": "Slices",
-    "title": "Append elements",
-    "instruction": "Repair addValue. Return the slice from append so the caller receives its updated length, including when append allocates new storage.",
+    "title": "Append and shared storage",
+    "instruction": "Fill the complete expected slices after both appends. Keep the setup and append operations unchanged. Compare capacities 4 and 2: can first change without being reassigned?",
     "reference": "https://go.dev/ref/spec#Appending_and_copying_slices",
-    "code": "package main\n\n// Append elements\n// Repair addValue. Return the slice from append so the caller receives its updated length,\n// including when append allocates new storage.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc addValue(values []int, value int) []int {\n\tvalues = append(values, value)\n\treturn values[:len(values)-1] // TODO: return the updated slice.\n}\n\nfunc TestKoan(t *testing.T) {\n\tfor _, initial := range [][]int{nil, {2, 3}, make([]int, 0, 4)} {\n\t\tbefore := slices.Clone(initial)\n\t\tgot := addValue(initial, 7)\n\t\twant := append(slices.Clone(before), 7)\n\t\tif !slices.Equal(got, want) {\n\t\t\tt.Errorf(\"addValue(%v,7)=%v; want %v\", before, got, want)\n\t\t}\n\t\tif len(initial) != len(before) {\n\t\t\tt.Error(\"the caller's old slice header changed\")\n\t\t}\n\t}\n}\n",
-    "kind": "repair",
+    "code": "package main\n\n// Append and shared storage\n// Fill the complete expected slices after both appends. Keep the setup and append\n// operations unchanged. Compare capacities 4 and 2: can first change without being\n// reassigned?\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tcapacity   int\n\t\twantBase   []int\n\t\twantFirst  []int\n\t\twantSecond []int\n\t}{\n\t\t{4, []int{-999}, []int{-999}, []int{-999}}, // TODO: base, first, second.\n\t\t{2, []int{-999}, []int{-999}, []int{-999}}, // TODO: base, first, second.\n\t}\n\tfor _, tc := range cases {\n\t\tbase := make([]int, 2, tc.capacity)\n\t\tbase[0] = 10\n\t\tbase[1] = 20\n\n\t\tfirst := append(base, 30)\n\t\tsecond := append(base, 40)\n\n\t\tif !slices.Equal(base, tc.wantBase) {\n\t\t\tt.Errorf(\"capacity=%d: base=%v; want %v\", tc.capacity, base, tc.wantBase)\n\t\t}\n\t\tif !slices.Equal(first, tc.wantFirst) {\n\t\t\tt.Errorf(\"capacity=%d: first=%v; want %v\", tc.capacity, first, tc.wantFirst)\n\t\t}\n\t\tif !slices.Equal(second, tc.wantSecond) {\n\t\t\tt.Errorf(\"capacity=%d: second=%v; want %v\", tc.capacity, second, tc.wantSecond)\n\t\t}\n\t}\n}\n",
+    "kind": "observe",
     "revisits": [
-      "029-slice-length"
+      "029-slice-length",
+      "030-slice-an-array",
+      "031-slices-share-an-array"
     ]
   },
   {

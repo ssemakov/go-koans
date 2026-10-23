@@ -360,19 +360,39 @@ if !slices.Equal(view,wantView) { t.Errorf("view=%v; want %v",view,wantView) }
       ("wantView := []int{-999} // TODO: all values in the view.", "wantView := []int{9,3}")],
     imports=("slices",), kind="observe", revisits=(27,30))
 
-add(32, "Repair addValue. Return the slice from append so the caller receives its updated length, including when append allocates new storage.", """
-for _, initial := range [][]int{nil, {2,3}, make([]int,0,4)} {
-    before := slices.Clone(initial)
-    got := addValue(initial,7)
-    want := append(slices.Clone(before),7)
-    if !slices.Equal(got,want) { t.Errorf("addValue(%v,7)=%v; want %v",before,got,want) }
-    if len(initial) != len(before) { t.Error("the caller's old slice header changed") }
+add(32, "Fill the complete expected slices after both appends. Keep the setup and append operations unchanged. Compare capacities 4 and 2: can first change without being reassigned?", """
+cases := []struct {
+    capacity int
+    wantBase []int
+    wantFirst []int
+    wantSecond []int
+}{
+    {4, []int{-999}, []int{-999}, []int{-999}}, // TODO: base, first, second.
+    {2, []int{-999}, []int{-999}, []int{-999}}, // TODO: base, first, second.
 }
-""", [("values = append(values,value)\nreturn values[:len(values)-1] // TODO: return the updated slice.", "return append(values,value)")],
-    imports=("slices",), declarations="""func addValue(values []int,value int) []int {
-values = append(values,value)
-return values[:len(values)-1] // TODO: return the updated slice.
-}""", kind="repair", revisits=(29,))
+for _, tc := range cases {
+    base := make([]int,2,tc.capacity)
+    base[0] = 10
+    base[1] = 20
+
+    first := append(base,30)
+    second := append(base,40)
+
+    if !slices.Equal(base,tc.wantBase) {
+        t.Errorf("capacity=%d: base=%v; want %v",tc.capacity,base,tc.wantBase)
+    }
+    if !slices.Equal(first,tc.wantFirst) {
+        t.Errorf("capacity=%d: first=%v; want %v",tc.capacity,first,tc.wantFirst)
+    }
+    if !slices.Equal(second,tc.wantSecond) {
+        t.Errorf("capacity=%d: second=%v; want %v",tc.capacity,second,tc.wantSecond)
+    }
+}
+""", [("{4, []int{-999}, []int{-999}, []int{-999}}, // TODO: base, first, second.",
+       "{4, []int{10,20}, []int{10,20,40}, []int{10,20,40}},"),
+      ("{2, []int{-999}, []int{-999}, []int{-999}}, // TODO: base, first, second.",
+       "{2, []int{10,20}, []int{10,20,30}, []int{10,20,40}},")],
+    imports=("slices",), title="Append and shared storage", kind="observe", revisits=(29,30,31))
 
 observe(33, "Compare append with spare capacity and append beyond capacity. Fill the values observed through each alias. Do not assume an exact growth factor.", """
 spare := make([]int,1,3)
