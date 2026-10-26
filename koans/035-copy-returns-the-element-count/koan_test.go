@@ -1,8 +1,9 @@
 package main
 
 // Copy returns the element count
-// Fill both the copied counts and complete destinations. copy is limited by the shorter
-// length, and it supports overlapping slices.
+// Predict each copy's return value and the resulting destination. The first two
+// destinations are shorter and longer than source. For the overlapping copy, predict the
+// entire sharedValues slice.
 
 import (
 	"slices"
@@ -11,26 +12,36 @@ import (
 
 func TestKoan(t *testing.T) {
 	source := []int{1, 2, 3}
-	short := []int{9, 9}
-	shortCount := copy(short, source)
-	long := []int{9, 9, 9, 9}
-	longCount := copy(long, source)
-	overlap := []int{1, 2, 3, 4}
-	overlapCount := copy(overlap[1:], overlap)
-	wantCounts := [3]int{-999, -999, -999} // TODO: copied counts.
-	wantShort := []int{-999}               // TODO: complete destination.
-	wantLong := []int{-999}                // TODO: complete destination.
-	wantOverlap := []int{-999}             // TODO: complete destination.
-	if got := [3]int{shortCount, longCount, overlapCount}; got != wantCounts {
-		t.Errorf("counts=%v; want %v", got, wantCounts)
+
+	shortDestination := []int{9, 9}
+	wantShortCopyCount := -999 // TODO: number of elements copied.
+	if copiedCount := copy(shortDestination, source); copiedCount != wantShortCopyCount {
+		t.Errorf("copy to shortDestination returned %d; want %d", copiedCount, wantShortCopyCount)
 	}
-	if !slices.Equal(short, wantShort) {
-		t.Errorf("short=%v; want %v", short, wantShort)
+	wantShortDestination := []int{-999} // TODO: complete destination after copy.
+	if !slices.Equal(shortDestination, wantShortDestination) {
+		t.Errorf("shortDestination=%v; want %v", shortDestination, wantShortDestination)
 	}
-	if !slices.Equal(long, wantLong) {
-		t.Errorf("long=%v; want %v", long, wantLong)
+
+	longDestination := []int{9, 9, 9, 9}
+	wantLongCopyCount := -999 // TODO: number of elements copied.
+	if copiedCount := copy(longDestination, source); copiedCount != wantLongCopyCount {
+		t.Errorf("copy to longDestination returned %d; want %d", copiedCount, wantLongCopyCount)
 	}
-	if !slices.Equal(overlap, wantOverlap) {
-		t.Errorf("overlap=%v; want %v", overlap, wantOverlap)
+	wantLongDestination := []int{-999} // TODO: complete destination after copy.
+	if !slices.Equal(longDestination, wantLongDestination) {
+		t.Errorf("longDestination=%v; want %v", longDestination, wantLongDestination)
+	}
+
+	sharedValues := []int{1, 2, 3, 4}
+	overlappingSource := sharedValues[:3]
+	overlappingDestination := sharedValues[1:]
+	wantOverlapCopyCount := -999 // TODO: number of elements copied.
+	if copiedCount := copy(overlappingDestination, overlappingSource); copiedCount != wantOverlapCopyCount {
+		t.Errorf("copy to overlappingDestination returned %d; want %d", copiedCount, wantOverlapCopyCount)
+	}
+	wantSharedValues := []int{-999} // TODO: entire shared slice after copy.
+	if !slices.Equal(sharedValues, wantSharedValues) {
+		t.Errorf("sharedValues=%v; want %v", sharedValues, wantSharedValues)
 	}
 }

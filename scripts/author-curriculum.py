@@ -424,26 +424,46 @@ for _, input := range [][]int{nil, {}, {7}, {1,2,3}} {
     imports=("slices",), declarations="func cloneInts(values []int) []int { return values // TODO: allocate and copy.\n}",
     revisits=(27,31))
 
-add(35, "Fill both the copied counts and complete destinations. copy is limited by the shorter length, and it supports overlapping slices.", """
+add(35, "Predict each copy's return value and the resulting destination. The first two destinations are shorter and longer than source. For the overlapping copy, predict the entire sharedValues slice.", """
 source := []int{1,2,3}
-short := []int{9,9}
-shortCount := copy(short,source)
-long := []int{9,9,9,9}
-longCount := copy(long,source)
-overlap := []int{1,2,3,4}
-overlapCount := copy(overlap[1:],overlap)
-wantCounts := [3]int{-999,-999,-999} // TODO: copied counts.
-wantShort := []int{-999} // TODO: complete destination.
-wantLong := []int{-999} // TODO: complete destination.
-wantOverlap := []int{-999} // TODO: complete destination.
-if got := [3]int{shortCount,longCount,overlapCount}; got != wantCounts { t.Errorf("counts=%v; want %v",got,wantCounts) }
-if !slices.Equal(short,wantShort) { t.Errorf("short=%v; want %v",short,wantShort) }
-if !slices.Equal(long,wantLong) { t.Errorf("long=%v; want %v",long,wantLong) }
-if !slices.Equal(overlap,wantOverlap) { t.Errorf("overlap=%v; want %v",overlap,wantOverlap) }
-""", [("wantCounts := [3]int{-999,-999,-999} // TODO: copied counts.", "wantCounts := [3]int{2,3,3}"),
-      ("wantShort := []int{-999} // TODO: complete destination.", "wantShort := []int{1,2}"),
-      ("wantLong := []int{-999} // TODO: complete destination.", "wantLong := []int{1,2,3,9}"),
-      ("wantOverlap := []int{-999} // TODO: complete destination.", "wantOverlap := []int{1,1,2,3}")],
+
+shortDestination := []int{9,9}
+wantShortCopyCount := -999 // TODO: number of elements copied.
+if copiedCount := copy(shortDestination,source); copiedCount != wantShortCopyCount {
+    t.Errorf("copy to shortDestination returned %d; want %d",copiedCount,wantShortCopyCount)
+}
+wantShortDestination := []int{-999} // TODO: complete destination after copy.
+if !slices.Equal(shortDestination,wantShortDestination) {
+    t.Errorf("shortDestination=%v; want %v",shortDestination,wantShortDestination)
+}
+
+longDestination := []int{9,9,9,9}
+wantLongCopyCount := -999 // TODO: number of elements copied.
+if copiedCount := copy(longDestination,source); copiedCount != wantLongCopyCount {
+    t.Errorf("copy to longDestination returned %d; want %d",copiedCount,wantLongCopyCount)
+}
+wantLongDestination := []int{-999} // TODO: complete destination after copy.
+if !slices.Equal(longDestination,wantLongDestination) {
+    t.Errorf("longDestination=%v; want %v",longDestination,wantLongDestination)
+}
+
+sharedValues := []int{1,2,3,4}
+overlappingSource := sharedValues[:3]
+overlappingDestination := sharedValues[1:]
+wantOverlapCopyCount := -999 // TODO: number of elements copied.
+if copiedCount := copy(overlappingDestination,overlappingSource); copiedCount != wantOverlapCopyCount {
+    t.Errorf("copy to overlappingDestination returned %d; want %d",copiedCount,wantOverlapCopyCount)
+}
+wantSharedValues := []int{-999} // TODO: entire shared slice after copy.
+if !slices.Equal(sharedValues,wantSharedValues) {
+    t.Errorf("sharedValues=%v; want %v",sharedValues,wantSharedValues)
+}
+""", [("wantShortCopyCount := -999 // TODO: number of elements copied.", "wantShortCopyCount := 2"),
+      ("wantShortDestination := []int{-999} // TODO: complete destination after copy.", "wantShortDestination := []int{1,2}"),
+      ("wantLongCopyCount := -999 // TODO: number of elements copied.", "wantLongCopyCount := 3"),
+      ("wantLongDestination := []int{-999} // TODO: complete destination after copy.", "wantLongDestination := []int{1,2,3,9}"),
+      ("wantOverlapCopyCount := -999 // TODO: number of elements copied.", "wantOverlapCopyCount := 3"),
+      ("wantSharedValues := []int{-999} // TODO: entire shared slice after copy.", "wantSharedValues := []int{1,1,2,3}")],
     imports=("slices",), kind="observe", revisits=(34,))
 
 observe(36, "Fill the lengths and nil checks before and after append. Nil and non-nil empty slices can both be appended to.", """
