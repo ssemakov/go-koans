@@ -6,6 +6,7 @@
     "prepare:wasm": "node scripts/prepare-wasm.mjs",
     "predev": "npm run prepare:wasm",
     "prebuild": "npm run prepare:wasm",
+    "postinstall": "node scripts/patch-vim.mjs",
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start --hostname 0.0.0.0",
