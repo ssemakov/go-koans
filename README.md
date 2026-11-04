@@ -10,7 +10,9 @@ The sequence starts with assertions, variables, constants, numbers, types, strin
 
 Exercises 121–128 form **Bit flags and operations**: binary masks, flag constants with `iota`, setting flags with OR, checking any/all flags with AND, clearing flags with AND NOT, toggling with XOR, complementing a `uint8`, and packing/unpacking four-bit fields with shifts and masks. The tests include empty masks, overlapping flags, the highest bit, and all 256 byte values for field round trips.
 
-There are 33 exercises that ask for expected values, 19 that ask for missing code or inputs, 16 repairs, and 60 implementations. Expected-value exercises compare related states or inputs. Implementations have fixed checks for several cases, including empty inputs, boundaries, ownership, errors, or termination where relevant. Later exercises reuse earlier concepts.
+There are 35 exercises that ask for expected values, 22 that ask for missing code or inputs, 16 repairs, and 55 implementations. Expected-value exercises compare related states or inputs. Implementations have fixed checks for several cases, including empty inputs, boundaries, ownership, errors, or termination where relevant. Later exercises reuse earlier concepts.
+
+The function exercises separate calling a provided helper (054), receiving or discarding multiple results (055), named returns (056), variadic calls (057), slice expansion (058), closure capture and state (059–060), and calling a function passed as a value (061). Exercise 073 compares promoted, overridden, and explicitly selected embedded methods. Each task keeps the learner's edits focused on the named concept.
 
 All checks use ordinary Go tests: `testing.T`, `t.Run`, direct comparisons, and standard-library functions such as `slices.Equal`, `maps.Equal`, `errors.Is`, and `errors.As`. There are no assertion helpers or third-party Go packages.
 

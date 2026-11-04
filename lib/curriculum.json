@@ -695,29 +695,26 @@
   },
   {
     "id": "054-call-a-function",
-    "version": 1,
+    "version": 2,
     "topic": "Functions",
     "title": "Call a function",
-    "instruction": "Implement clamp. Return the nearest bound when value is outside lower..upper, and the value itself otherwise. lower is never greater than upper.",
-    "reference": "https://go.dev/ref/spec#Function_declarations",
-    "code": "package main\n\n// Call a function\n// Implement clamp. Return the nearest bound when value is outside lower..upper, and the\n// value itself otherwise. lower is never greater than upper.\n\nimport (\n\t\"testing\"\n)\n\nfunc clamp(value, lower, upper int) int {\n\treturn value // TODO: implement the bounds.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ value, lower, upper, want int }{\n\t\t{-1, 0, 10, 0}, {0, 0, 10, 0}, {4, 0, 10, 4}, {10, 0, 10, 10}, {11, 0, 10, 10},\n\t\t{-7, -5, -2, -5}, {-3, -5, -2, -3}, {9, 4, 4, 4},\n\t}\n\tfor _, tc := range cases {\n\t\tif got := clamp(tc.value, tc.lower, tc.upper); got != tc.want {\n\t\t\tt.Errorf(\"clamp(%d,%d,%d)=%d; want %d\", tc.value, tc.lower, tc.upper, got, tc.want)\n\t\t}\n\t}\n}\n",
-    "kind": "implement",
-    "revisits": [
-      "045-if-and-else",
-      "048-switch-without-an-expression"
-    ]
+    "instruction": "Complete the two calls to remaining. Pass capacity and booked in that order, then use the first result with held in the second call. Keep the helper and checks unchanged.",
+    "reference": "https://go.dev/ref/spec#Calls",
+    "code": "package main\n\n// Call a function\n// Complete the two calls to remaining. Pass capacity and booked in that order, then\n// use the first result with held in the second call. Keep the helper and checks\n// unchanged.\n\nimport \"testing\"\n\nfunc remaining(total, used int) int { return total - used }\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct{ capacity, booked, held, available, afterHold int }{\n\t\t{12, 5, 2, 7, 5},\n\t\t{4, 0, 4, 4, 0},\n\t\t{10, 10, 0, 0, 0},\n\t}\n\tfor _, tc := range cases {\n\t\tavailable := 0 // TODO: call remaining with tc.capacity and tc.booked.\n\t\tafterHold := 0 // TODO: call remaining with available and tc.held.\n\t\tif available != tc.available || afterHold != tc.afterHold {\n\t\t\tt.Errorf(\"capacity=%d booked=%d held=%d: available=%d afterHold=%d; want %d and %d\",\n\t\t\t\ttc.capacity, tc.booked, tc.held, available, afterHold, tc.available, tc.afterHold)\n\t\t}\n\t}\n}\n",
+    "kind": "complete",
+    "revisits": []
   },
   {
     "id": "055-multiple-return-values",
-    "version": 1,
+    "version": 2,
     "topic": "Functions",
     "title": "Multiple return values",
-    "instruction": "Implement first. Return the first element and true for a nonempty slice. Return zero and false for empty input; a stored zero is still present.",
+    "instruction": "Complete the call assignments to first. Receive its value and presence flag together; a stored zero is present. In the final call, discard the value with _ and keep only the flag. Keep first and the checks unchanged.",
     "reference": "https://go.dev/ref/spec#Function_types",
-    "code": "package main\n\n// Multiple return values\n// Implement first. Return the first element and true for a nonempty slice. Return zero and\n// false for empty input; a stored zero is still present.\n\nimport (\n\t\"testing\"\n)\n\nfunc first(values []int) (int, bool) {\n\treturn 0, false // TODO: return both results.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\twant   int\n\t\tok     bool\n\t}{{nil, 0, false}, {[]int{}, 0, false}, {[]int{0, 7}, 0, true}, {[]int{4, 5}, 4, true}}\n\tfor _, tc := range cases {\n\t\tgot, ok := first(tc.values)\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"first(%v)=(%d,%v); want (%d,%v)\", tc.values, got, ok, tc.want, tc.ok)\n\t\t}\n\t}\n}\n",
-    "kind": "implement",
+    "code": "package main\n\n// Multiple return values\n// Complete the call assignments to first. Receive its value and presence flag\n// together; a stored zero is present. In the final call, discard the value with _\n// and keep only the flag. Keep first and the checks unchanged.\n\nimport \"testing\"\n\nfunc first(values []int) (int, bool) {\n\tif len(values) == 0 {\n\t\treturn 0, false\n\t}\n\treturn values[0], true\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\twant   int\n\t\tok     bool\n\t}{\n\t\t{nil, 0, false}, {[]int{}, 0, false}, {[]int{0, 7}, 0, true}, {[]int{4, 5}, 4, true},\n\t}\n\tfor _, tc := range cases {\n\t\tgot, ok := 0, false // TODO: receive both results from first(tc.values).\n\t\tif got != tc.want || ok != tc.ok {\n\t\t\tt.Errorf(\"first(%v)=(%d,%v); want (%d,%v)\", tc.values, got, ok, tc.want, tc.ok)\n\t\t}\n\t}\n\tpresent := false // TODO: call first([]int{0}), discarding its first result.\n\tif !present {\n\t\tt.Error(\"a stored zero is present\")\n\t}\n}\n",
+    "kind": "complete",
     "revisits": [
-      "013-boolean-expressions",
+      "054-call-a-function",
       "040-missing-keys-return-zero"
     ]
   },
@@ -737,14 +734,15 @@
   },
   {
     "id": "057-variadic-arguments",
-    "version": 1,
+    "version": 2,
     "topic": "Functions",
     "title": "Variadic arguments",
-    "instruction": "Implement total as a variadic function. Zero arguments return zero; positive and negative values are included.",
+    "instruction": "Predict the results of calling total with zero, one, and several arguments. Inside total, values is a slice of all supplied integers. Change only the expected values; keep the variadic declaration, calls, and checks.",
     "reference": "https://go.dev/ref/spec#Passing_arguments_to_..._parameters",
-    "code": "package main\n\n// Variadic arguments\n// Implement total as a variadic function. Zero arguments return zero; positive and\n// negative values are included.\n\nimport (\n\t\"testing\"\n)\n\nfunc total(values ...int) int {\n\treturn 0 // TODO: sum the variadic values.\n}\n\nfunc TestKoan(t *testing.T) {\n\tif got := total(); got != 0 {\n\t\tt.Errorf(\"total()=%d; want 0\", got)\n\t}\n\tif got := total(7); got != 7 {\n\t\tt.Errorf(\"total(7)=%d; want 7\", got)\n\t}\n\tif got := total(1, 2, 3); got != 6 {\n\t\tt.Errorf(\"total(1,2,3)=%d; want 6\", got)\n\t}\n\tif got := total(-4, 2); got != -2 {\n\t\tt.Errorf(\"total(-4,2)=%d; want -2\", got)\n\t}\n}\n",
-    "kind": "implement",
+    "code": "package main\n\n// Variadic arguments\n// Predict the results of calling total with zero, one, and several arguments. Inside\n// total, values is a slice of all supplied integers. Change only the expected\n// values; keep the variadic declaration, calls, and checks.\n\nimport \"testing\"\n\nfunc total(values ...int) int {\n\tsum := 0\n\tfor _, value := range values {\n\t\tsum += value\n\t}\n\treturn sum\n}\n\nfunc TestKoan(t *testing.T) {\n\twantEmpty := -999 // TODO: predict total().\n\tif got := total(); got != wantEmpty {\n\t\tt.Errorf(\"total()=%d; want %d\", got, wantEmpty)\n\t}\n\twantOne := -999 // TODO: predict total(7).\n\tif got := total(7); got != wantOne {\n\t\tt.Errorf(\"total(7)=%d; want %d\", got, wantOne)\n\t}\n\twantMany := -999 // TODO: predict total(1, 2, 3).\n\tif got := total(1, 2, 3); got != wantMany {\n\t\tt.Errorf(\"total(1,2,3)=%d; want %d\", got, wantMany)\n\t}\n\twantSigned := -999 // TODO: predict total(-4, 2).\n\tif got := total(-4, 2); got != wantSigned {\n\t\tt.Errorf(\"total(-4,2)=%d; want %d\", got, wantSigned)\n\t}\n}\n",
+    "kind": "observe",
     "revisits": [
+      "054-call-a-function",
       "049-for-loop"
     ]
   },
@@ -790,17 +788,16 @@
   },
   {
     "id": "061-a-function-is-a-value",
-    "version": 1,
+    "version": 2,
     "topic": "Closures",
     "title": "A function is a value",
-    "instruction": "Implement transform. Apply the supplied function once to each value, in order, and return independent storage. The function is non-nil; empty input produces no calls.",
+    "instruction": "Complete the call to fn inside transform. A function can be passed as an argument and called through its parameter name. Call it once for each value in order; the slice allocation and loop are provided. Keep the checks.",
     "reference": "https://go.dev/ref/spec#Function_types",
-    "code": "package main\n\n// A function is a value\n// Implement transform. Apply the supplied function once to each value, in order, and\n// return independent storage. The function is non-nil; empty input produces no calls.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc transform(values []int, fn func(int) int) []int {\n\treturn nil // TODO: call the supplied function for each value.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\tfn     func(int) int\n\t\twant   []int\n\t}{\n\t\t{nil, func(n int) int { return n * 2 }, nil},\n\t\t{[]int{1, 2, 3}, func(n int) int { return n * 2 }, []int{2, 4, 6}},\n\t\t{[]int{1, 2, 3}, func(n int) int { return -n }, []int{-1, -2, -3}},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tcalls := 0\n\t\tgot := transform(tc.values, func(n int) int { calls++; return tc.fn(n) })\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"transform(%v)=%v; want %v\", before, got, tc.want)\n\t\t}\n\t\tif calls != len(tc.values) {\n\t\t\tt.Errorf(\"calls=%d; want %d\", calls, len(tc.values))\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"input changed\")\n\t\t}\n\t}\n}\n",
-    "kind": "implement",
+    "code": "package main\n\n// A function is a value\n// Complete the call to fn inside transform. A function can be passed as an argument\n// and called through its parameter name. Call it once for each value in order; the\n// slice allocation and loop are provided. Keep the checks.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc double(value int) int { return value * 2 }\nfunc negate(value int) int { return -value }\n\nfunc transform(values []int, fn func(int) int) []int {\n\tresult := make([]int, len(values))\n\tfor index, value := range values {\n\t\tresult[index] = value // TODO: call fn with value and store its result.\n\t}\n\treturn result\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tvalues []int\n\t\tfn     func(int) int\n\t\twant   []int\n\t}{\n\t\t{nil, double, nil},\n\t\t{[]int{1, 2, 3}, double, []int{2, 4, 6}},\n\t\t{[]int{1, 2, 3}, negate, []int{-1, -2, -3}},\n\t}\n\tfor _, tc := range cases {\n\t\tbefore := slices.Clone(tc.values)\n\t\tvar visited []int\n\t\tgot := transform(tc.values, func(n int) int { visited = append(visited, n); return tc.fn(n) })\n\t\tif !slices.Equal(got, tc.want) {\n\t\t\tt.Errorf(\"transform(%v)=%v; want %v\", before, got, tc.want)\n\t\t}\n\t\tif !slices.Equal(visited, before) {\n\t\t\tt.Errorf(\"callback inputs=%v; want %v in order\", visited, before)\n\t\t}\n\t\tif len(got) > 0 {\n\t\t\tgot[0] = 99\n\t\t}\n\t\tif !slices.Equal(tc.values, before) {\n\t\t\tt.Error(\"input changed\")\n\t\t}\n\t}\n}\n",
+    "kind": "complete",
     "revisits": [
-      "034-copy-to-independent-storage",
-      "052-range-gives-index-and-value",
-      "059-capture-a-variable"
+      "054-call-a-function",
+      "052-range-gives-index-and-value"
     ]
   },
   {
@@ -963,15 +960,14 @@
   },
   {
     "id": "073-promoted-methods",
-    "version": 1,
+    "version": 2,
     "topic": "Embedding",
     "title": "Promoted methods",
-    "instruction": "Implement Tagged.Label to override the promoted method. Append a nonempty tag in brackets; keep Base.Label available without the tag.",
+    "instruction": "Predict the method results. Plain promotes Base.Label without declaring a method. Tagged declares its own Label, which takes precedence; Tagged.Base.Label still calls the embedded method. Change only the expected strings.",
     "reference": "https://go.dev/ref/spec#Struct_types",
-    "code": "package main\n\n// Promoted methods\n// Implement Tagged.Label to override the promoted method. Append a nonempty tag in\n// brackets; keep Base.Label available without the tag.\n\nimport (\n\t\"testing\"\n)\n\ntype Base struct{ Name string }\n\nfunc (b Base) Label() string { return b.Name }\n\ntype Tagged struct {\n\tBase\n\tTag string\n}\n\nfunc (t Tagged) Label() string {\n\treturn t.Base.Label() // TODO: add the tag without changing Base.\n}\n\nfunc TestKoan(t *testing.T) {\n\tplain := struct{ Base }{Base{Name: \"Ada\"}}\n\tif got := plain.Label(); got != \"Ada\" {\n\t\tt.Errorf(\"promoted label=%q; want Ada\", got)\n\t}\n\tfor _, tc := range []struct{ name, tag, want string }{{\"Ada\", \"admin\", \"Ada [admin]\"}, {\"Grace\", \"\", \"Grace\"}, {\"Go\", \"test\", \"Go [test]\"}} {\n\t\tvalue := Tagged{Base: Base{Name: tc.name}, Tag: tc.tag}\n\t\tif got := value.Label(); got != tc.want {\n\t\t\tt.Errorf(\"overridden label=%q; want %q\", got, tc.want)\n\t\t}\n\t\tif got := value.Base.Label(); got != tc.name {\n\t\t\tt.Errorf(\"base label=%q; want %q\", got, tc.name)\n\t\t}\n\t}\n}\n",
-    "kind": "implement",
+    "code": "package main\n\n// Promoted methods\n// Predict the method results. Plain promotes Base.Label without declaring a method.\n// Tagged declares its own Label, which takes precedence; Tagged.Base.Label still\n// calls the embedded method. Change only the expected strings.\n\nimport \"testing\"\n\ntype Base struct{ Name string }\n\nfunc (b Base) Label() string { return b.Name }\n\ntype Plain struct{ Base }\ntype Tagged struct {\n\tBase\n\tTag string\n}\n\nfunc (t Tagged) Label() string { return t.Base.Label() + \" [\" + t.Tag + \"]\" }\n\nfunc TestKoan(t *testing.T) {\n\tplain := Plain{Base: Base{Name: \"Ada\"}}\n\ttagged := Tagged{Base: Base{Name: \"Grace\"}, Tag: \"admin\"}\n\n\twantPromoted := \"\" // TODO: predict plain.Label().\n\tif got := plain.Label(); got != wantPromoted {\n\t\tt.Errorf(\"promoted label=%q; want %q\", got, wantPromoted)\n\t}\n\twantExplicit := \"\" // TODO: predict plain.Base.Label().\n\tif got := plain.Base.Label(); got != wantExplicit {\n\t\tt.Errorf(\"explicit base label=%q; want %q\", got, wantExplicit)\n\t}\n\twantOverride := \"\" // TODO: predict tagged.Label().\n\tif got := tagged.Label(); got != wantOverride {\n\t\tt.Errorf(\"overridden label=%q; want %q\", got, wantOverride)\n\t}\n\twantBase := \"\" // TODO: predict tagged.Base.Label().\n\tif got := tagged.Base.Label(); got != wantBase {\n\t\tt.Errorf(\"embedded label=%q; want %q\", got, wantBase)\n\t}\n}\n",
+    "kind": "observe",
     "revisits": [
-      "017-concatenate-strings",
       "069-methods-on-named-types",
       "072-promoted-fields"
     ]
