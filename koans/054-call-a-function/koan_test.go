@@ -1,25 +1,26 @@
 package main
 
 // Call a function
-// Implement clamp. Return the nearest bound when value is outside lower..upper, and the
-// value itself otherwise. lower is never greater than upper.
+// Complete the two calls to remaining. Pass capacity and booked in that order, then
+// use the first result with held in the second call. Keep the helper and checks
+// unchanged.
 
-import (
-	"testing"
-)
+import "testing"
 
-func clamp(value, lower, upper int) int {
-	return value // TODO: implement the bounds.
-}
+func remaining(total, used int) int { return total - used }
 
 func TestKoan(t *testing.T) {
-	cases := []struct{ value, lower, upper, want int }{
-		{-1, 0, 10, 0}, {0, 0, 10, 0}, {4, 0, 10, 4}, {10, 0, 10, 10}, {11, 0, 10, 10},
-		{-7, -5, -2, -5}, {-3, -5, -2, -3}, {9, 4, 4, 4},
+	cases := []struct{ capacity, booked, held, available, afterHold int }{
+		{12, 5, 2, 7, 5},
+		{4, 0, 4, 4, 0},
+		{10, 10, 0, 0, 0},
 	}
 	for _, tc := range cases {
-		if got := clamp(tc.value, tc.lower, tc.upper); got != tc.want {
-			t.Errorf("clamp(%d,%d,%d)=%d; want %d", tc.value, tc.lower, tc.upper, got, tc.want)
+		available := 0 // TODO: call remaining with tc.capacity and tc.booked.
+		afterHold := 0 // TODO: call remaining with available and tc.held.
+		if available != tc.available || afterHold != tc.afterHold {
+			t.Errorf("capacity=%d booked=%d held=%d: available=%d afterHold=%d; want %d and %d",
+				tc.capacity, tc.booked, tc.held, available, afterHold, tc.available, tc.afterHold)
 		}
 	}
 }

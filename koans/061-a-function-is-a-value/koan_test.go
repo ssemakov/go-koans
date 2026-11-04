@@ -1,16 +1,24 @@
 package main
 
 // A function is a value
-// Implement transform. Apply the supplied function once to each value, in order, and
-// return independent storage. The function is non-nil; empty input produces no calls.
+// Complete the call to fn inside transform. A function can be passed as an argument
+// and called through its parameter name. Call it once for each value in order; the
+// slice allocation and loop are provided. Keep the checks.
 
 import (
 	"slices"
 	"testing"
 )
 
+func double(value int) int { return value * 2 }
+func negate(value int) int { return -value }
+
 func transform(values []int, fn func(int) int) []int {
-	return nil // TODO: call the supplied function for each value.
+	result := make([]int, len(values))
+	for index, value := range values {
+		result[index] = value // TODO: call fn with value and store its result.
+	}
+	return result
 }
 
 func TestKoan(t *testing.T) {
@@ -19,19 +27,19 @@ func TestKoan(t *testing.T) {
 		fn     func(int) int
 		want   []int
 	}{
-		{nil, func(n int) int { return n * 2 }, nil},
-		{[]int{1, 2, 3}, func(n int) int { return n * 2 }, []int{2, 4, 6}},
-		{[]int{1, 2, 3}, func(n int) int { return -n }, []int{-1, -2, -3}},
+		{nil, double, nil},
+		{[]int{1, 2, 3}, double, []int{2, 4, 6}},
+		{[]int{1, 2, 3}, negate, []int{-1, -2, -3}},
 	}
 	for _, tc := range cases {
 		before := slices.Clone(tc.values)
-		calls := 0
-		got := transform(tc.values, func(n int) int { calls++; return tc.fn(n) })
+		var visited []int
+		got := transform(tc.values, func(n int) int { visited = append(visited, n); return tc.fn(n) })
 		if !slices.Equal(got, tc.want) {
 			t.Errorf("transform(%v)=%v; want %v", before, got, tc.want)
 		}
-		if calls != len(tc.values) {
-			t.Errorf("calls=%d; want %d", calls, len(tc.values))
+		if !slices.Equal(visited, before) {
+			t.Errorf("callback inputs=%v; want %v in order", visited, before)
 		}
 		if len(got) > 0 {
 			got[0] = 99
