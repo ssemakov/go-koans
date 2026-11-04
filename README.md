@@ -99,6 +99,8 @@ Run `KOANS_BASE_URL=http://127.0.0.1:3000 python scripts/wasm-smoke.py` to check
 
 `KOANS_BASE_URL=http://127.0.0.1:3000 python scripts/wasm-download-smoke.py` runs through a local proxy that deliberately fails the last standard-library chunk. It verifies recovery by fetching only missing parts, reuse after clearing the HTTP cache and reloading, and fresh application HTML on reload. It also advances the browser clock beyond three minutes with intervening download progress to check the inactivity deadline. Both browser scripts use actual compiled Go tests.
 
+`npm ci` applies `scripts/patch-vim.mjs` to the Vim dependency so brace text objects prefer a pair later on the current line over a multiline enclosing block. Review this guarded patch when upgrading `@replit/codemirror-vim-core`. With a server on port 3100, Python Playwright and `/usr/bin/chromium` installed, run `python scripts/vim-braces-smoke.py` for the brace regression checks (or set `KOANS_BASE_URL` for another address).
+
 ## Validate curriculum changes
 
 With Go 1.23+ and a C compiler on PATH, run `npm run test:curriculum`. This checks that all 128 starters execute and fail, all 128 reference solutions pass, and the web and local starter files match. It also runs concurrency solutions with the race detector and verifies that the tests reject selected incorrect implementations: shared clone storage, lost error identity, dropped IO errors, incorrect table-driven checks, overflow-prone triangle validation, reused dice storage, a pipeline that waits for input closure, incorrect bitwise operators, and swapped or unmasked bit fields. It works in a temporary directory and leaves learners' files untouched.
