@@ -821,16 +821,49 @@ for _, initial := range []int{7,-3,0} {
     declarations="func reset(value *int) { value = new(int) // TODO: reset the pointed-to integer.\n}",
     kind="repair", revisits=(62,63))
 
-observe(65, "Compare a nil pointer, new(int), and an initialized address. Fill both nil checks and values; new returns allocated zero-initialized storage.", """
+add(65, "Compare a nil pointer, new(int), and an initialized address. Check each nil condition and value before the next assignment. Each new allocation starts at zero.", """
 var absent *int
+wantAbsentNil := false // TODO: replace this value.
+if got := absent == nil; got != wantAbsentNil {
+    t.Errorf("AbsentNil: got %#v; want %#v", got, wantAbsentNil)
+}
+
 allocated := new(int)
+wantAllocatedNil := true // TODO: replace this value.
+if got := allocated == nil; got != wantAllocatedNil {
+    t.Errorf("AllocatedNil: got %#v; want %#v", got, wantAllocatedNil)
+}
+
+wantAllocatedValue := -999 // TODO: replace this value.
+if got := *allocated; got != wantAllocatedValue {
+    t.Errorf("AllocatedValue: got %#v; want %#v", got, wantAllocatedValue)
+}
+
+*allocated = 4
+wantAssignedValue := -999 // TODO: replace this value.
+if got := *allocated; got != wantAssignedValue {
+    t.Errorf("AssignedValue: got %#v; want %#v", got, wantAssignedValue)
+}
+
+second := new(int)
+wantSecondValue := -999 // TODO: replace this value.
+if got := *second; got != wantSecondValue {
+    t.Errorf("SecondValue: got %#v; want %#v", got, wantSecondValue)
+}
+
 initialized := 7
 address := &initialized
-second := new(int)
-*allocated = 4
-""", [("AbsentNil", "absent == nil", "false", "true"), ("AllocatedNil", "allocated == nil", "true", "false"),
-      ("AllocatedValue", "*allocated", "-999", "4"), ("SecondValue", "*second", "-999", "0"),
-      ("InitializedValue", "*address", "-999", "7")], revisits=(3,62))
+wantInitializedValue := -999 // TODO: replace this value.
+if got := *address; got != wantInitializedValue {
+    t.Errorf("InitializedValue: got %#v; want %#v", got, wantInitializedValue)
+}
+""", [("wantAbsentNil := false // TODO: replace this value.", "wantAbsentNil := true"),
+      ("wantAllocatedNil := true // TODO: replace this value.", "wantAllocatedNil := false"),
+      ("wantAllocatedValue := -999 // TODO: replace this value.", "wantAllocatedValue := 0"),
+      ("wantAssignedValue := -999 // TODO: replace this value.", "wantAssignedValue := 4"),
+      ("wantSecondValue := -999 // TODO: replace this value.", "wantSecondValue := 0"),
+      ("wantInitializedValue := -999 // TODO: replace this value.", "wantInitializedValue := 7")],
+    kind="observe", revisits=(3,62))
 
 add(66, "Complete the allocation: two zero-valued elements, with capacity for five. Append three values and check that an existing view observes them without changing its own length.", """
 buffer := []int{} // TODO: allocate the required length and capacity.
