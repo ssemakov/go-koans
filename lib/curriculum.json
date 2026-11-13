@@ -903,12 +903,12 @@
   },
   {
     "id": "069-methods-on-named-types",
-    "version": 1,
+    "version": 2,
     "topic": "Structs and methods",
     "title": "Methods on named types",
-    "instruction": "Implement the Kilometers method on Meters. Use the receiver value and a floating-point conversion; do not lose the fractional kilometer.",
+    "instruction": "Implement the Kilometers method on Meters, then call it on tc.meters in the test. Use the receiver value and a floating-point conversion; do not lose the fractional kilometer. Keep the checks.",
     "reference": "https://go.dev/ref/spec#Method_declarations",
-    "code": "package main\n\n// Methods on named types\n// Implement the Kilometers method on Meters. Use the receiver value and a floating-point\n// conversion; do not lose the fractional kilometer.\n\nimport (\n\t\"testing\"\n)\n\ntype Meters int\n\nfunc (m Meters) Kilometers() float64 {\n\treturn 0 // TODO: use the receiver and preserve the fraction.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tmeters Meters\n\t\twant   float64\n\t}{{0, 0}, {1000, 1}, {1500, 1.5}, {250, 0.25}}\n\tfor _, tc := range cases {\n\t\tif got := tc.meters.Kilometers(); got != tc.want {\n\t\t\tt.Errorf(\"%d meters=%v km; want %v\", tc.meters, got, tc.want)\n\t\t}\n\t}\n}\n",
+    "code": "package main\n\n// Methods on named types\n// Implement the Kilometers method on Meters, then call it on tc.meters in the test. Use\n// the receiver value and a floating-point conversion; do not lose the fractional\n// kilometer. Keep the checks.\n\nimport (\n\t\"testing\"\n)\n\ntype Meters int\n\nfunc (m Meters) Kilometers() float64 {\n\treturn 0 // TODO: use the receiver and preserve the fraction.\n}\n\nfunc TestKoan(t *testing.T) {\n\tcases := []struct {\n\t\tmeters Meters\n\t\twant   float64\n\t}{{0, 0}, {1000, 1}, {1500, 1.5}, {250, 0.25}}\n\tfor _, tc := range cases {\n\t\tgot := float64(0) // TODO: call the Kilometers method on tc.meters.\n\t\tif got != tc.want {\n\t\t\tt.Errorf(\"%d meters=%v km; want %v\", tc.meters, got, tc.want)\n\t\t}\n\t}\n}\n",
     "kind": "implement",
     "revisits": [
       "010-integer-division",

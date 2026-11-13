@@ -898,12 +898,14 @@ if *original.Pointer != wantOriginalPointedValue { t.Errorf("*original.Pointer=%
     declarations="type Record struct { Count int; Values []int; Pointer *int }", imports=("slices",),
     kind="observe", revisits=(27,31,63,67))
 
-add(69, "Implement the Kilometers method on Meters. Use the receiver value and a floating-point conversion; do not lose the fractional kilometer.", """
+add(69, "Implement the Kilometers method on Meters, then call it on tc.meters in the test. Use the receiver value and a floating-point conversion; do not lose the fractional kilometer. Keep the checks.", """
 cases := []struct{ meters Meters; want float64 }{{0,0},{1000,1},{1500,1.5},{250,0.25}}
 for _, tc := range cases {
-    if got := tc.meters.Kilometers(); got != tc.want { t.Errorf("%d meters=%v km; want %v",tc.meters,got,tc.want) }
+    got := float64(0) // TODO: call the Kilometers method on tc.meters.
+    if got != tc.want { t.Errorf("%d meters=%v km; want %v",tc.meters,got,tc.want) }
 }
-""", [("return 0 // TODO: use the receiver and preserve the fraction.", "return float64(m) / 1000")],
+""", [("return 0 // TODO: use the receiver and preserve the fraction.", "return float64(m) / 1000"),
+      ("got := float64(0) // TODO: call the Kilometers method on tc.meters.", "got := tc.meters.Kilometers()")],
     declarations="type Meters int\nfunc (m Meters) Kilometers() float64 { return 0 // TODO: use the receiver and preserve the fraction.\n}",
     revisits=(10,14,15))
 
