@@ -36,21 +36,29 @@ def add(number, instruction, body, edits, *, imports=(), declarations="",
     LESSONS[number] = (item, solution)
 
 
-def observe(number, instruction, setup, checks, *, imports=(), declarations="",
-            title=None, revisits=()):
-    body = setup + "\n"
+def observe_steps(number, instruction, steps, *, imports=(), declarations="",
+                  title=None, revisits=()):
+    body = ""
     edits = []
-    for name, expression, blank, answer in checks:
-        line = f"want{name} := {blank} // TODO: replace this value."
-        body += f"""
+    for setup, checks in steps:
+        body += setup + "\n"
+        for name, expression, blank, answer in checks:
+            line = f"want{name} := {blank} // TODO: replace this value."
+            body += f"""
 {line}
 if got := {expression}; got != want{name} {{
     t.Errorf("{name}: got %#v; want %#v", got, want{name})
 }}
 """
-        edits.append((line, f"want{name} := {answer}"))
+            edits.append((line, f"want{name} := {answer}"))
     add(number, instruction, body, edits, imports=imports, declarations=declarations,
         title=title, kind="observe", revisits=revisits)
+
+
+def observe(number, instruction, setup, checks, *, imports=(), declarations="",
+            title=None, revisits=()):
+    observe_steps(number, instruction, [(setup, checks)], imports=imports,
+                  declarations=declarations, title=title, revisits=revisits)
 
 
 add(1, "Replace the TODO value with true. Run the test to see how a failed check is reported.", """
@@ -394,19 +402,22 @@ for _, tc := range cases {
        "{2, []int{10,20}, []int{10,20,30}, []int{10,20,40}},")],
     imports=("slices",), title="Append and shared storage", kind="observe", revisits=(29,30,31))
 
-observe(33, "Compare append with spare capacity and append beyond capacity. Fill the values observed through each alias. Do not assume an exact growth factor.", """
+observe_steps(33, "Compare append with spare capacity and append beyond capacity. Fill the values observed through each alias. Do not assume an exact growth factor.", [("""
 spare := make([]int,1,3)
 spare[0] = 1
 spareAlias := spare[:3]
 spare = append(spare,7)
+""", [("ReusedAppended", "spareAlias[1]", "-999", "7")]),
+("""
 spare[0] = 9
+""", [("ReusedFirst", "spareAlias[0]", "-999", "9")]),
+("""
 full := []int{1}
 fullAlias := full
 grown := append(full,7)
 grown[0] = 9
-""", [("ReusedAppended", "spareAlias[1]", "-999", "7"), ("ReusedFirst", "spareAlias[0]", "-999", "9"),
-      ("AllocatedOld", "fullAlias[0]", "-999", "1"), ("AllocatedNew", "grown[0]", "-999", "9"),
-      ("AllocatedLength", "len(grown)", "-999", "2")], revisits=(29,31))
+""", [("AllocatedOld", "fullAlias[0]", "-999", "1"), ("AllocatedNew", "grown[0]", "-999", "9"),
+      ("AllocatedLength", "len(grown)", "-999", "2")])], revisits=(29,31))
 
 add(34, "Implement cloneInts. Preserve every element and give the result independent storage. Mutating either slice must leave the other unchanged; nil or empty input may return nil.", """
 for _, input := range [][]int{nil, {}, {7}, {1,2,3}} {
@@ -466,30 +477,35 @@ if !slices.Equal(sharedValues,wantSharedValues) {
       ("wantSharedValues := []int{-999} // TODO: entire shared slice after copy.", "wantSharedValues := []int{1,1,2,3}")],
     imports=("slices",), kind="observe", revisits=(34,))
 
-observe(36, "Fill the lengths and nil checks before and after append. Nil and non-nil empty slices can both be appended to.", """
+add(36, "Complete the appends to the nil slice and the non-nil empty slice. Both should contain 7 afterward. Keep the checks that show their initial difference and their contents after append.", """
 var absent []int
-empty := []int{}
-appendedAbsent := append(absent,7)
-appendedEmpty := append(empty,7)
-""", [("AbsentLength", "len(absent)", "-999", "0"), ("EmptyLength", "len(empty)", "-999", "0"),
-      ("AbsentNil", "absent == nil", "false", "true"), ("EmptyNil", "empty == nil", "true", "false"),
-      ("AppendedAbsentNil", "appendedAbsent == nil", "true", "false"),
-      ("AppendedEmptyLength", "len(appendedEmpty)", "-999", "1")], revisits=(3,29))
+if absent != nil || len(absent) != 0 { t.Fatal("a nil slice starts nil with length zero") }
+// TODO: append 7 to absent and store the returned slice in absent.
+if absent == nil || !slices.Equal(absent,[]int{7}) { t.Errorf("after append, absent=%v; want a non-nil slice containing [7]",absent) }
 
-observe(37, "Compare an unrestricted view with a full slice expression that caps capacity. Fill the capacity and original values after append.", """
+empty := []int{}
+if empty == nil || len(empty) != 0 { t.Fatal("an empty slice literal starts non-nil with length zero") }
+// TODO: append 7 to empty and store the returned slice in empty.
+if empty == nil || !slices.Equal(empty,[]int{7}) { t.Errorf("after append, empty=%v; want a non-nil slice containing [7]",empty) }
+""", [("// TODO: append 7 to absent and store the returned slice in absent.", "absent = append(absent,7)"),
+      ("// TODO: append 7 to empty and store the returned slice in empty.", "empty = append(empty,7)")],
+    imports=("slices",), kind="complete", revisits=(3,29))
+
+observe_steps(37, "Compare an unrestricted view with a full slice expression that caps capacity. Check capacities before append, then predict the slice length and values after append and mutation.", [("""
 array := [4]int{1,2,3,4}
 unrestricted := array[1:2]
 limited := array[1:2:2]
-limitedCapacity := cap(limited)
+""", [("UnrestrictedCapacity", "cap(unrestricted)", "-999", "3"),
+      ("LimitedCapacity", "cap(limited)", "-999", "1")]),
+("""
 unrestricted = append(unrestricted,8)
 limited = append(limited,9)
+""", [("LimitedLength", "len(limited)", "-999", "2")]),
+("""
 limited[0] = 7
-""", [("UnrestrictedCapacity", "cap(unrestricted)", "-999", "3"),
-      ("LimitedCapacity", "limitedCapacity", "-999", "1"),
-      ("LimitedLength", "len(limited)", "-999", "2"),
-      ("OriginalArray", "array", "[4]int{-1,-1,-1,-1}", "[4]int{1,2,8,4}"),
+""", [("OriginalArray", "array", "[4]int{-1,-1,-1,-1}", "[4]int{1,2,8,4}"),
       ("LimitedFirst", "limited[0]", "-999", "7"),
-      ("LimitedSecond", "limited[1]", "-999", "9")], revisits=(30,33))
+      ("LimitedSecond", "limited[1]", "-999", "9")])], revisits=(30,33))
 
 add(38, "Implement deleteAt for a valid index. Keep the remaining elements in order and leave the input unchanged. A result with zero elements may be nil.", """
 cases := []struct{ values []int; index int; want []int }{
@@ -743,16 +759,15 @@ for _, tc := range cases {
 func addAll(base int,values []int) int { return base // TODO: forward values with slice expansion.
 }""", imports=("slices",), kind="complete", revisits=(57,))
 
-observe(59, "Compare a closure reading an outer variable with a function using a copied argument. Fill the state after the outer variable changes.", """
+observe_steps(59, "Compare a closure reading an outer variable with a function using a copied argument. Check the closure before and after changing the outer variable, then check the copied argument and the caller's value.", [("""
 value := 1
 captured := func() int { return value }
 copied := func(n int) int { n++; return n }
-before := captured()
+""", [("Before", "captured()", "-999", "1")]),
+("""
 value = 5
-after := captured()
-argumentResult := copied(value)
-""", [("Before", "before", "-999", "1"), ("After", "after", "-999", "5"),
-      ("ArgumentResult", "argumentResult", "-999", "6"), ("OuterValue", "value", "-999", "5")],
+""", [("After", "captured()", "-999", "5"),
+      ("ArgumentResult", "copied(value)", "-999", "6"), ("OuterValue", "value", "-999", "5")])],
     revisits=(6,54))
 
 add(60, "Implement counter. Each factory call returns a closure with its own state; each call adds step and returns the updated value.", """
@@ -798,13 +813,14 @@ if value != 7 { t.Errorf("same-pointer swap=%d; want 7",value) }
 """, [("// TODO: swap the pointed-to values.", "*a,*b = *b,*a")],
     declarations="func swap(a,b *int) { // TODO: swap the pointed-to values.\n}", revisits=(7,))
 
-observe(63, "Fill the caller's values and the returned value. Changing a copied integer or array parameter does not update its caller.", """
+observe_steps(63, "Fill the caller's values and the returned value. Changing a copied integer or array parameter does not update its caller.", [("""
 number := 3
 returned := increment(number)
+""", [("Caller", "number", "-999", "3"), ("Returned", "returned", "-999", "4")]),
+("""
 array := [2]int{1,2}
 changeArray(array)
-""", [("Caller", "number", "-999", "3"), ("Returned", "returned", "-999", "4"),
-      ("Array", "array", "[2]int{-1,-1}", "[2]int{1,2}")],
+""", [("Array", "array", "[2]int{-1,-1}", "[2]int{1,2}")])],
     declarations="func increment(value int) int { value++; return value }\nfunc changeArray(values [2]int) { values[0]=9 }",
     revisits=(27,54))
 
@@ -821,49 +837,20 @@ for _, initial := range []int{7,-3,0} {
     declarations="func reset(value *int) { value = new(int) // TODO: reset the pointed-to integer.\n}",
     kind="repair", revisits=(62,63))
 
-add(65, "Compare a nil pointer, new(int), and an initialized address. Check each nil condition and value before the next assignment. Each new allocation starts at zero.", """
-var absent *int
-wantAbsentNil := false // TODO: replace this value.
-if got := absent == nil; got != wantAbsentNil {
-    t.Errorf("AbsentNil: got %#v; want %#v", got, wantAbsentNil)
-}
-
-allocated := new(int)
-wantAllocatedNil := true // TODO: replace this value.
-if got := allocated == nil; got != wantAllocatedNil {
-    t.Errorf("AllocatedNil: got %#v; want %#v", got, wantAllocatedNil)
-}
-
-wantAllocatedValue := -999 // TODO: replace this value.
-if got := *allocated; got != wantAllocatedValue {
-    t.Errorf("AllocatedValue: got %#v; want %#v", got, wantAllocatedValue)
-}
-
+add(65, "Implement newCounter using new(int). Each call must return a non-nil pointer to a fresh integer initialized to zero. Updating one counter must not change another. Keep the checks.", """
+allocated := newCounter()
+if allocated == nil { t.Fatal("newCounter must allocate an integer") }
+if *allocated != 0 { t.Errorf("new counter=%d; want 0",*allocated) }
 *allocated = 4
-wantAssignedValue := -999 // TODO: replace this value.
-if got := *allocated; got != wantAssignedValue {
-    t.Errorf("AssignedValue: got %#v; want %#v", got, wantAssignedValue)
-}
 
-second := new(int)
-wantSecondValue := -999 // TODO: replace this value.
-if got := *second; got != wantSecondValue {
-    t.Errorf("SecondValue: got %#v; want %#v", got, wantSecondValue)
-}
-
-initialized := 7
-address := &initialized
-wantInitializedValue := -999 // TODO: replace this value.
-if got := *address; got != wantInitializedValue {
-    t.Errorf("InitializedValue: got %#v; want %#v", got, wantInitializedValue)
-}
-""", [("wantAbsentNil := false // TODO: replace this value.", "wantAbsentNil := true"),
-      ("wantAllocatedNil := true // TODO: replace this value.", "wantAllocatedNil := false"),
-      ("wantAllocatedValue := -999 // TODO: replace this value.", "wantAllocatedValue := 0"),
-      ("wantAssignedValue := -999 // TODO: replace this value.", "wantAssignedValue := 4"),
-      ("wantSecondValue := -999 // TODO: replace this value.", "wantSecondValue := 0"),
-      ("wantInitializedValue := -999 // TODO: replace this value.", "wantInitializedValue := 7")],
-    kind="observe", revisits=(3,62))
+second := newCounter()
+if second == nil { t.Fatal("each call must allocate an integer") }
+if *second != 0 { t.Errorf("second counter=%d; want 0 after changing the first",*second) }
+*second = 9
+if *allocated != 4 { t.Errorf("first counter=%d; want 4 after changing the second",*allocated) }
+""", [("return nil // TODO: allocate a zero-initialized int with new.", "return new(int)")],
+    declarations="func newCounter() *int { return nil // TODO: allocate a zero-initialized int with new.\n}",
+    revisits=(3,62))
 
 add(66, "Complete the allocation: two zero-valued elements, with capacity for five. Append three values and check that an existing view observes them without changing its own length.", """
 buffer := []int{} // TODO: allocate the required length and capacity.
@@ -894,18 +881,20 @@ number := 4
 original := Record{Count:1,Values:[]int{2,3},Pointer:&number}
 copied := original
 copied.Count=9
-copied.Values[0]=7
-*copied.Pointer=8
-wantCount := -999 // TODO: original scalar.
-wantValues := []int{-999} // TODO: original slice.
-wantPointed := -999 // TODO: original pointed-to value.
-if original.Count != wantCount { t.Errorf("original.Count=%d; want %d",original.Count,wantCount) }
-if !slices.Equal(original.Values,wantValues) { t.Errorf("original.Values=%v; want %v",original.Values,wantValues) }
-if *original.Pointer != wantPointed { t.Errorf("*original.Pointer=%d; want %d",*original.Pointer,wantPointed) }
+wantOriginalCount := -999 // TODO: original scalar.
+if original.Count != wantOriginalCount { t.Errorf("original.Count=%d; want %d",original.Count,wantOriginalCount) }
 if copied.Count != 9 { t.Error("the copied scalar was not updated") }
-""", [("wantCount := -999 // TODO: original scalar.", "wantCount := 1"),
-      ("wantValues := []int{-999} // TODO: original slice.", "wantValues := []int{7,3}"),
-      ("wantPointed := -999 // TODO: original pointed-to value.", "wantPointed := 8")],
+
+copied.Values[0]=7
+wantOriginalValues := []int{-999} // TODO: original slice.
+if !slices.Equal(original.Values,wantOriginalValues) { t.Errorf("original.Values=%v; want %v",original.Values,wantOriginalValues) }
+
+*copied.Pointer=8
+wantOriginalPointedValue := -999 // TODO: original pointed-to value.
+if *original.Pointer != wantOriginalPointedValue { t.Errorf("*original.Pointer=%d; want %d",*original.Pointer,wantOriginalPointedValue) }
+""", [("wantOriginalCount := -999 // TODO: original scalar.", "wantOriginalCount := 1"),
+      ("wantOriginalValues := []int{-999} // TODO: original slice.", "wantOriginalValues := []int{7,3}"),
+      ("wantOriginalPointedValue := -999 // TODO: original pointed-to value.", "wantOriginalPointedValue := 8")],
     declarations="type Record struct { Count int; Values []int; Pointer *int }", imports=("slices",),
     kind="observe", revisits=(27,31,63,67))
 
@@ -1100,7 +1089,7 @@ func() {
 }()
 """, [("Trace", "trace", '"TODO"', '"start return second first "')], revisits=(82,))
 
-observe(84, "Compare a deferred argument with a deferred closure reading the variable later. Then check how defer changes a named result before it reaches the caller.", """
+observe_steps(84, "Compare a deferred argument with a deferred closure reading the variable later. Then check how defer changes a named result before it reaches the caller.", [("""
 value := 1
 argument,closure := 0,0
 func() {
@@ -1108,9 +1097,8 @@ func() {
     defer func() { closure=value }()
     value=2
 }()
-result := adjusted()
-""", [("Argument", "argument", "-999", "1"), ("Closure", "closure", "-999", "2"),
-      ("NamedResult", "result", "-999", "5")],
+""", [("Argument", "argument", "-999", "1"), ("Closure", "closure", "-999", "2")]),
+("", [("NamedResult", "adjusted()", "-999", "5")])],
     declarations="func adjusted() (result int) { defer func(){result++}(); return 4 }",
     revisits=(56,59,82,83))
 
@@ -1128,17 +1116,14 @@ if err := catchPanic(func(){panic(7)}); err == nil || err.Error() != "7" { t.Err
 return fmt.Errorf("not implemented") // TODO: recover only when work panics.
 }""", imports=("fmt",), revisits=(56,77,79,82))
 
-observe(86, "Track queue length separately from capacity as values are sent and received. Fill the first received value and each queue length.", """
+observe_steps(86, "Track queue length separately from capacity as values are sent and received. Fill the first received value and each queue length at the point where it is checked.", [("""
 ch := make(chan int,2)
-initial := len(ch)
+""", [("Initial", "len(ch)", "-999", "0"), ("Capacity", "cap(ch)", "-999", "2")]),
+("""
 ch <- 7
 ch <- 0
-filled := len(ch)
-first := <-ch
-remaining := len(ch)
-""", [("Initial", "initial", "-999", "0"), ("Capacity", "cap(ch)", "-999", "2"),
-      ("Filled", "filled", "-999", "2"), ("First", "first", "-999", "7"),
-      ("Remaining", "remaining", "-999", "1")], revisits=(29,66))
+""", [("Filled", "len(ch)", "-999", "2"), ("First", "<-ch", "-999", "7"),
+      ("Remaining", "len(ch)", "-999", "1")])], revisits=(29,66))
 
 add(87, "Complete the send and receive loops. Use the supplied buffered channel to round-trip every string in order; return the values and the number still queued.", """
 for _, values := range [][]string{nil,{},{"Go"},{"first","","last"}} {
@@ -1161,17 +1146,19 @@ for range values {
 return result,len(ch)
 }""", imports=("slices",), kind="complete", revisits=(52,53,86))
 
-observe(88, "Fill the value and ok result for each receive. Closing a buffered channel does not discard queued values; only a closed and drained channel returns zero and false.", """
+observe_steps(88, "Fill the value and ok result immediately after each receive. Closing a buffered channel does not discard queued values; only a closed and drained channel returns zero and false.", [("""
 ch := make(chan int,2)
 ch <- 7
 ch <- 8
 close(ch)
-first,firstOK := <-ch
-second,secondOK := <-ch
-third,thirdOK := <-ch
-""", [("First", "first", "-999", "7"), ("FirstOK", "firstOK", "false", "true"),
-      ("Second", "second", "-999", "8"), ("SecondOK", "secondOK", "false", "true"),
-      ("Drained", "third", "-999", "0"), ("DrainedOK", "thirdOK", "true", "false")],
+value,ok := <-ch
+""", [("First", "value", "-999", "7"), ("FirstOK", "ok", "false", "true")]),
+("""
+value,ok = <-ch
+""", [("Second", "value", "-999", "8"), ("SecondOK", "ok", "false", "true")]),
+("""
+value,ok = <-ch
+""", [("Drained", "value", "-999", "0"), ("DrainedOK", "ok", "true", "false")])],
     revisits=(40,86,87))
 
 add(89, "Implement drain with range over the channel. Return all queued values, including zero, and finish when the sender closes the channel.", """

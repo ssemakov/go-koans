@@ -413,12 +413,12 @@
   },
   {
     "id": "033-append-can-reuse-storage",
-    "version": 1,
+    "version": 2,
     "topic": "Slices",
     "title": "Append can reuse storage",
     "instruction": "Compare append with spare capacity and append beyond capacity. Fill the values observed through each alias. Do not assume an exact growth factor.",
     "reference": "https://go.dev/ref/spec#Appending_and_copying_slices",
-    "code": "package main\n\n// Append can reuse storage\n// Compare append with spare capacity and append beyond capacity. Fill the values observed\n// through each alias. Do not assume an exact growth factor.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tspare := make([]int, 1, 3)\n\tspare[0] = 1\n\tspareAlias := spare[:3]\n\tspare = append(spare, 7)\n\tspare[0] = 9\n\tfull := []int{1}\n\tfullAlias := full\n\tgrown := append(full, 7)\n\tgrown[0] = 9\n\n\twantReusedAppended := -999 // TODO: replace this value.\n\tif got := spareAlias[1]; got != wantReusedAppended {\n\t\tt.Errorf(\"ReusedAppended: got %#v; want %#v\", got, wantReusedAppended)\n\t}\n\n\twantReusedFirst := -999 // TODO: replace this value.\n\tif got := spareAlias[0]; got != wantReusedFirst {\n\t\tt.Errorf(\"ReusedFirst: got %#v; want %#v\", got, wantReusedFirst)\n\t}\n\n\twantAllocatedOld := -999 // TODO: replace this value.\n\tif got := fullAlias[0]; got != wantAllocatedOld {\n\t\tt.Errorf(\"AllocatedOld: got %#v; want %#v\", got, wantAllocatedOld)\n\t}\n\n\twantAllocatedNew := -999 // TODO: replace this value.\n\tif got := grown[0]; got != wantAllocatedNew {\n\t\tt.Errorf(\"AllocatedNew: got %#v; want %#v\", got, wantAllocatedNew)\n\t}\n\n\twantAllocatedLength := -999 // TODO: replace this value.\n\tif got := len(grown); got != wantAllocatedLength {\n\t\tt.Errorf(\"AllocatedLength: got %#v; want %#v\", got, wantAllocatedLength)\n\t}\n}\n",
+    "code": "package main\n\n// Append can reuse storage\n// Compare append with spare capacity and append beyond capacity. Fill the values observed\n// through each alias. Do not assume an exact growth factor.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tspare := make([]int, 1, 3)\n\tspare[0] = 1\n\tspareAlias := spare[:3]\n\tspare = append(spare, 7)\n\n\twantReusedAppended := -999 // TODO: replace this value.\n\tif got := spareAlias[1]; got != wantReusedAppended {\n\t\tt.Errorf(\"ReusedAppended: got %#v; want %#v\", got, wantReusedAppended)\n\t}\n\n\tspare[0] = 9\n\n\twantReusedFirst := -999 // TODO: replace this value.\n\tif got := spareAlias[0]; got != wantReusedFirst {\n\t\tt.Errorf(\"ReusedFirst: got %#v; want %#v\", got, wantReusedFirst)\n\t}\n\n\tfull := []int{1}\n\tfullAlias := full\n\tgrown := append(full, 7)\n\tgrown[0] = 9\n\n\twantAllocatedOld := -999 // TODO: replace this value.\n\tif got := fullAlias[0]; got != wantAllocatedOld {\n\t\tt.Errorf(\"AllocatedOld: got %#v; want %#v\", got, wantAllocatedOld)\n\t}\n\n\twantAllocatedNew := -999 // TODO: replace this value.\n\tif got := grown[0]; got != wantAllocatedNew {\n\t\tt.Errorf(\"AllocatedNew: got %#v; want %#v\", got, wantAllocatedNew)\n\t}\n\n\twantAllocatedLength := -999 // TODO: replace this value.\n\tif got := len(grown); got != wantAllocatedLength {\n\t\tt.Errorf(\"AllocatedLength: got %#v; want %#v\", got, wantAllocatedLength)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "029-slice-length",
@@ -454,13 +454,13 @@
   },
   {
     "id": "036-nil-and-empty-slices",
-    "version": 1,
+    "version": 2,
     "topic": "Slices",
     "title": "Nil and empty slices",
-    "instruction": "Fill the lengths and nil checks before and after append. Nil and non-nil empty slices can both be appended to.",
+    "instruction": "Complete the appends to the nil slice and the non-nil empty slice. Both should contain 7 afterward. Keep the checks that show their initial difference and their contents after append.",
     "reference": "https://go.dev/ref/spec#Slice_types",
-    "code": "package main\n\n// Nil and empty slices\n// Fill the lengths and nil checks before and after append. Nil and non-nil empty slices\n// can both be appended to.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar absent []int\n\tempty := []int{}\n\tappendedAbsent := append(absent, 7)\n\tappendedEmpty := append(empty, 7)\n\n\twantAbsentLength := -999 // TODO: replace this value.\n\tif got := len(absent); got != wantAbsentLength {\n\t\tt.Errorf(\"AbsentLength: got %#v; want %#v\", got, wantAbsentLength)\n\t}\n\n\twantEmptyLength := -999 // TODO: replace this value.\n\tif got := len(empty); got != wantEmptyLength {\n\t\tt.Errorf(\"EmptyLength: got %#v; want %#v\", got, wantEmptyLength)\n\t}\n\n\twantAbsentNil := false // TODO: replace this value.\n\tif got := absent == nil; got != wantAbsentNil {\n\t\tt.Errorf(\"AbsentNil: got %#v; want %#v\", got, wantAbsentNil)\n\t}\n\n\twantEmptyNil := true // TODO: replace this value.\n\tif got := empty == nil; got != wantEmptyNil {\n\t\tt.Errorf(\"EmptyNil: got %#v; want %#v\", got, wantEmptyNil)\n\t}\n\n\twantAppendedAbsentNil := true // TODO: replace this value.\n\tif got := appendedAbsent == nil; got != wantAppendedAbsentNil {\n\t\tt.Errorf(\"AppendedAbsentNil: got %#v; want %#v\", got, wantAppendedAbsentNil)\n\t}\n\n\twantAppendedEmptyLength := -999 // TODO: replace this value.\n\tif got := len(appendedEmpty); got != wantAppendedEmptyLength {\n\t\tt.Errorf(\"AppendedEmptyLength: got %#v; want %#v\", got, wantAppendedEmptyLength)\n\t}\n}\n",
-    "kind": "observe",
+    "code": "package main\n\n// Nil and empty slices\n// Complete the appends to the nil slice and the non-nil empty slice. Both should contain 7\n// afterward. Keep the checks that show their initial difference and their contents after\n// append.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar absent []int\n\tif absent != nil || len(absent) != 0 {\n\t\tt.Fatal(\"a nil slice starts nil with length zero\")\n\t}\n\t// TODO: append 7 to absent and store the returned slice in absent.\n\tif absent == nil || !slices.Equal(absent, []int{7}) {\n\t\tt.Errorf(\"after append, absent=%v; want a non-nil slice containing [7]\", absent)\n\t}\n\n\tempty := []int{}\n\tif empty == nil || len(empty) != 0 {\n\t\tt.Fatal(\"an empty slice literal starts non-nil with length zero\")\n\t}\n\t// TODO: append 7 to empty and store the returned slice in empty.\n\tif empty == nil || !slices.Equal(empty, []int{7}) {\n\t\tt.Errorf(\"after append, empty=%v; want a non-nil slice containing [7]\", empty)\n\t}\n}\n",
+    "kind": "complete",
     "revisits": [
       "003-integer-zero-value",
       "029-slice-length"
@@ -468,12 +468,12 @@
   },
   {
     "id": "037-full-slice-expressions",
-    "version": 1,
+    "version": 2,
     "topic": "Slices",
     "title": "Full slice expressions",
-    "instruction": "Compare an unrestricted view with a full slice expression that caps capacity. Fill the capacity and original values after append.",
+    "instruction": "Compare an unrestricted view with a full slice expression that caps capacity. Check capacities before append, then predict the slice length and values after append and mutation.",
     "reference": "https://go.dev/ref/spec#Slice_expressions",
-    "code": "package main\n\n// Full slice expressions\n// Compare an unrestricted view with a full slice expression that caps capacity. Fill the\n// capacity and original values after append.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tarray := [4]int{1, 2, 3, 4}\n\tunrestricted := array[1:2]\n\tlimited := array[1:2:2]\n\tlimitedCapacity := cap(limited)\n\tunrestricted = append(unrestricted, 8)\n\tlimited = append(limited, 9)\n\tlimited[0] = 7\n\n\twantUnrestrictedCapacity := -999 // TODO: replace this value.\n\tif got := cap(unrestricted); got != wantUnrestrictedCapacity {\n\t\tt.Errorf(\"UnrestrictedCapacity: got %#v; want %#v\", got, wantUnrestrictedCapacity)\n\t}\n\n\twantLimitedCapacity := -999 // TODO: replace this value.\n\tif got := limitedCapacity; got != wantLimitedCapacity {\n\t\tt.Errorf(\"LimitedCapacity: got %#v; want %#v\", got, wantLimitedCapacity)\n\t}\n\n\twantLimitedLength := -999 // TODO: replace this value.\n\tif got := len(limited); got != wantLimitedLength {\n\t\tt.Errorf(\"LimitedLength: got %#v; want %#v\", got, wantLimitedLength)\n\t}\n\n\twantOriginalArray := [4]int{-1, -1, -1, -1} // TODO: replace this value.\n\tif got := array; got != wantOriginalArray {\n\t\tt.Errorf(\"OriginalArray: got %#v; want %#v\", got, wantOriginalArray)\n\t}\n\n\twantLimitedFirst := -999 // TODO: replace this value.\n\tif got := limited[0]; got != wantLimitedFirst {\n\t\tt.Errorf(\"LimitedFirst: got %#v; want %#v\", got, wantLimitedFirst)\n\t}\n\n\twantLimitedSecond := -999 // TODO: replace this value.\n\tif got := limited[1]; got != wantLimitedSecond {\n\t\tt.Errorf(\"LimitedSecond: got %#v; want %#v\", got, wantLimitedSecond)\n\t}\n}\n",
+    "code": "package main\n\n// Full slice expressions\n// Compare an unrestricted view with a full slice expression that caps capacity. Check\n// capacities before append, then predict the slice length and values after append and\n// mutation.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tarray := [4]int{1, 2, 3, 4}\n\tunrestricted := array[1:2]\n\tlimited := array[1:2:2]\n\n\twantUnrestrictedCapacity := -999 // TODO: replace this value.\n\tif got := cap(unrestricted); got != wantUnrestrictedCapacity {\n\t\tt.Errorf(\"UnrestrictedCapacity: got %#v; want %#v\", got, wantUnrestrictedCapacity)\n\t}\n\n\twantLimitedCapacity := -999 // TODO: replace this value.\n\tif got := cap(limited); got != wantLimitedCapacity {\n\t\tt.Errorf(\"LimitedCapacity: got %#v; want %#v\", got, wantLimitedCapacity)\n\t}\n\n\tunrestricted = append(unrestricted, 8)\n\tlimited = append(limited, 9)\n\n\twantLimitedLength := -999 // TODO: replace this value.\n\tif got := len(limited); got != wantLimitedLength {\n\t\tt.Errorf(\"LimitedLength: got %#v; want %#v\", got, wantLimitedLength)\n\t}\n\n\tlimited[0] = 7\n\n\twantOriginalArray := [4]int{-1, -1, -1, -1} // TODO: replace this value.\n\tif got := array; got != wantOriginalArray {\n\t\tt.Errorf(\"OriginalArray: got %#v; want %#v\", got, wantOriginalArray)\n\t}\n\n\twantLimitedFirst := -999 // TODO: replace this value.\n\tif got := limited[0]; got != wantLimitedFirst {\n\t\tt.Errorf(\"LimitedFirst: got %#v; want %#v\", got, wantLimitedFirst)\n\t}\n\n\twantLimitedSecond := -999 // TODO: replace this value.\n\tif got := limited[1]; got != wantLimitedSecond {\n\t\tt.Errorf(\"LimitedSecond: got %#v; want %#v\", got, wantLimitedSecond)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "030-slice-an-array",
@@ -761,12 +761,12 @@
   },
   {
     "id": "059-capture-a-variable",
-    "version": 1,
+    "version": 2,
     "topic": "Closures",
     "title": "Capture a variable",
-    "instruction": "Compare a closure reading an outer variable with a function using a copied argument. Fill the state after the outer variable changes.",
+    "instruction": "Compare a closure reading an outer variable with a function using a copied argument. Check the closure before and after changing the outer variable, then check the copied argument and the caller's value.",
     "reference": "https://go.dev/ref/spec#Function_literals",
-    "code": "package main\n\n// Capture a variable\n// Compare a closure reading an outer variable with a function using a copied argument.\n// Fill the state after the outer variable changes.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\tcaptured := func() int { return value }\n\tcopied := func(n int) int { n++; return n }\n\tbefore := captured()\n\tvalue = 5\n\tafter := captured()\n\targumentResult := copied(value)\n\n\twantBefore := -999 // TODO: replace this value.\n\tif got := before; got != wantBefore {\n\t\tt.Errorf(\"Before: got %#v; want %#v\", got, wantBefore)\n\t}\n\n\twantAfter := -999 // TODO: replace this value.\n\tif got := after; got != wantAfter {\n\t\tt.Errorf(\"After: got %#v; want %#v\", got, wantAfter)\n\t}\n\n\twantArgumentResult := -999 // TODO: replace this value.\n\tif got := argumentResult; got != wantArgumentResult {\n\t\tt.Errorf(\"ArgumentResult: got %#v; want %#v\", got, wantArgumentResult)\n\t}\n\n\twantOuterValue := -999 // TODO: replace this value.\n\tif got := value; got != wantOuterValue {\n\t\tt.Errorf(\"OuterValue: got %#v; want %#v\", got, wantOuterValue)\n\t}\n}\n",
+    "code": "package main\n\n// Capture a variable\n// Compare a closure reading an outer variable with a function using a copied argument.\n// Check the closure before and after changing the outer variable, then check the copied\n// argument and the caller's value.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\tcaptured := func() int { return value }\n\tcopied := func(n int) int { n++; return n }\n\n\twantBefore := -999 // TODO: replace this value.\n\tif got := captured(); got != wantBefore {\n\t\tt.Errorf(\"Before: got %#v; want %#v\", got, wantBefore)\n\t}\n\n\tvalue = 5\n\n\twantAfter := -999 // TODO: replace this value.\n\tif got := captured(); got != wantAfter {\n\t\tt.Errorf(\"After: got %#v; want %#v\", got, wantAfter)\n\t}\n\n\twantArgumentResult := -999 // TODO: replace this value.\n\tif got := copied(value); got != wantArgumentResult {\n\t\tt.Errorf(\"ArgumentResult: got %#v; want %#v\", got, wantArgumentResult)\n\t}\n\n\twantOuterValue := -999 // TODO: replace this value.\n\tif got := value; got != wantOuterValue {\n\t\tt.Errorf(\"OuterValue: got %#v; want %#v\", got, wantOuterValue)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "006-short-variable-declaration",
@@ -815,12 +815,12 @@
   },
   {
     "id": "063-pass-values-by-value",
-    "version": 1,
+    "version": 2,
     "topic": "Pointers and allocation",
     "title": "Pass values by value",
     "instruction": "Fill the caller's values and the returned value. Changing a copied integer or array parameter does not update its caller.",
     "reference": "https://go.dev/ref/spec#Calls",
-    "code": "package main\n\n// Pass values by value\n// Fill the caller's values and the returned value. Changing a copied integer or array\n// parameter does not update its caller.\n\nimport (\n\t\"testing\"\n)\n\nfunc increment(value int) int   { value++; return value }\nfunc changeArray(values [2]int) { values[0] = 9 }\n\nfunc TestKoan(t *testing.T) {\n\tnumber := 3\n\treturned := increment(number)\n\tarray := [2]int{1, 2}\n\tchangeArray(array)\n\n\twantCaller := -999 // TODO: replace this value.\n\tif got := number; got != wantCaller {\n\t\tt.Errorf(\"Caller: got %#v; want %#v\", got, wantCaller)\n\t}\n\n\twantReturned := -999 // TODO: replace this value.\n\tif got := returned; got != wantReturned {\n\t\tt.Errorf(\"Returned: got %#v; want %#v\", got, wantReturned)\n\t}\n\n\twantArray := [2]int{-1, -1} // TODO: replace this value.\n\tif got := array; got != wantArray {\n\t\tt.Errorf(\"Array: got %#v; want %#v\", got, wantArray)\n\t}\n}\n",
+    "code": "package main\n\n// Pass values by value\n// Fill the caller's values and the returned value. Changing a copied integer or array\n// parameter does not update its caller.\n\nimport (\n\t\"testing\"\n)\n\nfunc increment(value int) int   { value++; return value }\nfunc changeArray(values [2]int) { values[0] = 9 }\n\nfunc TestKoan(t *testing.T) {\n\tnumber := 3\n\treturned := increment(number)\n\n\twantCaller := -999 // TODO: replace this value.\n\tif got := number; got != wantCaller {\n\t\tt.Errorf(\"Caller: got %#v; want %#v\", got, wantCaller)\n\t}\n\n\twantReturned := -999 // TODO: replace this value.\n\tif got := returned; got != wantReturned {\n\t\tt.Errorf(\"Returned: got %#v; want %#v\", got, wantReturned)\n\t}\n\n\tarray := [2]int{1, 2}\n\tchangeArray(array)\n\n\twantArray := [2]int{-1, -1} // TODO: replace this value.\n\tif got := array; got != wantArray {\n\t\tt.Errorf(\"Array: got %#v; want %#v\", got, wantArray)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "027-array-assignment-copies-values",
@@ -843,13 +843,13 @@
   },
   {
     "id": "065-new-allocates-a-zero-value",
-    "version": 2,
+    "version": 3,
     "topic": "Pointers and allocation",
     "title": "New allocates a zero value",
-    "instruction": "Compare a nil pointer, new(int), and an initialized address. Check each nil condition and value before the next assignment. Each new allocation starts at zero.",
+    "instruction": "Implement newCounter using new(int). Each call must return a non-nil pointer to a fresh integer initialized to zero. Updating one counter must not change another. Keep the checks.",
     "reference": "https://go.dev/ref/spec#Allocation",
-    "code": "package main\n\n// New allocates a zero value\n// Compare a nil pointer, new(int), and an initialized address. Check each nil condition\n// and value before the next assignment. Each new allocation starts at zero.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tvar absent *int\n\twantAbsentNil := false // TODO: replace this value.\n\tif got := absent == nil; got != wantAbsentNil {\n\t\tt.Errorf(\"AbsentNil: got %#v; want %#v\", got, wantAbsentNil)\n\t}\n\n\tallocated := new(int)\n\twantAllocatedNil := true // TODO: replace this value.\n\tif got := allocated == nil; got != wantAllocatedNil {\n\t\tt.Errorf(\"AllocatedNil: got %#v; want %#v\", got, wantAllocatedNil)\n\t}\n\n\twantAllocatedValue := -999 // TODO: replace this value.\n\tif got := *allocated; got != wantAllocatedValue {\n\t\tt.Errorf(\"AllocatedValue: got %#v; want %#v\", got, wantAllocatedValue)\n\t}\n\n\t*allocated = 4\n\twantAssignedValue := -999 // TODO: replace this value.\n\tif got := *allocated; got != wantAssignedValue {\n\t\tt.Errorf(\"AssignedValue: got %#v; want %#v\", got, wantAssignedValue)\n\t}\n\n\tsecond := new(int)\n\twantSecondValue := -999 // TODO: replace this value.\n\tif got := *second; got != wantSecondValue {\n\t\tt.Errorf(\"SecondValue: got %#v; want %#v\", got, wantSecondValue)\n\t}\n\n\tinitialized := 7\n\taddress := &initialized\n\twantInitializedValue := -999 // TODO: replace this value.\n\tif got := *address; got != wantInitializedValue {\n\t\tt.Errorf(\"InitializedValue: got %#v; want %#v\", got, wantInitializedValue)\n\t}\n}\n",
-    "kind": "observe",
+    "code": "package main\n\n// New allocates a zero value\n// Implement newCounter using new(int). Each call must return a non-nil pointer to a fresh\n// integer initialized to zero. Updating one counter must not change another. Keep the\n// checks.\n\nimport (\n\t\"testing\"\n)\n\nfunc newCounter() *int {\n\treturn nil // TODO: allocate a zero-initialized int with new.\n}\n\nfunc TestKoan(t *testing.T) {\n\tallocated := newCounter()\n\tif allocated == nil {\n\t\tt.Fatal(\"newCounter must allocate an integer\")\n\t}\n\tif *allocated != 0 {\n\t\tt.Errorf(\"new counter=%d; want 0\", *allocated)\n\t}\n\t*allocated = 4\n\n\tsecond := newCounter()\n\tif second == nil {\n\t\tt.Fatal(\"each call must allocate an integer\")\n\t}\n\tif *second != 0 {\n\t\tt.Errorf(\"second counter=%d; want 0 after changing the first\", *second)\n\t}\n\t*second = 9\n\tif *allocated != 4 {\n\t\tt.Errorf(\"first counter=%d; want 4 after changing the second\", *allocated)\n\t}\n}\n",
+    "kind": "implement",
     "revisits": [
       "003-integer-zero-value",
       "062-dereference-a-pointer"
@@ -887,12 +887,12 @@
   },
   {
     "id": "068-struct-assignment-copies-fields",
-    "version": 1,
+    "version": 2,
     "topic": "Structs and methods",
     "title": "Struct assignment copies fields",
     "instruction": "Fill the expected fields after struct assignment. Scalar fields are copied, while copied slices and pointers still refer to shared storage.",
     "reference": "https://go.dev/ref/spec#Assignment_statements",
-    "code": "package main\n\n// Struct assignment copies fields\n// Fill the expected fields after struct assignment. Scalar fields are copied, while copied\n// slices and pointers still refer to shared storage.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\ntype Record struct {\n\tCount   int\n\tValues  []int\n\tPointer *int\n}\n\nfunc TestKoan(t *testing.T) {\n\tnumber := 4\n\toriginal := Record{Count: 1, Values: []int{2, 3}, Pointer: &number}\n\tcopied := original\n\tcopied.Count = 9\n\tcopied.Values[0] = 7\n\t*copied.Pointer = 8\n\twantCount := -999         // TODO: original scalar.\n\twantValues := []int{-999} // TODO: original slice.\n\twantPointed := -999       // TODO: original pointed-to value.\n\tif original.Count != wantCount {\n\t\tt.Errorf(\"original.Count=%d; want %d\", original.Count, wantCount)\n\t}\n\tif !slices.Equal(original.Values, wantValues) {\n\t\tt.Errorf(\"original.Values=%v; want %v\", original.Values, wantValues)\n\t}\n\tif *original.Pointer != wantPointed {\n\t\tt.Errorf(\"*original.Pointer=%d; want %d\", *original.Pointer, wantPointed)\n\t}\n\tif copied.Count != 9 {\n\t\tt.Error(\"the copied scalar was not updated\")\n\t}\n}\n",
+    "code": "package main\n\n// Struct assignment copies fields\n// Fill the expected fields after struct assignment. Scalar fields are copied, while copied\n// slices and pointers still refer to shared storage.\n\nimport (\n\t\"slices\"\n\t\"testing\"\n)\n\ntype Record struct {\n\tCount   int\n\tValues  []int\n\tPointer *int\n}\n\nfunc TestKoan(t *testing.T) {\n\tnumber := 4\n\toriginal := Record{Count: 1, Values: []int{2, 3}, Pointer: &number}\n\tcopied := original\n\tcopied.Count = 9\n\twantOriginalCount := -999 // TODO: original scalar.\n\tif original.Count != wantOriginalCount {\n\t\tt.Errorf(\"original.Count=%d; want %d\", original.Count, wantOriginalCount)\n\t}\n\tif copied.Count != 9 {\n\t\tt.Error(\"the copied scalar was not updated\")\n\t}\n\n\tcopied.Values[0] = 7\n\twantOriginalValues := []int{-999} // TODO: original slice.\n\tif !slices.Equal(original.Values, wantOriginalValues) {\n\t\tt.Errorf(\"original.Values=%v; want %v\", original.Values, wantOriginalValues)\n\t}\n\n\t*copied.Pointer = 8\n\twantOriginalPointedValue := -999 // TODO: original pointed-to value.\n\tif *original.Pointer != wantOriginalPointedValue {\n\t\tt.Errorf(\"*original.Pointer=%d; want %d\", *original.Pointer, wantOriginalPointedValue)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "027-array-assignment-copies-values",
@@ -1118,12 +1118,12 @@
   },
   {
     "id": "084-deferred-arguments-are-evaluated-immediately",
-    "version": 1,
+    "version": 2,
     "topic": "Defer and panic",
     "title": "Deferred arguments are evaluated immediately",
     "instruction": "Compare a deferred argument with a deferred closure reading the variable later. Then check how defer changes a named result before it reaches the caller.",
     "reference": "https://go.dev/ref/spec#Defer_statements",
-    "code": "package main\n\n// Deferred arguments are evaluated immediately\n// Compare a deferred argument with a deferred closure reading the variable later. Then\n// check how defer changes a named result before it reaches the caller.\n\nimport (\n\t\"testing\"\n)\n\nfunc adjusted() (result int) { defer func() { result++ }(); return 4 }\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\targument, closure := 0, 0\n\tfunc() {\n\t\tdefer func(n int) { argument = n }(value)\n\t\tdefer func() { closure = value }()\n\t\tvalue = 2\n\t}()\n\tresult := adjusted()\n\n\twantArgument := -999 // TODO: replace this value.\n\tif got := argument; got != wantArgument {\n\t\tt.Errorf(\"Argument: got %#v; want %#v\", got, wantArgument)\n\t}\n\n\twantClosure := -999 // TODO: replace this value.\n\tif got := closure; got != wantClosure {\n\t\tt.Errorf(\"Closure: got %#v; want %#v\", got, wantClosure)\n\t}\n\n\twantNamedResult := -999 // TODO: replace this value.\n\tif got := result; got != wantNamedResult {\n\t\tt.Errorf(\"NamedResult: got %#v; want %#v\", got, wantNamedResult)\n\t}\n}\n",
+    "code": "package main\n\n// Deferred arguments are evaluated immediately\n// Compare a deferred argument with a deferred closure reading the variable later. Then\n// check how defer changes a named result before it reaches the caller.\n\nimport (\n\t\"testing\"\n)\n\nfunc adjusted() (result int) { defer func() { result++ }(); return 4 }\n\nfunc TestKoan(t *testing.T) {\n\tvalue := 1\n\targument, closure := 0, 0\n\tfunc() {\n\t\tdefer func(n int) { argument = n }(value)\n\t\tdefer func() { closure = value }()\n\t\tvalue = 2\n\t}()\n\n\twantArgument := -999 // TODO: replace this value.\n\tif got := argument; got != wantArgument {\n\t\tt.Errorf(\"Argument: got %#v; want %#v\", got, wantArgument)\n\t}\n\n\twantClosure := -999 // TODO: replace this value.\n\tif got := closure; got != wantClosure {\n\t\tt.Errorf(\"Closure: got %#v; want %#v\", got, wantClosure)\n\t}\n\n\twantNamedResult := -999 // TODO: replace this value.\n\tif got := adjusted(); got != wantNamedResult {\n\t\tt.Errorf(\"NamedResult: got %#v; want %#v\", got, wantNamedResult)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "056-named-return-values",
@@ -1150,12 +1150,12 @@
   },
   {
     "id": "086-buffered-channel-length",
-    "version": 1,
+    "version": 2,
     "topic": "Channels",
     "title": "Buffered channel length",
-    "instruction": "Track queue length separately from capacity as values are sent and received. Fill the first received value and each queue length.",
+    "instruction": "Track queue length separately from capacity as values are sent and received. Fill the first received value and each queue length at the point where it is checked.",
     "reference": "https://go.dev/ref/spec#Channel_types",
-    "code": "package main\n\n// Buffered channel length\n// Track queue length separately from capacity as values are sent and received. Fill the\n// first received value and each queue length.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tinitial := len(ch)\n\tch <- 7\n\tch <- 0\n\tfilled := len(ch)\n\tfirst := <-ch\n\tremaining := len(ch)\n\n\twantInitial := -999 // TODO: replace this value.\n\tif got := initial; got != wantInitial {\n\t\tt.Errorf(\"Initial: got %#v; want %#v\", got, wantInitial)\n\t}\n\n\twantCapacity := -999 // TODO: replace this value.\n\tif got := cap(ch); got != wantCapacity {\n\t\tt.Errorf(\"Capacity: got %#v; want %#v\", got, wantCapacity)\n\t}\n\n\twantFilled := -999 // TODO: replace this value.\n\tif got := filled; got != wantFilled {\n\t\tt.Errorf(\"Filled: got %#v; want %#v\", got, wantFilled)\n\t}\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := first; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantRemaining := -999 // TODO: replace this value.\n\tif got := remaining; got != wantRemaining {\n\t\tt.Errorf(\"Remaining: got %#v; want %#v\", got, wantRemaining)\n\t}\n}\n",
+    "code": "package main\n\n// Buffered channel length\n// Track queue length separately from capacity as values are sent and received. Fill the\n// first received value and each queue length at the point where it is checked.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\n\twantInitial := -999 // TODO: replace this value.\n\tif got := len(ch); got != wantInitial {\n\t\tt.Errorf(\"Initial: got %#v; want %#v\", got, wantInitial)\n\t}\n\n\twantCapacity := -999 // TODO: replace this value.\n\tif got := cap(ch); got != wantCapacity {\n\t\tt.Errorf(\"Capacity: got %#v; want %#v\", got, wantCapacity)\n\t}\n\n\tch <- 7\n\tch <- 0\n\n\twantFilled := -999 // TODO: replace this value.\n\tif got := len(ch); got != wantFilled {\n\t\tt.Errorf(\"Filled: got %#v; want %#v\", got, wantFilled)\n\t}\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := <-ch; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantRemaining := -999 // TODO: replace this value.\n\tif got := len(ch); got != wantRemaining {\n\t\tt.Errorf(\"Remaining: got %#v; want %#v\", got, wantRemaining)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "029-slice-length",
@@ -1179,12 +1179,12 @@
   },
   {
     "id": "088-receive-from-a-closed-channel",
-    "version": 1,
+    "version": 2,
     "topic": "Channels",
     "title": "Receive from a closed channel",
-    "instruction": "Fill the value and ok result for each receive. Closing a buffered channel does not discard queued values; only a closed and drained channel returns zero and false.",
+    "instruction": "Fill the value and ok result immediately after each receive. Closing a buffered channel does not discard queued values; only a closed and drained channel returns zero and false.",
     "reference": "https://go.dev/ref/spec#Receive_operator",
-    "code": "package main\n\n// Receive from a closed channel\n// Fill the value and ok result for each receive. Closing a buffered channel does not\n// discard queued values; only a closed and drained channel returns zero and false.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tch <- 7\n\tch <- 8\n\tclose(ch)\n\tfirst, firstOK := <-ch\n\tsecond, secondOK := <-ch\n\tthird, thirdOK := <-ch\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := first; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantFirstOK := false // TODO: replace this value.\n\tif got := firstOK; got != wantFirstOK {\n\t\tt.Errorf(\"FirstOK: got %#v; want %#v\", got, wantFirstOK)\n\t}\n\n\twantSecond := -999 // TODO: replace this value.\n\tif got := second; got != wantSecond {\n\t\tt.Errorf(\"Second: got %#v; want %#v\", got, wantSecond)\n\t}\n\n\twantSecondOK := false // TODO: replace this value.\n\tif got := secondOK; got != wantSecondOK {\n\t\tt.Errorf(\"SecondOK: got %#v; want %#v\", got, wantSecondOK)\n\t}\n\n\twantDrained := -999 // TODO: replace this value.\n\tif got := third; got != wantDrained {\n\t\tt.Errorf(\"Drained: got %#v; want %#v\", got, wantDrained)\n\t}\n\n\twantDrainedOK := true // TODO: replace this value.\n\tif got := thirdOK; got != wantDrainedOK {\n\t\tt.Errorf(\"DrainedOK: got %#v; want %#v\", got, wantDrainedOK)\n\t}\n}\n",
+    "code": "package main\n\n// Receive from a closed channel\n// Fill the value and ok result immediately after each receive. Closing a buffered channel\n// does not discard queued values; only a closed and drained channel returns zero and\n// false.\n\nimport (\n\t\"testing\"\n)\n\nfunc TestKoan(t *testing.T) {\n\tch := make(chan int, 2)\n\tch <- 7\n\tch <- 8\n\tclose(ch)\n\tvalue, ok := <-ch\n\n\twantFirst := -999 // TODO: replace this value.\n\tif got := value; got != wantFirst {\n\t\tt.Errorf(\"First: got %#v; want %#v\", got, wantFirst)\n\t}\n\n\twantFirstOK := false // TODO: replace this value.\n\tif got := ok; got != wantFirstOK {\n\t\tt.Errorf(\"FirstOK: got %#v; want %#v\", got, wantFirstOK)\n\t}\n\n\tvalue, ok = <-ch\n\n\twantSecond := -999 // TODO: replace this value.\n\tif got := value; got != wantSecond {\n\t\tt.Errorf(\"Second: got %#v; want %#v\", got, wantSecond)\n\t}\n\n\twantSecondOK := false // TODO: replace this value.\n\tif got := ok; got != wantSecondOK {\n\t\tt.Errorf(\"SecondOK: got %#v; want %#v\", got, wantSecondOK)\n\t}\n\n\tvalue, ok = <-ch\n\n\twantDrained := -999 // TODO: replace this value.\n\tif got := value; got != wantDrained {\n\t\tt.Errorf(\"Drained: got %#v; want %#v\", got, wantDrained)\n\t}\n\n\twantDrainedOK := true // TODO: replace this value.\n\tif got := ok; got != wantDrainedOK {\n\t\tt.Errorf(\"DrainedOK: got %#v; want %#v\", got, wantDrainedOK)\n\t}\n}\n",
     "kind": "observe",
     "revisits": [
       "040-missing-keys-return-zero",

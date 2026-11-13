@@ -2,7 +2,7 @@ package main
 
 // Buffered channel length
 // Track queue length separately from capacity as values are sent and received. Fill the
-// first received value and each queue length.
+// first received value and each queue length at the point where it is checked.
 
 import (
 	"testing"
@@ -10,15 +10,9 @@ import (
 
 func TestKoan(t *testing.T) {
 	ch := make(chan int, 2)
-	initial := len(ch)
-	ch <- 7
-	ch <- 0
-	filled := len(ch)
-	first := <-ch
-	remaining := len(ch)
 
 	wantInitial := -999 // TODO: replace this value.
-	if got := initial; got != wantInitial {
+	if got := len(ch); got != wantInitial {
 		t.Errorf("Initial: got %#v; want %#v", got, wantInitial)
 	}
 
@@ -27,18 +21,21 @@ func TestKoan(t *testing.T) {
 		t.Errorf("Capacity: got %#v; want %#v", got, wantCapacity)
 	}
 
+	ch <- 7
+	ch <- 0
+
 	wantFilled := -999 // TODO: replace this value.
-	if got := filled; got != wantFilled {
+	if got := len(ch); got != wantFilled {
 		t.Errorf("Filled: got %#v; want %#v", got, wantFilled)
 	}
 
 	wantFirst := -999 // TODO: replace this value.
-	if got := first; got != wantFirst {
+	if got := <-ch; got != wantFirst {
 		t.Errorf("First: got %#v; want %#v", got, wantFirst)
 	}
 
 	wantRemaining := -999 // TODO: replace this value.
-	if got := remaining; got != wantRemaining {
+	if got := len(ch); got != wantRemaining {
 		t.Errorf("Remaining: got %#v; want %#v", got, wantRemaining)
 	}
 }

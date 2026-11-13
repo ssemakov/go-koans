@@ -13,21 +13,23 @@ func TestKoan(t *testing.T) {
 	spare[0] = 1
 	spareAlias := spare[:3]
 	spare = append(spare, 7)
-	spare[0] = 9
-	full := []int{1}
-	fullAlias := full
-	grown := append(full, 7)
-	grown[0] = 9
 
 	wantReusedAppended := -999 // TODO: replace this value.
 	if got := spareAlias[1]; got != wantReusedAppended {
 		t.Errorf("ReusedAppended: got %#v; want %#v", got, wantReusedAppended)
 	}
 
+	spare[0] = 9
+
 	wantReusedFirst := -999 // TODO: replace this value.
 	if got := spareAlias[0]; got != wantReusedFirst {
 		t.Errorf("ReusedFirst: got %#v; want %#v", got, wantReusedFirst)
 	}
+
+	full := []int{1}
+	fullAlias := full
+	grown := append(full, 7)
+	grown[0] = 9
 
 	wantAllocatedOld := -999 // TODO: replace this value.
 	if got := fullAlias[0]; got != wantAllocatedOld {

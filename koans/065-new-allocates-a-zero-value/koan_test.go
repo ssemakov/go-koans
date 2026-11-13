@@ -1,47 +1,37 @@
 package main
 
 // New allocates a zero value
-// Compare a nil pointer, new(int), and an initialized address. Check each nil condition
-// and value before the next assignment. Each new allocation starts at zero.
+// Implement newCounter using new(int). Each call must return a non-nil pointer to a fresh
+// integer initialized to zero. Updating one counter must not change another. Keep the
+// checks.
 
 import (
 	"testing"
 )
 
+func newCounter() *int {
+	return nil // TODO: allocate a zero-initialized int with new.
+}
+
 func TestKoan(t *testing.T) {
-	var absent *int
-	wantAbsentNil := false // TODO: replace this value.
-	if got := absent == nil; got != wantAbsentNil {
-		t.Errorf("AbsentNil: got %#v; want %#v", got, wantAbsentNil)
+	allocated := newCounter()
+	if allocated == nil {
+		t.Fatal("newCounter must allocate an integer")
 	}
-
-	allocated := new(int)
-	wantAllocatedNil := true // TODO: replace this value.
-	if got := allocated == nil; got != wantAllocatedNil {
-		t.Errorf("AllocatedNil: got %#v; want %#v", got, wantAllocatedNil)
+	if *allocated != 0 {
+		t.Errorf("new counter=%d; want 0", *allocated)
 	}
-
-	wantAllocatedValue := -999 // TODO: replace this value.
-	if got := *allocated; got != wantAllocatedValue {
-		t.Errorf("AllocatedValue: got %#v; want %#v", got, wantAllocatedValue)
-	}
-
 	*allocated = 4
-	wantAssignedValue := -999 // TODO: replace this value.
-	if got := *allocated; got != wantAssignedValue {
-		t.Errorf("AssignedValue: got %#v; want %#v", got, wantAssignedValue)
-	}
 
-	second := new(int)
-	wantSecondValue := -999 // TODO: replace this value.
-	if got := *second; got != wantSecondValue {
-		t.Errorf("SecondValue: got %#v; want %#v", got, wantSecondValue)
+	second := newCounter()
+	if second == nil {
+		t.Fatal("each call must allocate an integer")
 	}
-
-	initialized := 7
-	address := &initialized
-	wantInitializedValue := -999 // TODO: replace this value.
-	if got := *address; got != wantInitializedValue {
-		t.Errorf("InitializedValue: got %#v; want %#v", got, wantInitializedValue)
+	if *second != 0 {
+		t.Errorf("second counter=%d; want 0 after changing the first", *second)
+	}
+	*second = 9
+	if *allocated != 4 {
+		t.Errorf("first counter=%d; want 4 after changing the second", *allocated)
 	}
 }

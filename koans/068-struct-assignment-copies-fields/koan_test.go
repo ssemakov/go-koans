@@ -20,21 +20,23 @@ func TestKoan(t *testing.T) {
 	original := Record{Count: 1, Values: []int{2, 3}, Pointer: &number}
 	copied := original
 	copied.Count = 9
-	copied.Values[0] = 7
-	*copied.Pointer = 8
-	wantCount := -999         // TODO: original scalar.
-	wantValues := []int{-999} // TODO: original slice.
-	wantPointed := -999       // TODO: original pointed-to value.
-	if original.Count != wantCount {
-		t.Errorf("original.Count=%d; want %d", original.Count, wantCount)
-	}
-	if !slices.Equal(original.Values, wantValues) {
-		t.Errorf("original.Values=%v; want %v", original.Values, wantValues)
-	}
-	if *original.Pointer != wantPointed {
-		t.Errorf("*original.Pointer=%d; want %d", *original.Pointer, wantPointed)
+	wantOriginalCount := -999 // TODO: original scalar.
+	if original.Count != wantOriginalCount {
+		t.Errorf("original.Count=%d; want %d", original.Count, wantOriginalCount)
 	}
 	if copied.Count != 9 {
 		t.Error("the copied scalar was not updated")
+	}
+
+	copied.Values[0] = 7
+	wantOriginalValues := []int{-999} // TODO: original slice.
+	if !slices.Equal(original.Values, wantOriginalValues) {
+		t.Errorf("original.Values=%v; want %v", original.Values, wantOriginalValues)
+	}
+
+	*copied.Pointer = 8
+	wantOriginalPointedValue := -999 // TODO: original pointed-to value.
+	if *original.Pointer != wantOriginalPointedValue {
+		t.Errorf("*original.Pointer=%d; want %d", *original.Pointer, wantOriginalPointedValue)
 	}
 }

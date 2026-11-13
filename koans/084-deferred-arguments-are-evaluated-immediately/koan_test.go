@@ -18,7 +18,6 @@ func TestKoan(t *testing.T) {
 		defer func() { closure = value }()
 		value = 2
 	}()
-	result := adjusted()
 
 	wantArgument := -999 // TODO: replace this value.
 	if got := argument; got != wantArgument {
@@ -31,7 +30,7 @@ func TestKoan(t *testing.T) {
 	}
 
 	wantNamedResult := -999 // TODO: replace this value.
-	if got := result; got != wantNamedResult {
+	if got := adjusted(); got != wantNamedResult {
 		t.Errorf("NamedResult: got %#v; want %#v", got, wantNamedResult)
 	}
 }

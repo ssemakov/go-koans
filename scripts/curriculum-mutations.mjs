@@ -11,6 +11,13 @@ export const mutations = [
   { number: 55, name: "zero-result-as-absent", edits: [["return values[0], true", "return values[0], values[0] != 0"]] },
   { number: 61, name: "discards-callback-result", edits: [["result[index] = fn(value)", "fn(value); result[index] = value"]] },
   { number: 61, name: "calls-callback-twice", edits: [["result[index] = fn(value)", "fn(value); result[index] = fn(value)"]] },
+  {
+    number: 65, name: "reused-counter-storage",
+    edits: [[
+      "func newCounter() *int {\n\treturn new(int)\n}",
+      "var sharedCounter int\n\nfunc newCounter() *int { sharedCounter = 0; return &sharedCounter }",
+    ]],
+  },
   { number: 78, name: "wrong-method-set", edits: [["func (c *Counter) Increment()", "func (c Counter) Increment()"]] },
   { number: 80, name: "lost-error-identity", edits: [['"parse: %w"', '"parse: %v"']] },
   { number: 93, name: "unprotected-update", edits: [["\tc.mu.Lock()\n\tdefer c.mu.Unlock()\n\tc.n += delta", "\tc.n += delta"]] },

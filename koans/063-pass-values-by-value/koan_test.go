@@ -14,8 +14,6 @@ func changeArray(values [2]int) { values[0] = 9 }
 func TestKoan(t *testing.T) {
 	number := 3
 	returned := increment(number)
-	array := [2]int{1, 2}
-	changeArray(array)
 
 	wantCaller := -999 // TODO: replace this value.
 	if got := number; got != wantCaller {
@@ -26,6 +24,9 @@ func TestKoan(t *testing.T) {
 	if got := returned; got != wantReturned {
 		t.Errorf("Returned: got %#v; want %#v", got, wantReturned)
 	}
+
+	array := [2]int{1, 2}
+	changeArray(array)
 
 	wantArray := [2]int{-1, -1} // TODO: replace this value.
 	if got := array; got != wantArray {

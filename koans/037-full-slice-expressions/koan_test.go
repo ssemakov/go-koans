@@ -1,8 +1,9 @@
 package main
 
 // Full slice expressions
-// Compare an unrestricted view with a full slice expression that caps capacity. Fill the
-// capacity and original values after append.
+// Compare an unrestricted view with a full slice expression that caps capacity. Check
+// capacities before append, then predict the slice length and values after append and
+// mutation.
 
 import (
 	"testing"
@@ -12,10 +13,6 @@ func TestKoan(t *testing.T) {
 	array := [4]int{1, 2, 3, 4}
 	unrestricted := array[1:2]
 	limited := array[1:2:2]
-	limitedCapacity := cap(limited)
-	unrestricted = append(unrestricted, 8)
-	limited = append(limited, 9)
-	limited[0] = 7
 
 	wantUnrestrictedCapacity := -999 // TODO: replace this value.
 	if got := cap(unrestricted); got != wantUnrestrictedCapacity {
@@ -23,14 +20,19 @@ func TestKoan(t *testing.T) {
 	}
 
 	wantLimitedCapacity := -999 // TODO: replace this value.
-	if got := limitedCapacity; got != wantLimitedCapacity {
+	if got := cap(limited); got != wantLimitedCapacity {
 		t.Errorf("LimitedCapacity: got %#v; want %#v", got, wantLimitedCapacity)
 	}
+
+	unrestricted = append(unrestricted, 8)
+	limited = append(limited, 9)
 
 	wantLimitedLength := -999 // TODO: replace this value.
 	if got := len(limited); got != wantLimitedLength {
 		t.Errorf("LimitedLength: got %#v; want %#v", got, wantLimitedLength)
 	}
+
+	limited[0] = 7
 
 	wantOriginalArray := [4]int{-1, -1, -1, -1} // TODO: replace this value.
 	if got := array; got != wantOriginalArray {

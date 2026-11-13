@@ -1,46 +1,31 @@
 package main
 
 // Nil and empty slices
-// Fill the lengths and nil checks before and after append. Nil and non-nil empty slices
-// can both be appended to.
+// Complete the appends to the nil slice and the non-nil empty slice. Both should contain 7
+// afterward. Keep the checks that show their initial difference and their contents after
+// append.
 
 import (
+	"slices"
 	"testing"
 )
 
 func TestKoan(t *testing.T) {
 	var absent []int
+	if absent != nil || len(absent) != 0 {
+		t.Fatal("a nil slice starts nil with length zero")
+	}
+	// TODO: append 7 to absent and store the returned slice in absent.
+	if absent == nil || !slices.Equal(absent, []int{7}) {
+		t.Errorf("after append, absent=%v; want a non-nil slice containing [7]", absent)
+	}
+
 	empty := []int{}
-	appendedAbsent := append(absent, 7)
-	appendedEmpty := append(empty, 7)
-
-	wantAbsentLength := -999 // TODO: replace this value.
-	if got := len(absent); got != wantAbsentLength {
-		t.Errorf("AbsentLength: got %#v; want %#v", got, wantAbsentLength)
+	if empty == nil || len(empty) != 0 {
+		t.Fatal("an empty slice literal starts non-nil with length zero")
 	}
-
-	wantEmptyLength := -999 // TODO: replace this value.
-	if got := len(empty); got != wantEmptyLength {
-		t.Errorf("EmptyLength: got %#v; want %#v", got, wantEmptyLength)
-	}
-
-	wantAbsentNil := false // TODO: replace this value.
-	if got := absent == nil; got != wantAbsentNil {
-		t.Errorf("AbsentNil: got %#v; want %#v", got, wantAbsentNil)
-	}
-
-	wantEmptyNil := true // TODO: replace this value.
-	if got := empty == nil; got != wantEmptyNil {
-		t.Errorf("EmptyNil: got %#v; want %#v", got, wantEmptyNil)
-	}
-
-	wantAppendedAbsentNil := true // TODO: replace this value.
-	if got := appendedAbsent == nil; got != wantAppendedAbsentNil {
-		t.Errorf("AppendedAbsentNil: got %#v; want %#v", got, wantAppendedAbsentNil)
-	}
-
-	wantAppendedEmptyLength := -999 // TODO: replace this value.
-	if got := len(appendedEmpty); got != wantAppendedEmptyLength {
-		t.Errorf("AppendedEmptyLength: got %#v; want %#v", got, wantAppendedEmptyLength)
+	// TODO: append 7 to empty and store the returned slice in empty.
+	if empty == nil || !slices.Equal(empty, []int{7}) {
+		t.Errorf("after append, empty=%v; want a non-nil slice containing [7]", empty)
 	}
 }
